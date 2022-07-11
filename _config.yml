@@ -23,13 +23,24 @@ plugins:
 # Site settings
 url: 'https://mick235711.github.io'
 baseurl: '/'
+repo: "https://github.com/Mick235711/Mick235711.github.io"
+email: "winmikedows@hotmail.com"
 title: "Mick235711's Personal Website"
 description: 'Some interesting things I sometimes thought about.'
 permalink: pretty
+timezone: Asia/Shanghai
+lang: en-US
+encoding: utf-8
 logo: "https://www.gravatar.com/avatar/6c0377abcf4da91cdd35dea4554b2a4c?s=52"
-twitter_username: Mick235711
-github_username:  Mick235711
 domain: "Mick235711.github.io" # force HTTPS
+twitter:
+  username: Mick235711 # jekyll-seo-tag > Owners twitter username
+author: Mick235711 # jekyll-seo-tag > default author
+social: # jekyll-seo-tag > social overrides
+  name: Yihe Li # jekyll-seo-tag > real name
+  links:  # jekyll-seo-tag > social aliases (sameAs)
+    - https://twitter.com/Mick235711
+    - https://github.com/Mick235711
 
 # Pagination
 paginate: 5
@@ -48,6 +59,16 @@ navigation_header:
 navigation_footer:
 - title: Back to top
   url: "#top"
+
+social_links: # Appears in sidebar. Set the urls then uncomment and comment out as desired
+  Twitter: https://twitter.com/Mick235711
+  GitHub: https://github.com/Mick235711
+  link: https://mick235711.github.io
+
+sharing_links: # Appear at the bottom of single blog posts, add as desired. The value can be 'true' or the desired button colour
+  Twitter: "#0d94e7"
+  facebook: "#3B5998"
+  Email: true
 
 # Collections
 collections:
