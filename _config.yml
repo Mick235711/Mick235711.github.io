@@ -31,7 +31,7 @@ permalink: pretty
 timezone: Asia/Shanghai
 lang: en-US
 encoding: utf-8
-date_format: "%F %T"
+date_format: "%F"
 logo: "https://www.gravatar.com/avatar/6c0377abcf4da91cdd35dea4554b2a4c?s=52"
 domain: "Mick235711.github.io" # force HTTPS
 twitter:
