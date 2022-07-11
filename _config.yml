@@ -29,9 +29,10 @@ twitter_username: Mick235711
 github_username:  Mick235711
 
 # Build settings
-theme: jekyll-theme-cayman
+remote_theme: daviddarnes/alembic@main
 plugins:
   - jekyll-feed
+  - jekyll-remote-theme
 
 # Exclude from processing.
 # The following items will not be processed, by default.
