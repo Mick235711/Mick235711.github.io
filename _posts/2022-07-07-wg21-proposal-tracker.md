@@ -24,7 +24,7 @@ but `std::unexpected::value()` actually returns the error (abnormal) value.
 History:
 - 2022-07-08: R1 seen by LWG, approved for plenary. (Stage 3 -> Plenary)
 - 2022-06-22: R0 passed [2022-05 LEWG Electronic Poll](https://wg21.link/P2575R0). (EP -> Stage 3)
-- 2022-06-20: [P2549R1](https://wg21.link/P2549R1) shipped in the 2022-07 Mailing.
+- 2022-06-20: [P2549R1](https://wg21.link/P2549R1) shipped in the [2022-07 Mailing](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/#mailing2022-07).
 - 2022-03-01: R0 seen by LEWG, approved for EP. (Stage 2 -> EP)
 - 2022-02-13: [P2549R0](https://wg21.link/P2549R0) shipped in the [2022-02 Mailing](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/#mailing2022-02).
 
@@ -56,5 +56,5 @@ to pass through LEWG review again. Thus the paper.
 History:
 - 2022-07-08: R1 seen by LWG, approved for plenary. (Stage 3 preapproval)
 - 2022-06-28: R0 seen by LEWG (of which I forgot to attend the telecon, sorry!), approved for EP. (Stage 2 -> EP)
-- 2022-06-25: [P2613R1](https://wg21.link/P2613R1) shipped in the 2022-07 Mailing (LWG request a one-line wording change, so this is quick).
+- 2022-06-25: [P2613R1](https://wg21.link/P2613R1) shipped in the [2022-07 Mailing](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/#mailing2022-07) (LWG request a one-line wording change, so this is quick).
 - 2022-06-23: [P2613R0](https://wg21.link/P2613R0) shipped in the [2022-06 Mailing](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/#mailing2022-06) (as a late paper).
