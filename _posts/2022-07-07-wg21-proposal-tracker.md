@@ -15,13 +15,14 @@ repo.
 - Audience: LWG
 - Target: C++23
 - Revisions: [R0](https://wg21.link/P2549R0), [R1](https://wg21.link/P2549R1)
-- Current Status: Plenary
+- Current Status: Approved for C++23
 
 This is my first ever proposal to WG21. It is a simple renaming proposal, proposing to fix an inconsistency in
 the [std::expected paper](https://wg21.link/P0323), such that `std::expected::value()` returns the normal value
 but `std::unexpected::value()` actually returns the error (abnormal) value.
 
 History:
+- 2022-07-25: R1 approved for inclusion in C++23 in the 2022-07-25 WG21 plenary. (Plenary -> Approved)
 - 2022-07-08: R1 seen by LWG, approved for plenary. (Stage 3 -> Plenary)
 - 2022-06-22: R0 passed [2022-05 LEWG Electronic Poll](https://wg21.link/P2575R0). (EP -> Stage 3)
 - 2022-06-20: [P2549R1](https://wg21.link/P2549R1) shipped in the [2022-07 Mailing](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/#mailing2022-07).
@@ -45,7 +46,7 @@ History:
 - Audience: LEWG, LWG
 - Target: C++23
 - Revisions: [R0](https://wg21.link/P2613R0), [R1](https://wg21.link/P2613R1)
-- Current Status: Plenary
+- Current Status: Approved for C++23
 
 This is a very rushed paper. In mid-June, I spotted a bunch of problems with the
 about-to-be-approved [mdspan paper](https://wg21.link/P0009), and opened a [PR](https://github.com/ORNL/cpp-proposals-pub/pull/262),
@@ -54,6 +55,7 @@ In the following LWG small-group review session, `noexcept` additions are approv
 to pass through LEWG review again. Thus the paper.
 
 History:
+- 2022-07-25: R1 approved for inclusion in C++23 in the 2022-07-25 WG21 plenary. (Plenary -> Approved)
 - 2022-07-23: R1 passed [2022-07 LEWG Electronic Poll](https://wg21.link/P2611R0). (EP -> Plenary)
 - 2022-07-08: R1 seen by LWG, approved for plenary. (Stage 3 preapproval)
 - 2022-06-28: R0 seen by LEWG (of which I forgot to attend the telecon, sorry!), approved for EP. (Stage 2 -> EP)
