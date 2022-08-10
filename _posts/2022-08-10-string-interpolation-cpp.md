@@ -7,6 +7,11 @@ categories:
 feature_image: "/upload/iceberg.jpg"
 ---
 
+## Contents
+
+* TOC
+{:toc}
+
 Recently, EWG reviewed [P1819R0 Interpolated String Literal](https://wg21.link/P1819R0), igniting
 a new round of discussion on the possibility of adding string interpolation into C++. The review results
 were quite split, and a lot of contentious issues were polled with no consensus in either direction.
@@ -124,5 +129,26 @@ Perl, PHP, Python, Ruby, Rust, Scala, Sciter, Swift, Tcl, TypeScript and Visual 
 | TypeScript   | Dynamic       | `` `${...}` ``           | ✅         | ❌               | Same as JavaScript |
 | Visual Basic | Static (VM)   | `$"{...}"`               | ✅         | `{...,...:...}`  | [Interpolated Strings](https://docs.microsoft.com/en-us/dotnet/visual-basic/programming-guide/language-features/strings/interpolated-strings) |
 
+## Syntax Design
 ### Big Picture
-Test
+First, let's have a look at the general syntax components of a interpolated string literal.
+They, in general, looks somewhat like this:
+```python
+f"Other things {myVar:.2} other things"
+| ^^^^^^^^^^^^^||||||||||^^^^^^^^^^^^^ string component
+|              ^||||||||^ delimeter
+|               |||||^^^ formatter
+|               ^^^^^ expression
+^ introducer
+```
+Such literals usually composed of five parts: introducer
+(some language use special quotation mark like backticks, those count as introducer too),
+expression, formatter, delimeter, and string component. Often, some parts may be missing (like language that
+does not support formatting will not have formatter), but in this post we will take a look at each of the components,
+and their different appearance in each language.
+
+Let's break down the easy part first. The string component is, obviously, the same for all language, these are just regular
+strings. Other parts are much more complicated, and will be discussed from inside to outside.
+
+### Expression
+Expression is the part where you specify the variables or expressions that you want to substitute in.
