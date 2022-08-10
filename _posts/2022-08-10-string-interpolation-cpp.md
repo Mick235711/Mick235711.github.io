@@ -94,35 +94,35 @@ with a total of 27 different languages: ABAP, Bash, Boo, C#, ColdFusion, CoffeeS
 Dart, Groovy, Haxe, JavaScript, Julia, Kotlin, Nemerle, Nim, Nix, ParaSail,
 Perl, PHP, Python, Ruby, Rust, Scala, Sciter, Swift, Tcl, TypeScript and Visual Basic.
 
-| Language     | Mode          | Syntax                 |
-|--------------|---------------|------------------------|
-| ABAP         | Dynamic (DSL) | `|{...}|`              |
-| Bash         | Dynamic       | `"$..."`, `"${...}"`   |
-| Boo          | Dynamic       | `"$(...)"`             |
-| C#           | Static (VM)   | `$"{...}"`             |
-| ColdFusion   | Dynamic       | `"#...#"`              |
-| CoffeeScript | Dynamic       | `"#{...}"`             |
-| Dart         | Static (VM)   | `'$...'`, `'${...}'`   |
-| Groovy       | Both          | `"$..."`, `"${...}"`   |
-| Haxe         | Static (VM)   | `'$...'`, `'${...}'`   |
-| JavaScript   | Dynamic       | `` `${...}` ``         |
-| Julia        | Dynamic       | `"$..."`, `"$(...)"`   |
-| Kotlin       | Static (VM)   | `"$..."`, `"${...}"`   |
-| Nemerle      | Static (VM)   | `$"$..."`, `$"$(...)"` |
-| Nim          | Static        | `fmt"{...}"`           |
-| Nix          | Dynamic (DSL) | `"${...}"`             |
-| ParaSail     | Both          | ``"`(...)`"``          |
-| Perl         | Dynamic       | `"$..."`, `"@{...}"`   |
-| PHP          | Dynamic       | `"$..."`, `"{...}"`    |
-| Python       | Dynamic       | `f"{...}"`             |
-| Ruby         | Dynamic       | `"#{...}"`             |
-| Rust         | Static        | `println!("{...}")`    |
-| Scala        | Static (VM)   | `s"$..."`, `s"${...}"` |
-| Sciter       | Dynamic (DSL) | `$fun({...})`          |
-| Swift        | Static        | `"\(...)"`             |
-| Tcl          | Dynamic       | `"$..."`               |
-| TypeScript   | Dynamic       | `` `${...}` ``         |
-| Visual Basic | Static (VM)   | `$"{...}"`             |
+| Language     | Mode          | Syntax                   | Expression | Format           | Link |
+|--------------|---------------|--------------------------|------------|------------------|------|
+| ABAP         | Dynamic (DSL) | `|{...}|`                | ✅         | ❌               | [String Templates](https://help.sap.com/doc/abapdocu_750_index_htm/7.50/en-US/abenstring_templates.htm) |
+| Bash         | Dynamic       | `"$..."`, `"${...}"`     | ❌         | Many             | [Shell Parameter Expansion](https://www.gnu.org/software/bash/manual/bash.html#Shell-Parameter-Expansion) |
+| Boo          | Dynamic       | `"$..."`, `"$(...)"`     | ✅         | ❌               | [String Interpolation](https://github.com/boo-lang/boo/wiki/String-Interpolation) |
+| C#           | Static (VM)   | `$"{...}"`               | ✅         | `{...,...:...}`  | [String Interpolation](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated) |
+| ColdFusion   | Dynamic       | `"#...#"`                | ✅         | ❌               | [Parsed by Server](https://coldfusion.adobe.com/2021/04/coldfusion-101-tags-script-functions-part-3-functions/) |
+| CoffeeScript | Dynamic       | `"#{...}"`               | ✅         | ❌               | [Strings](http://coffeescript.org/#strings) |
+| Dart         | Static (VM)   | `'$...'`, `'${...}'`     | ✅         | ❌               | [Strings](https://dart.dev/guides/language/language-tour#strings) |
+| Groovy       | Both          | `"$..."`, `"${...}"`     | ✅         | ❌               | [GString Interpolation](https://groovy-lang.org/syntax.html#_string_interpolation) |
+| Haxe         | Static (VM)   | `'$...'`, `'${...}'`     | ✅         | ❌               | [String Interpolation](https://haxe.org/manual/lf-string-interpolation.html) |
+| JavaScript   | Dynamic       | `` `${...}` ``           | ✅         | ❌               | [Template Literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) |
+| Julia        | Dynamic       | `"$..."`, `"$(...)"`     | ✅         | ❌               | [String Interpolation](https://docs.julialang.org/en/v1/manual/strings/#string-interpolation) |
+| Kotlin       | Static (VM)   | `"$..."`, `"${...}"`     | ✅         | ❌               | [String Templates](https://kotlinlang.org/docs/basic-types.html#string-templates) |
+| Nemerle      | Static (VM)   | `$"$..."`, `$"$(...)"`   | ✅         | ❌               | [String Interpolation](https://github.com/rsdn/nemerle/wiki/Features#string-interpolation) |
+| Nim          | Static        | `fmt"{...}"`, `&"{...}"` | ✅         | `{...[=]:...}`   | [std/strformat Module](https://nim-lang.org/docs/strformat.html) |
+| Nix          | Dynamic (DSL) | `"${...}"`               | ✅         | ❌               | [Nix Values: Antiquotation](https://nixos.org/manual/nix/stable/expressions/language-values.html) |
+| ParaSail     | Both          | ``"`(...)`"``            | ✅         | ❌               | [ParaSail Reference Manual](https://adacore.github.io/ParaSail/images/parasail_ref_manual.pdf) |
+| Perl         | Dynamic       | `"$..."`, `"@{...}"`     | Only Array | ❌               | [Array Interpolation](https://perldoc.perl.org/perldata#Array-Interpolation) |
+| PHP          | Dynamic       | `"$..."`, `"{...}"`      | ✅         | ❌               | [Variable Parsing](https://www.php.net/manual/en/language.types.string.php#language.types.string.parsing) |
+| Python       | Dynamic       | `f"{...}"`               | ✅         | `{...[=]!.:...}` | [Formatted String Literals](https://docs.python.org/3/reference/lexical_analysis.html#f-strings) |
+| Ruby         | Dynamic       | `"#{...}"`               | ✅         | ❌               | [String Literals](https://ruby-doc.org/core-3.1.2/doc/syntax/literals_rdoc.html#label-String+Literals) | 
+| Rust         | Static        | `println!("{...}")`      | ❌         | `{...:...}`      | [Named Parameters](https://doc.rust-lang.org/stable/std/fmt/#named-parameters) |
+| Scala        | Static (VM)   | `s"$..."`, `s"${...}"`   | ✅         | ❌               | [String Interpolation](https://docs.scala-lang.org/overviews/core/string-interpolation.html) |
+| Sciter       | Dynamic (DSL) | `$fun({...})`            | ✅         | ❌               | [Stringizer Functions](https://sciter.com/docs/content/script/language/Functions.htm#Stringizer) |
+| Swift        | Static        | `"\(...)"`               | ✅         | ❌               | [String Interpolation](https://docs.swift.org/swift-book/LanguageGuide/StringsAndCharacters.html#ID292) |
+| Tcl          | Dynamic       | `"$..."`                 | ❌         | ❌               | [Variable Substitution](http://tmml.sourceforge.net/doc/tcl/Tcl.html) |
+| TypeScript   | Dynamic       | `` `${...}` ``           | ✅         | ❌               | Same as JavaScript |
+| Visual Basic | Static (VM)   | `$"{...}"`               | ✅         | `{...,...:...}`  | [Interpolated Strings](https://docs.microsoft.com/en-us/dotnet/visual-basic/programming-guide/language-features/strings/interpolated-strings) |
 
 ### Big Picture
 Test
