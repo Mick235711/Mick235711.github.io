@@ -89,7 +89,40 @@ issues involved in this concept, with most of them no clear answer. Therefore, I
 approach, or what WG21 often describe as "standardizing existing practice"... take a look at all the language
 that already have string interpolation ability, and look at how they solve the issues.
 
-The language chosen are taken from the [String Interpolation Wikipedia Page](https://en.wikipedia.org/wiki/String_interpolation),
-with a total of 28 different languages: ABAP, Bash, Boo, C#, ColdFusion, CoffeeScript,
+The language chosen are taken from the [string interpolation Wikipedia page](https://en.wikipedia.org/wiki/String_interpolation),
+with a total of 27 different languages: ABAP, Bash, Boo, C#, ColdFusion, CoffeeScript,
 Dart, Groovy, Haxe, JavaScript, Julia, Kotlin, Nemerle, Nim, Nix, ParaSail,
-Perl, PHP, Python, Ruby, Rust, Scala, Sciter, Snobol, Swift, Tcl, TypeScript and Visual Basic.
+Perl, PHP, Python, Ruby, Rust, Scala, Sciter, Swift, Tcl, TypeScript and Visual Basic.
+
+| Language     | Mode          | Syntax                 |
+|--------------|---------------|------------------------|
+| ABAP         | Dynamic (DSL) | `|{...}|`              |
+| Bash         | Dynamic       | `"$..."`, `"${...}"`   |
+| Boo          | Dynamic       | `"$(...)"`             |
+| C#           | Static (VM)   | `$"{...}"`             |
+| ColdFusion   | Dynamic       | `"#...#"`              |
+| CoffeeScript | Dynamic       | `"#{...}"`             |
+| Dart         | Static (VM)   | `'$...'`, `'${...}'`   |
+| Groovy       | Both          | `"$..."`, `"${...}"`   |
+| Haxe         | Static (VM)   | `'$...'`, `'${...}'`   |
+| JavaScript   | Dynamic       | `` `${...}` ``         |
+| Julia        | Dynamic       | `"$..."`, `"$(...)"`   |
+| Kotlin       | Static (VM)   | `"$..."`, `"${...}"`   |
+| Nemerle      | Static (VM)   | `$"$..."`, `$"$(...)"` |
+| Nim          | Static        | `fmt"{...}"`           |
+| Nix          | Dynamic (DSL) | `"${...}"`             |
+| ParaSail     | Both          | ``"`(...)`"``          |
+| Perl         | Dynamic       | `"$..."`, `"@{...}"`   |
+| PHP          | Dynamic       | `"$..."`, `"{...}"`    |
+| Python       | Dynamic       | `f"{...}"`             |
+| Ruby         | Dynamic       | `"#{...}"`             |
+| Rust         | Static        | `println!("{...}")`    |
+| Scala        | Static (VM)   | `s"$..."`, `s"${...}"` |
+| Sciter       | Dynamic (DSL) | `$fun({...})`          |
+| Swift        | Static        | `"\(...)"`             |
+| Tcl          | Dynamic       | `"$..."`               |
+| TypeScript   | Dynamic       | `` `${...}` ``         |
+| Visual Basic | Static (VM)   | `$"{...}"`             |
+
+### Big Picture
+Test
