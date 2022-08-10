@@ -152,3 +152,97 @@ strings. Other parts are much more complicated, and will be discussed from insid
 
 ### Expression
 Expression is the part where you specify the variables or expressions that you want to substitute in.
+There, most language just simply agrees that any expression can be put here, for example:
+```python
+apple = 3
+print(f"I have {apple} apples.")  # I have 3 apples.
+print(f"I have {apple + 1} apples.")  # I have 4 apples.
+```
+Notice that often, arbitrary expression support is required for convenience of this feature
+(which is really all it is about, it is just a syntactic sugar), for example `apples[0]`,
+`get_apples()` being substituted are very common case that appears in many real-world code.
+Which is why most language agree that any expression can appear here.
+
+However, some language take a different route: only allow a variable name here, nothing else.
+Or in C++-speak, only allow a single *id-expression* here:
+```rust
+let apple = 3;
+println!("I have {apple} apples.");  // Okay
+println!("I have {apple + 1} apples.");  // Error!
+```
+On surface, this seems an arbitrary restriction, and really had prevented some useful use case
+like subscripting and function call. Natuarally, only a handful of language take this route.
+In the above table we can see that only Bash, Tcl and Rust have this restriction, while Bash
+and Tcl are both dynamic scripting language that naturally only support `$variable` as variable
+substitution and nothing else. This leaves Rust as the only language that only support variable
+substitution, and in [RFC 2795](https://rust-lang.github.io/rfcs/2795-format-args-implicit-identifiers.html),
+the author explained the rationale:
+> If any expressions beyond identifiers become accepted in format strings, then the RFC author expects that users
+> will inevitably ask "why is my particular expression not accepted?". This could lead to feature creep, and
+> before long perhaps the following might become valid Rust:
+```rust
+println!("hello { if self.foo { &self.person } else { &self.other_person } }");
+```
+> This no longer seems easily readable to the RFC author.
+
+In short, the reason that Rust does not allow anything above variable name is that allowing arbitrary expression
+may leads to very complex expression being present, which is a bad style as the string is no longer easily readable.
+This is a real problem, as many people may have written `None`-related conditionals in Python:
+```python
+result = get_int()  # may return int or None
+print(f"Got {result if result is not None else 0} as result.")
+```
+This had already becoming hard to read, and if we introduce the same syntax into C++, the problem may become worse:
+```cpp
+std::optional<int> get_int();
+auto result = get_int();
+std::println(f"Got { get_int().transform([](auto a){ return a * 2; }).value_or(0) } as result.");
+```
+
+However, I personally don't think that this potential danger is worth discarding the great benefit that allowing
+`get_int()`, `arr[2]` etc had given us. The author of [PEP 498](https://peps.python.org/pep-0498/) had rightfully
+pointed out regarding this issue:
+> While it’s true that very ugly expressions could be included in the f-strings, this PEP takes the position that
+> such uses should be addressed in a linter or code review. 
+
+I personally agree that this should just be a Core Guideline issue to not use long placeholders. In EWG review
+of P1819R0 on 2022-08-04, WG21 also agrees with the decision that a future string interpolation facility in C++
+should support arbitrary expression:
+> EWG encourages more work in the direction of supporting arbitrary expressions, instead of just ID expressions.
+
+<table style="width: 250px; margin-bottom: 1rem;" class="withborder">
+<thead>
+    <tr>
+        <td>SF</td>
+        <td>F</td>
+        <td>N</td>
+        <td>A</td>
+        <td>SA</td>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td>4</td>
+        <td>3</td>
+        <td>2</td>
+        <td>0</td>
+        <td>1</td>
+    </tr>
+</tbody>
+</table>
+
+> Result: Consensus
+
+So I think that this issue had been solved.
+
+### Formatter
+The formatter component refer to the additional specifier after the expression, to format it.
+For example, we can add some specification to make the expression result to have a fixed width:
+```python
+for i in range(1000):
+    print(f"[{i:3}/1000] Hello!")
+# Print:
+# [  1/1000] Hello!
+# [  2/1000] Hello!
+# ...
+```

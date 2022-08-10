@@ -8,3 +8,7 @@ styles: true
 .content {
     width: 100%;
 }
+.withborder table, .withborder th, .withborder td {
+    border: 2px solid;
+    text-align: center;
+}
