@@ -21,13 +21,13 @@ plugins:
 - jekyll-remote-theme
 
 # Site settings
-url: 'https://mick235711.github.io'
-baseurl: '/'
+url: "https://mick235711.github.io"
+baseurl: "/"
 repo: "https://github.com/Mick235711/Mick235711.github.io"
 email: "winmikedows@hotmail.com"
 title: "Mick235711's Personal Website"
-description: 'Some interesting things I sometimes thought about.'
-permalink: pretty
+description: "Some interesting things I sometimes thought about."
+permalink: /:year/:month/:day/:title/
 timezone: Asia/Shanghai
 lang: en-US
 encoding: utf-8
@@ -66,7 +66,7 @@ social_links: # Appears in sidebar. Set the urls then uncomment and comment out 
   GitHub: https://github.com/Mick235711
   link: https://mick235711.github.io
 
-sharing_links: # Appear at the bottom of single blog posts, add as desired. The value can be 'true' or the desired button colour
+sharing_links: # Appear at the bottom of single blog posts, add as desired. The value can be "true" or the desired button colour
   Twitter: "#0d94e7"
   facebook: "#3B5998"
   Email: true

@@ -87,6 +87,32 @@ There is still the advantage of i18n localized formatted strings, in which we ca
 in one language and `{1} {0}` in another language where grammar were reversed. Another
 advantage is the ability of repeating positional specifier to repeat a variable.
 
+Both EWGI and EWG had expressed support in a future C++ string interpolation facility, so it is worthwhile
+to have a look at how other language did it, and find a good way for C++ to process forward.
+> EWGI (2019-07 Cologne): Spend committee time on this vs other proposals given that time is limited?
+
+<table style="width: 250px; margin-bottom: 1rem;" class="withborder">
+    <thead><tr>
+        <td>SF</td><td>F</td><td>N</td><td>A</td><td>SA</td>
+    </tr></thead>
+    <tbody><tr>
+        <td>3</td><td>5</td><td>2</td><td>2</td><td>0</td>
+    </tr></tbody>
+</table>
+
+> EWG (2022-08-04): Given our time is limited, and our resources are scarce, EWG Encourages further work in the direction of P1819.
+
+<table style="width: 250px; margin-bottom: 1rem;" class="withborder">
+    <thead><tr>
+        <td>SF</td><td>F</td><td>N</td><td>A</td><td>SA</td>
+    </tr></thead>
+    <tbody><tr>
+        <td>3</td><td>5</td><td>3</td><td>0</td><td>0</td>
+    </tr></tbody>
+</table>
+
+> Result: Consensus
+
 ## Survey
 At a glance, string interpolation seems a pretty simple feature: just factor out all the expressions
 and rewrite to a `std::format` call, right? However, there are a surprisingly large number of subtle
@@ -211,24 +237,12 @@ should support arbitrary expression:
 > EWG encourages more work in the direction of supporting arbitrary expressions, instead of just ID expressions.
 
 <table style="width: 250px; margin-bottom: 1rem;" class="withborder">
-<thead>
-    <tr>
-        <td>SF</td>
-        <td>F</td>
-        <td>N</td>
-        <td>A</td>
-        <td>SA</td>
-    </tr>
-</thead>
-<tbody>
-    <tr>
-        <td>4</td>
-        <td>3</td>
-        <td>2</td>
-        <td>0</td>
-        <td>1</td>
-    </tr>
-</tbody>
+    <thead><tr>
+        <td>SF</td><td>F</td><td>N</td><td>A</td><td>SA</td>
+    </tr></thead>
+    <tbody><tr>
+        <td>4</td><td>3</td><td>2</td><td>0</td><td>1</td>
+    </tr></tbody>
 </table>
 
 > Result: Consensus
@@ -246,3 +260,78 @@ for i in range(1000):
 # [  2/1000] Hello!
 # ...
 ```
+These formatter specifiers had had a long history. Their first common-known appearance is probably
+the C `printf`/`scanf` family of functions, in where type specifier like `%d` and fill/width specifier
+like `%03d` are introduced. Later, Python improved these specifier by changing to a `{}` format, eliminating
+the need for always specifying type specifiers, and also changed alignment specifier to a more straightforward
+`<>^` system. This new type of formatter had been adopted by many languages coming forward, including C++ `std::format`.
+
+However, contrary to the general acceptance of arbitrary expression for the expression part, there are very few
+languages that actually support formatters in string interpolation. From the above table, we can see that only
+6 languages (Bash, C#, Nim, Python, Rust, Visual Basic) support some kind of formatter. There are two main reason for
+the general reluctancy of formatters:
+1. Formatters often make the interpolation string looks more complicated and hard to read. Similar to the situation of
+complicated expression, complex formatter can also hinder readability:
+```cpp
+vector ints{65192, 65535, 766, 8687, 65524, 14386};
+std::println(f"Your IPv6 address is {ints:nd[:]:04x}.");
+// Your IPv6 address is fea8:ffff:02fe:21ef:fff4:3832.
+```
+2. Interpolated string literals with formatters are harder to implement than those without. Among the language that does not
+support formatter, many are reluctant to support it because they didn't even have a `str.format`-like function, thus do not
+have any existing facility to utilize formatters. Furthermore, even among those who has formatting functions already, a simple
+interpolation without formatter, like `f"I have {apple} apples"`, can simply be translated into a concatenation
+```python
+"I have " + apple + " apples"
+```
+which (assuming `toString()`'s existence or implicit calling of such method) can be an easy task for the compiler. However, with
+formatter present, either we must resort to Nim's approach to translate to something like
+```cpp
+"I have" + std::format("{:02}", apple) + " apples"
+```
+Or translate directly into a single big `format` call:
+```cpp
+std::format("I have {:02} apples", apple)
+```
+
+However, both reason does not apply to C++ at all. In C++, we already have the formatting infrastructure provided by `std::format`,
+so we can simply support the same *format-specifier* and all is well. Also, even if we restrict to no-formatter mode, we **still**
+cannot use simple concatenation to translate interpolated strings, because in C++ we have no general `toString()` method at all!
+`std::to_string` only works for arithmetic types, so the only general way we can get a string from any object is through
+`std::format("{}", obj)`, which basically means that the support for formatters is already there, and dropping them will have
+absolutely no performance gain. As for readability, I support the same argument as ones for the complicated expression concern,
+namely this is a code review issue, not an issue that prevent us to support even the simplest formatting specifier.
+
+Having decided that C++ have sufficient reason to support formatters, let's have a look at their syntax in existing language.
+For C# and VB, their .NET format specifiers are not taken from Python, and instead have taken a form that looks like `{,[align]:[type][prec]}`,
+so their string interpolation facility also support the same `{...,...:...}` format. This is, in fact, consistent with Rust, Python and Nim's `{...:...}`
+choice, because the only difference is that C# and VB move the `[align]` part from after the colon to before the colon.
+Apart from these standard specifiers, there are a few creative additions for Python and Nim. Python allow a `!s`, `!r` or `!a` specifier to
+appear immediately before the colon, whose effect is to call `str()`, `repr()` or `ascii()` before formatting. In [PEP 498](https://peps.python.org/pep-0498/),
+the author actually admitted that this is just for compatibility with `str.format`, and on their own are redundant specifiers:
+> The `!s`, `!r`, and `!a` conversions are not strictly required. Because arbitrary expressions are allowed inside the f-strings, [...]
+> However, `!s`, `!r`, and `!a` are supported by this PEP in order to minimize the differences with `str.format()`. `!s`, `!r`, and `!a` are
+> required in `str.format()` because it does not allow the execution of arbitrary expressions.
+
+Therefore, since in C++ we don't have such tradition in `std::format`, and there is no general string-conversion function like `str()` anyway,
+I see no reason to introduce `!...` part into C++ interpolated strings. However, another addition introduced by both Python and Nim, the `=`
+part before the colon, is more interesting. The effect of such a `=` is to introduce a debugging format, in which the expression text will be displayed
+alongside its value:
+```python
+a = 3
+print(f"I have {a=}")  # I have a=3
+print(f"I have {a = }")  # I have a = 3
+print(f"I have {a  =:02}")  # I have a  =03
+```
+Basically, this is a shorthand for the common practice of var = value trick in debugging prints. In my personal opinion, I think that this specifier
+is very appealing, but at the same time it can be added later, after general interpolation is introduced (in Python, = is added two versions after f-strings anyway).
+Also, this specifier has its own problem in C++ (will be described below in the issues section), so I suggest holding off its addition into separate proposal.
+
+In conclusion, I suggest that C++ string interpolation facility should support *format-specifier*s, as they are naturally supported as a result of the implementation
+strategy, and also the formatter format should (for now) simply be `{...:...}`, the same as `std::format`. The Python/Nim = specifier can be added later in a separate
+proposal, once its issues are solved. (Technically, given WG21's favor for minimal proposals these days, support for formatters can also be added later, as colons are not
+used much in C++ expressions; however I felt like that would be too minimal for a first proposal).
+
+### Delimeter
+
+### Introducer
