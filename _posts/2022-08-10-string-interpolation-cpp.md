@@ -333,5 +333,127 @@ proposal, once its issues are solved. (Technically, given WG21's favor for minim
 used much in C++ expressions; however I felt like that would be too minimal for a first proposal).
 
 ### Delimeter
+Delimeters are a natural requirement to the proposed interpolation syntax, especially for those language that support interpolating arbitrary expressions. Even for those that
+only support interpolating variables, the possibility of ambiguity still calls for a need of delimeter:
+```bash
+fruit=apple
+echo "I want some $fruit"  # I want some apple
+echo "I want some $fruits"  # I want some (unknown variable not displayed)
+echo "I want some ${fruit}s"  # I want some apples
+```
+However, there is a catch: many languages (including Bash) support both a mode without delimeter and a mode with one, to give more convenience
+to the user. The general rule here is that without a delimeter, the expression part will start from the introducer and match greedily, often
+only stop when meeting a whitespace or end of string. So in the above example, `$fruit` can work but `$fruits` cannot. These languages with two modes
+are recorded as none plus some delimeter type below, where none signals the `$fruit` case without delimeter.
+
+As for the delimeter themselves, there are many choice:
+- None + `{}`: (8) Bash, Dart, Groovy, Haxe, Kotlin, Perl, PHP, Scala
+- `{}` only: (12) ABAP, C#, CoffeeScript, JavaScript, Nim, Nix, Python, Ruby, Rust, Sciter, TypeScript, Visual Basic
+- None + `()`: (3) Boo, Julia, Nemerle
+- `()` only: (2) ParaSail, Swift
+- `#` only: (1) ColdFusion
+- No delimeter (only support greedy variable interpolation): (1) Tcl
+
+We can easily see that there are only two common choice of delimeter: `{}` and `()`. In which `{}` have 20 language users, while
+`()` only have 5, so `{}` is the overwhelmingly favorite. Also, C++ `std::format` already used `{}` as delimeter, so I think that there
+should be no controversy on the choice for C++: just continue to use `{}` as delimeter. However, noted that in C++ we have to use a prefix
+introducer (more on this below), so we cannot introduce the greedy no-delimeter matching facility, forcing C++ to be in the `{}` only group
+(it is the group with most people anyway).
 
 ### Introducer
+Now comes the fun part.
+
+Introducers are also one of the required feature of any string interpolation facility, as you have to distinguish interpolated string from regular
+string in some way to process them differently. However, there are four general categories of languages with regard to introducers:
+- Prefix, in which introducer are placed before the string, like `f"something"`
+- Adjacent, in which introducer are placed immediately before delimeter, like `"something ${var}"`
+- Quote, in which introducer are the quotes themselves (i.e. special quote is used), like `|something|`
+- Function, in which interpolation is only available as parameters to certain functions
+
+Adjacent is more common in scripting or dynamic languages, in which variables are often also referred as `$var`. It is also worth noting that the
+aforementioned greedy no-delimeter substitution feature is only available with language in the adjacent group. The languages can be categorized as:
+- Prefix: (4) C#, Visual Basic (both `$`), Python (`f`), Nim (`fmt` and `&`)
+- Adjacent `$`: (9) Bash, Boo, Dart, Groovy, Haxe, Julia, Kotlin, Nix, Tcl
+- Adjacent `#`: (3) ColdFusion (double `#`), CoffeeScript, Ruby
+- Adjacent other: (4) ParaSail (double `` ` ``), Perl (`$` and `@`), PHP (`$` or None), Swift (`\`)
+- Both Adjacent and Prefix: (2) Nemerle (both `$`), Scala (`s` prefix and `$` adjacent)
+- Quote: (3) ABAP (`|`), JavaScript, TypeScript (both `` ` ``)
+- Function: (2) Rust (`println!` family), Sciter (anything start with `$`)
+
+Overall there are 6 Prefix, 18 Adjacent, 3 Quote and 2 Function, with Adjacent group being the overwhelmingly favorite. The reason for that result, I think,
+is that generally we want the interpolated (substituted) part to be as distinct as possible from the rest of the string, in order for reader to quickly
+realize that this part will be substituted, and add an introducer here can be a good way to remind them. Also, the Adjacent placement also enable the possibility
+of no-delimeter, which over half of the 18 languages had utilized.
+
+However, the Adjacent group have its own great limitation, which makes it unsuitable for C++: backward compatibility. We already have strings that contain `$` in C++,
+and changing it to perform interpolation is simply a non-starter because it will break way too much legacy code. All the Adjacent group languages have had interpolation
+since their first version, so there is no risk of breaking code. However, for C++, we must reject all Adjacent approach... except for one! The Swift Adjacent (`"\(...)"`)
+is actually still viable for C++, given that `\(` is an unused escape sequence. However, currently all major C++ compilers will only produce a warning for unknown escape
+sequences, and then proceed as if the backslash isn't here. Therefore if we want to be secure, we must first deprecate `\(` for at least one standard, and then reuse it.
+(Given that there is very unlikely to be large number of code with this escape outside in the wild, I do think that we can skip the deprecation period and directly reuse this as
+interpolation; however the Swift syntax does not look very appealing anyway). For those reasons, I will suggest that the whole Adjacent group is unsuitable for C++.
+
+The Function group also deserves a closer look. For Rust, the `println!` family (to be precise, the target is actually the `format_args!` family) are already implemented as macros,
+which means that it is possible to customize their argument behavior as a library feature, no need for core language change. Therefore, Rust can happily limit the interpolation scope
+to only the `format_args!` family, and unuseable for anything else. Sciter also took an interesting strategy: any function with name starting from `$` will treats its argument as literal string,
+and anything inside `{}` inside such an argument will simply be left out unquoted:
+```javascript
+var bodyDiv = self.$(div#body);
+// equivalent to
+var bodyDiv = self.$("div#body");
+
+var nthDiv = self.$(div:nth-child({n}));
+// equivalent to
+var nthDiv = self.$("div:nth-child(", n, ")")
+```
+This way, the function can itself concatenate all the argument to form the interpolated string. However, both languages' approach cannot apply to C++: `std::format` is not a macro, and we do not want
+to limit string interpolation to `std::format` and `std::print` family anyway; and introducing `$`-functions will simply be too much a change for C++ to handle. It is viable, but it would simply be too
+radical, as the whole grammar need to change dramatically to allow this.
+
+This only leaves Prefix and Quote as routes for C++. Both of these routes are viable, but I want to argue that Quote group have its own inherent limitation in C++ too: no existing practice. In C++, we have always had only
+two kind of quotations, single and double for `char` and `const char*`. Introducing the third kind of quotation for solely the purpose of string interpolation seems a bit weird and aggressive, and also having a third
+kind of quotation without a third kind of type (it will evaluate to `std::string` probably anyway) also seems weird to me. On the contrary, in C++ we have had prefix specifiers for years now (encoding and raw strings),
+so adding a new kind of prefix specifier is not a radical change. Therefore, I personally support Prefix as the way for C++ to go.
+
+However, inside the Prefix group the syntax is very split in different languages (I'm actually surprised that no one else used f-strings). C++ will face a choice here:
+- `$`, the advantage is that there will be absolutely no possibility of breaking existing code, while the disadvantage will be to introduce a new novel syntax (`$` have no appearance in C++ yet)
+- `f`, the advantage is that this will require no novel syntax learning, it is just similar to `u` and `R` prefix, convey clearly the "formatting" meaning,
+and also does not introduce new symbol into C++ glossary; however the disadvantage is that there is a small possibility of breaking existing code with macro named `f`
+- Other one-character prefix, the analyze is same with `f`, with the additional disadvantage that it has no clear link with "formatting" meaning
+- `fmt` (or `format`, etc), the advantage is that the meaning is conveyed most clearly, however a big disadvantage is that this will be more clumsy to type (shorter typing
+is the sole reason we introduce string interpolation anyway), and also have a bigger possibility of macro conflicting.
+
+Overall, I don't see a clear winner. Personally, I think that `f` makes the most sense for C++, as it has the least disadvantages among the options (macro named `f` is increasingly rare anyway, and this problem is also
+faced by `u` and `R` prefix too, they solved it, kinda). `$` can be a close second or even first if one day C++ introduced an operator with `$` in it so that it is no longer novel, and other choice I think is clearly worse.
+
+So, in conclusion, my personal suggestion for C++ is the `f"{...}"` syntax, with support for *format-specifier*s (or in other words, copy Python).
+
+## General design issues
+
+### Implementation: eager or lazy?
+
+### Escaping behaviour
+
+### Customization
+
+## Issues specifically for C++
+Of course, being one of the most complex language in the world, a string interpolation facility for C++ will face
+its own bunch of issues, specifically because of its interaction with other features or limitations of C++.
+
+### Availability of `@`, `$` and `` ` ``
+
+### Macro conflict
+
+### Ambiguity of `=` specifier
+
+### (Non-existent?) issues with *format-specifier* support
+
+### Concatenation
+
+### Interaction with other prefix
+
+### Interaction with UDL
+
+### Translation stage
+
+### Implementation difficulty
