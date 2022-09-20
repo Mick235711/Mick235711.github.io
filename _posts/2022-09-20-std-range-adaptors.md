@@ -41,16 +41,92 @@ All of the original descriptions and properties are copied here, credit belongs 
 ## Factories
 ### `views::empty<T>`
 Produces an empty range of type `T`.
-- constraint: `T` is an object type.
+- constraint: `T` is an object type
 - reference: `T&`
 - common: always
 - sized: always (0)
 - const-iterable: always
 - borrowed: always
-- constant: when `T` is `const`-qualified.
+- constant: when `T` is `const`-qualified
 
-### `views::iota(beg[, end])`
+### `views::single(t: T)`
+Produce a range that only contains a single value: `t`.
+- constraint: `T` is an object type
+- reference: `T&`
+- common: always
+- sized: always (1)
+- const-iterable: always
+- borrowed: never
+- constant: never (`single_view<T>` is only instantiated with decayed type)
 
-### `views::istream<T>(in)`
+### `views::iota(beg: B[, end: E])`
+Produce a range that start at `beg`, and incrementing forever (when there is only one argument) or until `beg == end` (exclude `end` as usual).
+```python
+>>> iota(0)
+[0, 1, 2, ...]
+>>> iota(0, 5)
+[0, 1, 2, 3, 4]
+>>> iota(beg, end)
+[beg, beg + 1, beg + 2, ..., end - 1]
+```
+(Note that `B` and `E` can be any type, not just integral)
 
-### `views::counted(it, n)`
+- constraint: `B` is copyable and `weakly_incrementable` (support pre/postfix `++` and have difference type) and `E` is `semiregular` (copyable and default initializable).
+Also, `beg == end`, `beg != end` (and reverse) are valid.
+- reference: `B` (prvalue range!)
+- category:
+  - if `B` is advanceable (`beg += n`, `beg -= n`, `beg + n`, `n + beg`, `beg - n`, `beg - beg` are all valid, and `B` is totally ordered), random access.
+  - otherwise, if `B` is decrementable (support pre/postfix `--`), bidirectional
+  - otherwise, if `B` is `incrementable` (regular and `beg++` returns `B`), then forward
+  - otherwise, input.
+- common: when `B` and `E` are the same type
+- sized: the range is not infinity (there is a bound provided) and either:
+  - the range is common and random access, or
+  - both `B` and `E` are integer-like types, or
+  - `E` is a sized sentinel for `B`.
+- const-iterable: always
+- borrowed: always (iterator owns the current value)
+- constant: always
+
+### `views::istream<T>(in: In)`
+Produce a range of `T` such that elements are read by `in >> t` (read one element per increment).
+- constraint: `T` is movable and default initializable, and `In` is derived from `basic_istream`
+- reference: `T&`
+- category: input
+- common: never (iterator are move-only, so not a C++17 input iterator anyway)
+- sized: never
+- const-iterable: never
+- borrowed: never
+- constant: never (`T` must be movable so it must not be `const`-qualified)
+
+### `views::counted(it: It, n: N)`
+This is not a real range adaptor (there is no `counted_view`). Instead, it is an adaptor that adapt the range represented as `[it, it + n)` (begin + count)
+as the standard iterator-sentinel model. It adapts by construct a `std::span` or `ranges::subrange`.
+- constraint: `n >= 0` and `N` must be convertible to the difference type of `It`.
+- reference: same as `It`'s reference type
+- category: same as `It`'s category (preserve contiguous)
+- common: if `It` is at least random access
+- sized: always
+- const-iterable: always
+- borrowed: always (`counted_iterator` owns the iterator and the count)
+- constant: when `It` is a constant iterator
+
+## Real Adaptors
+### `all`
+### `filter`
+### `transform`
+### `take`
+### `take_while`
+### `drop`
+### `drop_while`
+### `join`
+### `split`
+### `common`
+### `reverse`
+### `elements` (`keys`/`values` are aliases)
+
+## Other Standard Views
+(`std::initializer_list<T>` is technically a view, but it does not model `ranges::view`.)
+
+### `std::basic_string_view<charT, traits>`
+### `std::span<T>`
