@@ -429,10 +429,12 @@ faced by `u` and `R` prefix too, they solved it, kinda). `$` can be a close seco
 So, in conclusion, my personal suggestion for C++ is the `f"{...}"` syntax, with support for *format-specifier*s (or in other words, copy Python).
 
 ## General design issues
+These are the issues that applys to any string interpolation facility, not unique to C++.
 
 ### Implementation: eager or lazy?
 
 ### Escaping behaviour
+Now this is the most difficult and contentious part of any such facility.
 
 ### Customization
 
