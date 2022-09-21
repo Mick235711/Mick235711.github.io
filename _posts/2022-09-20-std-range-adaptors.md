@@ -8,13 +8,13 @@ categories:
 
 In this post, "range adaptors" refer to both range factories (algorithm that produce range, can only be the starting point of a pipeline, like `views::single`)
 and (real) range adaptors (algorithm that takes a range and return an adapted range, like `views::filter`).
-In C++20 standard, following the adoption of Ranges TS, the standard adopted 17 range adaptors:
+In C++20 standard, following the adoption of Ranges TS, the standard adopted 18 range adaptors:
 - 5 factories: `empty`, `single`, `iota`, `istream`, `counted`
-- 12 (real) adaptors: `all`, `filter`, `transform`, `take`, `take_while`, `drop`, `drop_while`, `join`, `split`, `common`, `reverse`, `elements` (`keys`/`values` are aliases)
+- 13 (real) adaptors: `all`, `filter`, `transform`, `take`, `take_while`, `drop`, `drop_while`, `join`, `lazy_split`, `split`, `common`, `reverse`, `elements` (`keys`/`values` are aliases)
 
-Of course, this is only a small subset of what is provided in range-v3 (over 100 adaptors). C++23 greatly expanded range support in multiple ways, including the addition of 14 more adaptors:
+Of course, this is only a small subset of what is provided in range-v3 (over 100 adaptors). C++23 greatly expanded range support in multiple ways, including the addition of 13 more adaptors:
 - 4 new factories: `zip`, `zip_transform`, `cartesian_product`, `repeat`
-- 10 new (real) adaptors: `as_rvalue`, `join_with`, `lazy_split`, `as_const`, `adjacent`, `adjacent_transform` (`pairwise` are aliases), `chunk`, `slide`, `chunk_by`, `stride`
+- 9 new (real) adaptors: `as_rvalue`, `join_with`, `as_const`, `adjacent`, `adjacent_transform` (`pairwise` are aliases), `chunk`, `slide`, `chunk_by`, `stride`
 
 and C++26 is expected to provide even more (`enumerate` and `concat` being the most expected ones).
 
@@ -112,21 +112,240 @@ as the standard iterator-sentinel model. It adapts by construct a `std::span` or
 - constant: when `It` is a constant iterator
 
 ## Real Adaptors
-### `all`
-### `filter`
-### `transform`
-### `take`
-### `take_while`
-### `drop`
-### `drop_while`
-### `join`
-### `split`
-### `common`
-### `reverse`
-### `elements` (`keys`/`values` are aliases)
+### `views::all(r: [T]) -> [T]`
+Still, `views::all` is a semi-range adaptor; there is no `all_view`. Essentially, `views::all(r)` is a view of all the elements in `r`,
+which it done wrapping by either return `auto(r)` directly (if `r` is already a view), wrap in `ref_view` (if `r` is a lvalue),
+or wrap in `owning_view` otherwise. Therefore, all of `views::all(r)`'s range properties are exactly identical to that of `r`'s.
+
+### `views::filter(r: [T], f: T -> bool) -> [T]`
+Produce a new range that only preserve elements of `r` that let `f(e)` evaluate to `true`.
+```python
+>>> filter([1, 2, 3, 4], e => e % 2 == 0)
+[2, 4]
+```
+- constraint: `F` is copy-constructible, an object type, and is invocable by `T` and `value_type&`, and return a value that is contextually convertible to `bool`
+- reference: `T`
+- category: at most bidirectional
+- common: when `r` is common
+- sized: never
+- const-iterable: never
+- borrowed: never
+- constant: when `r` is constant
+
+### `views::transform(r: [T], f: T -> U) -> [U]`
+Return a new range such that each element is `f(e)` (where `e` is each element in `r`). Commonly called `map` in other languages.
+```python
+>>> transform(["aa", "bb", "cc", "dd"], e => e[0])
+['a', 'b', 'c', 'd']
+```
+- constraint: `F` is move-constructible, an object type, and is invocable by `T`
+- reference: `U`
+- category: at most random access
+- common: when `r` is common
+- sized: when `r` is sized
+- const-iterable: when `r` is const-iterable and `f` is const-invocable
+- borrowed: never
+- constant: when `U` is a value of non-class type (like prvalue range of `int`) or a const reference (l/rvalue both applies)
+
+### `views::take(r: [T], n: N) -> [T]`
+Produce a new range consists of the first `n` elements of `r`. If `r` has less than `n` elements, contains all of `r`'s elements.
+```python
+>>> take([1, 2, 3, 4], 2)
+[1, 2]
+>>> take([1, 2, 3, 4], 8)
+[1, 2, 3, 4]
+```
+Note that `views::take` will produce `r`'s type whenever possible (for example, `empty_view` passed in will return an `empty_view`).
+- constraint: `N` is convertible to `r`'s difference type
+- reference: `T`
+- category: same as `r` (preserve contiguous)
+- common: when `r` is sized and random access
+- sized: when `r` is sized
+- const-iterable: when `r` is const-iterable
+- borrowed: when `r` is borrowed
+- constant: when `r` is constant
+
+### `views::take_while(r: [T], f: T -> bool) -> [T]`
+Produce a new range that includes all the element of `r` that makes `f(e)` evaluates to `true` until it first evaluates to `false`.
+(i.e. filter but stop when first `false`)
+```python
+>>> take_while([1, 2, 3, 1, 2, 3], e => e < 3)
+[1, 2]
+```
+- constraint: `F` is an object type and is const-invocable by `T` and `value_type&`, and return a value that is contextually convertible to `bool`
+- reference: `T`
+- category: same as `r` (preserve contiguous)
+- common: never (`begin()` must return an iterator-to-`r`, so `end()` cannot reuse that iterator type)
+- sized: never
+- const-iterable: when `r` is const-iterable and `f` is const-invocable by the reference and lvalue of value type of `as_const(r)`
+- borrowed: never
+- constant: when `r` is constant
+
+### `views::drop(r: [T], n: N) -> [T]`
+Produce a new range consists of the all but the first `n` elements of `r`. If `r` has less than `n` elements, produce an empty range.
+```python
+>>> drop([1, 2, 3, 4], 2)
+[3, 4]
+>>> drop([1, 2, 3, 4], 8)
+[]
+```
+Note that `views::drop` will produce `r`'s type whenever possible (for example, `empty_view` passed in will return an `empty_view`).
+- constraint: `N` is convertible to `r`'s difference type
+- reference: `T`
+- category: same as `r` (preserve contiguous)
+- common: when `r` is common
+- sized: when `r` is sized
+- const-iterable: when `r` is const-iterable
+- borrowed: when `r` is borrowed
+- constant: when `r` is constant
+
+### `views::drop_while(r: [T], f: T -> bool) -> [T]`
+Produce a new range that excludes the element of `r` until the first element that makes `f(e)` evaluates to `false`.
+(i.e. drop but stop when first `false`)
+```python
+>>> drop_while([1, 2, 3, 1, 2, 3], e => e < 3)
+[3, 1, 2, 3]
+```
+- constraint: `F` is an object type and is const-invocable by `T` and `value_type&`, and return a value that is contextually convertible to `bool`
+- reference: `T`
+- category: same as `r` (preserve contiguous)
+- common: when `r` is common
+- sized: when `R`'s sentinel is a sized sentinel for `R`'s iterator (note that in common case this requires common & random access range, but not necessarily; the requirement is `s - i` and `i - s` are valid and return the difference type)
+- const-iterable: never
+- borrowed: when `r` is borrowed
+- constant: when `r` is constant
+
+### `views::join(r: [[T]]) -> [T]`
+Join together a range of several range-of-`T`s into a single range-of-`T`. Commonly called `flatten` in other languages.
+```python
+>>> join([[1, 2], [3], [4, 5, 6]])
+[1, 2, 3, 4, 5, 6]
+```
+- constraint: `R` and `R`'s reference type (`[T]`) are both input ranges
+- reference: `T`
+- category:
+  - If `r` is a range of glvalue ranges, then at most bidirectional based on inner range's category
+  - Otherwise (range of prvalue ranges), input
+- common: when both `R` and inner range is forward and common, and `r` is a range of glvalue ranges
+- sized: never
+- const-iterable: when `r` is const-iterable and `const R` have a reference type of real reference (not a prvalue/proxy range)
+- borrowed: never
+- constant: when inner range is constant
+
+### `views::lazy_split(r: [T], p: T | [T]) -> [[T]]`
+(The fixed version after C++20 DR [P2210R2](https://wg21.link/P2210R2))
+Produce a range that splits a range of `T` into a range of several range-of-`T`s based on delimeter (which can be a single element or a continuous subrange).
+```python
+>>> lazy_split("a bc def", ' ')
+["a", "bc", "def"]
+>>> lazy_split("a||b|c||d", "||")
+["a", "b|c", "d"]
+>>> lazy_split("abcd", "")  # when size = 0, just split at every element
+["a", "b", "c", "d"]
+```
+Note that `lazy_split` is maximally lazy, it will never touch any element until you increment to the element (i.e. will not compute any "next pattern position"),
+and thus support input ranges. However, the tradeoff is that the resulting inner range can only be at most forward, as you don't really know you are at the end until you increment here.
+- constraint: `p` is either a forward range or convertible to the value type of `R`. Also, when `r` is only an input range, `p` must be a sized range with size 0 or 1 (nothing or a single element).
+(The reference type and lvalues of values of `P` and `R` also must be inter-comparable)
+- reference: `[T]` (a range of the reference type `T`)
+- category: both outer range and inner range is at most forward based on `R`'s category (for a stronger inner range, see `views::split`)
+- common: outer range when `r` is forward and common, inner range never
+- sized: never (both outer and inner range)
+- const-iterable: outer range when `r` is const-iterable and both `R` and `const R` are forward ranges; inner range always
+- borrowed: never (both outer and inner range)
+- constant: outer range never, inner range when `r` is constant
+
+### `views::split(r: [T], p: T | [T]) -> [[T]]`
+(The fixed version after C++20 DR [P2210R2](https://wg21.link/P2210R2))
+Produce a range that splits a range of `T` into a range of several range-of-`T`s based on delimeter (which can be a single element or a continuous subrange).
+```python
+>>> split("a bc def", ' ')
+["a", "bc", "def"]
+>>> split("a||b|c||d", "||")
+["a", "b|c", "d"]
+>>> split("abcd", "")  # when size = 0, just split at every element
+["a", "b", "c", "d"]
+```
+`split` is still lazy, but it eagerly computes the start of next subrange when iterating, thus does not support input range but allow subrange to be at most contiguous.
+(Since input range is rare and most string algorithm require more than forward range, this should be used in most times)
+- constraint: `r` must be a forward range (for splitting input range, use `lazy_split`), `p` is either a forward range or convertible to the value type of `R`.
+(The reference type and lvalues of values of `P` and `R` also must be inter-comparable)
+- reference: `[T]` (specifically, the reference type is precisely `ranges::subrange<iterator_t<R>>`)
+- category: outer range forward, inner range same as `r` (preserve contiguous)
+- common: outer range when `r` is common, inner range always
+- sized: outer range never, inner range when `r` is random access
+- const-iterable: outer range never, inner range when `r` is const-iterable
+- borrowed: never (both outer and inner range)
+- constant: outer range never, inner range when `r` is constant
+
+### `views::common(r: [T]) -> [T]`
+Produce a range with same element as in `r`, but ensure that the result is a common range.
+(Basically exists as a compatibility layer so that pre-C++20 iterator-pair algorithms can use C++20 ranges)
+- constraint: iterators of `R` must be copyable
+- category: if `r` is common or both random access and sized, then same as `r` (preserve contiguous); otherwise at most forward
+- common: always
+- sized: when `r` is sized
+- const-iterable: when `r` is const-iterable
+- borrowed: when `r` is borrowed
+- constant: when `r` is constant
+
+### `views::reverse(r: [T]) -> [T]`
+Produce a range that contains the reverse of the elements in `r`.
+```python
+>>> reverse([1, 2, 3])
+[3, 2, 1]
+```
+Note that the reverse of `reverse_view` is simply the base range itself, and `subrange` passed-in will return `subrange` too.
+- constraint: `r` is at least bidirectional
+- category: at most random access
+- common: always
+- sized: when `r` is sized
+- const-iterable: when `r` is const-iterable and `const R` is common
+- borrowed: when `r` is borrowed
+- constant: when `r` is constant
+
+### `views::elements<I: N>(r: [(T1, T2, ..., TN)]) -> [TI]`
+Produce a range consists of the `I`-th element of each element (which are tuples).
+`views::keys` is equivalent to `views::element<0>`, and `views::values` is equivalent to `views::element<1>`.
+```python
+>>> r = [("A", 1), ("B", 2)]
+>>> elements<1>(r)  # or values(r)
+[1, 2]
+>>> keys(r)  # or elements<0>(r)
+["A", "B"]
+```
+- constraint: `r`'s reference type `T = (T1, T2, ..., TN)` (minus reference) and value type are [tuple-like](https://wg21.link/P2165) types with size larger than `I`,
+and either `T` is a true reference (not prvalue/proxy range), or the `I`-th type in the tuple is move constructible.
+- reference: `TI` (the return type of `std::get<I>(e)` where `e` is an element of `r`), with `R`'s cvref qualifier copied onto
+- category: at most random access
+- common: when `r` is common
+- sized: when `r` is sized
+- const-iterable: when `r` is const-iterable
+- borrowed: when `r` is borrowed
+- constant: when `r` is constant (?)
 
 ## Other Standard Views
 (`std::initializer_list<T>` is technically a view, but it does not model `ranges::view`.)
 
 ### `std::basic_string_view<charT, traits>`
-### `std::span<T>`
+A lightweight view of a constant contiguous sequence of `charT`s (i.e. a string). Can view `const charT*`, `std::basic_string`, and many more.
+- constraint: `charT` must be char-like (non-array trivial standard-layout type), and `traits` must be a character trait
+- reference: `charT&`
+- category: contiguous
+- common: always
+- sized: always
+- const-iterable: always
+- borrowed: always
+- constant: always
+
+### `std::span<T[, extent: size_t]>`
+A lightweight view of a contiguous sequence of `T`s). Can view `T*`, so a replacement of traditional `T*` + length idiom.
+A `span<T>` is by default with dynamic extent, and `span<T, extent>` is a view of fixed size.
+- constraint: `T` must be a complete object type that is not abstract.
+- reference: `T&`
+- category: contiguous
+- common: always
+- sized: always
+- const-iterable: always
+- borrowed: always
+- constant: when `T` is `const`-qualified
