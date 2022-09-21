@@ -6,6 +6,11 @@ categories:
 - Ranges
 ---
 
+## Contents
+
+* TOC
+{:toc}
+
 In this post, "range adaptors" refer to both range factories (algorithm that produce range, can only be the starting point of a pipeline, like `views::single`)
 and (real) range adaptors (algorithm that takes a range and return an adapted range, like `views::filter`).
 In C++20 standard, following the adoption of Ranges TS, the standard adopted 18 range adaptors:
@@ -43,6 +48,7 @@ All of the original descriptions and properties are copied here, credit belongs 
 Produces an empty range of type `T`.
 - constraint: `T` is an object type
 - reference: `T&`
+- category: contiguous
 - common: always
 - sized: always (0)
 - const-iterable: always
@@ -53,6 +59,7 @@ Produces an empty range of type `T`.
 Produce a range that only contains a single value: `t`.
 - constraint: `T` is an object type
 - reference: `T&`
+- category: contiguous
 - common: always
 - sized: always (1)
 - const-iterable: always
@@ -304,7 +311,7 @@ Note that the reverse of `reverse_view` is simply the base range itself, and `su
 - borrowed: when `r` is borrowed
 - constant: when `r` is constant
 
-### `views::elements<I: N>(r: [(T1, T2, ..., TN)]) -> [TI]`
+### `views::elements<N: size_t>(r: [(T1, T2, ..., TN)]) -> [TI]`
 Produce a range consists of the `I`-th element of each element (which are tuples).
 `views::keys` is equivalent to `views::element<0>`, and `views::values` is equivalent to `views::element<1>`.
 ```python
@@ -349,3 +356,151 @@ A `span<T>` is by default with dynamic extent, and `span<T, extent>` is a view o
 - const-iterable: always
 - borrowed: always
 - constant: when `T` is `const`-qualified
+
+# C++23 Range Adaptors
+These are the range adaptors available in C++23 CD. As C++23 is already in feature-freeze mode, it is highly likely
+that this will be the set of range adaptors we actually get in C++23.
+
+## Factories
+### `views::zip(r1: [T1], r2: [T2], ...) -> [(T1, T2, ...)]`
+Produce a new range that is `r1`, `r2`, ... zipped together; i.e. a range of tuple of each corresponding elements in each of the argument ranges.
+```python
+>>> zip([1, 2, 3], [4, 5, 6])
+[(1, 4), (2, 5), (3, 6)]
+>>> zip([1, 2], ["A", "B"], [1.0, 2.0])
+[(1, "A", 1.0), (2, "B", 2.0)]
+>>> zip()
+[]  # empty view with type tuple<>
+```
+- constraint: all the ranges are input
+- reference: `tuple<T1, T2, ...>` (note that `TI` is the reference type, and also note that the value type of `zip_view` is `tuple<range_value_t<R1>, ...>` so it is **not** the reference type minus reference)
+- category: the weakest category in all of `r1, r2, ...`, and also at most random access
+- common: when either of following is true:
+  - there is only one range (`zip(r)`) and this range is common, or
+  - the `zip_view` is not bidirectional (i.e. at most forward), and all of `r1, r2, ...` are common, or
+  - all of `r1, r2, ...` are both random access and sized
+- sized: when all of `r1, r2, ...` are sized
+- const-iterable: when all of `r1, r2, ...` are const-iterable
+- borrowed: when all of `r1, r2, ...` are borrowed
+- constant: when all of `r1, r2, ...` are constant
+
+### `views::zip_transform(f: (T1, T2, ...) -> U, r1: [T1], r2: [T2], ...) -> [U]`
+Produce a new range in which each element is `f(e1, e2, ...)` where `e1`, `e2` is the corresponding element of `r1`, `r2`, ... respectfully.
+```python
+>>> zip_transform(f, [1, 2, 3], [4, 5, 6])
+[f(1, 4), f(2, 5), f(3, 6)]
+>>> zip_transform((a, b, c) => to_string(a) + b + to_string(c), [1, 2], ["A", "B"], [1.0, 2.0])
+["1A1.0", "2B2.0"]
+>>> zip_transform(f)
+[]  # empty view with the type of result of f()
+```
+- constraint: `F` is move constructible and is an object type, is invocable by `T1, T2, ...`, and all the ranges are input
+- reference: `U`
+- category: if `f(e1, e2, ...)` does not return a lvalue reference, input; otherwise the weakest category in all of `r1, r2, ...`, and also at most random access
+- common: when `zip(r1, r2, ...)` is common
+- sized: when all of `r1, r2, ...` are sized
+- const-iterable: when all of `r1, r2, ...` are const-iterable and `f` is const-invocable
+- borrowed: never
+- constant: when the result of `f(e1, e2, ...)` is a non-class or `std::tuple` (pr)value, or when it returns a constant reference
+
+### `views::cartesian_product(r1: [T1], r2: [T2], ...) -> [(T1, T2, ...)]`
+Produce a new range that is `r1`, `r2`, ... cartesian producted together; i.e. a range of tuple of every possible pair of elements in each of the argument ranges.
+```python
+>>> cartesian_product([1, 2, 3], [4, 5, 6])
+[(1, 4), (1, 5), (1, 6), (2, 4), (2, 5), (2, 6), (3, 4), (3, 5), (3, 6)]
+>>> cartesian_product([1, 2], ["A", "B"], [1.0, 2.0])
+[(1, "A", 1.0), (1, "A", 2.0), (1, "B", 1.0), (1, "B", 2.0),
+ (2, "A", 1.0), (2, "A", 2.0), (2, "B", 1.0), (2, "B", 2.0)]
+>>> cartesian_product()
+[()]  # views::single(std::tuple<>{})
+```
+- constraint: all of `r2, r3, ...` (all ranges except the first one) are forward
+- reference: `tuple<T1, T2, ...>` (note that `TI` is the reference type, and also note that the value type of `zip_view` is `tuple<range_value_t<R1>, ...>` so it is **not** the reference type minus reference)
+- category:
+  - if the first range `r1` is random access, and all other ranges are both random access and sized, then random access
+  - otherwise, if the first range `r1` is bidirectional, and all other ranges are either both bidirectional and common, or both random access and sized, then bidirectional
+  - otherwise, if the first range `r1` is forward, then forward
+  - otherwise, input
+- common: when `r1` is common, or is both sized and random access
+- sized: when all of `r1, r2, ...` are sized
+- const-iterable: when all of `r1, r2, ...` are const-iterable
+- borrowed: never
+- constant: when all of `r1, r2, ...` are constant
+
+### `views::repeat(t: T[, n: N]) -> [T]`
+Produce a range that repeats the same value `t` either infinitely (when there is only one argument), or for `n` times.
+```python
+>>> repeat(2)
+[2, 2, 2, ...]
+>>> repeat(2, 5)
+[2, 2, 2, 2, 2]
+```
+- constraint: `T` is move constructible and is an object type; `N` (if provided) is a semiregular integer-like type
+- reference: `const T&`
+- category: random access
+- common: when the resulting range is not infinite (i.e. when `n` is provided)
+- sized: when the resulting range is not infinite (i.e. when `n` is provided)
+- const-iterable: always
+- borrowed: never
+- constant: always
+
+## Real Adaptors
+### `as_rvalue`
+### `join_with`
+### `as_const`
+### `views::adjacent<N: size_t>(r: [T]) -> [(T, T, ...)]`
+Produce a new range where each elements is a tuple of the next consecutive `N` elements. `pairwise` is an alias for `adjacent<2>`.
+If `r` has less than `N` elements, the resulting range is empty.
+```python
+>>> adjacent<4>([1, 2, 3, 4, 5, 6])
+[(1, 2, 3, 4), (2, 3, 4, 5), (3, 4, 5, 6)]
+>>> pairwise(["A", "B", "C"])  # or adjacent<2>
+[("A", "B"), ("B", "C")]
+>>> adjacent<7>([1, 2, 3])
+[]  # empty view with type tuple<int&, int&, ...> (repeat 7 times)
+>>> adjacent<0>([1, 2, 3, 4, 5, 6])
+[]  # empty view with type tuple<>
+```
+- constraint: `r` is a forward range and `N > 0`
+- reference: `tuple<T, T, ...>` (repeat `N` times, note that `T` is the reference type of `r`, and value_type is `range_value_t<R>` repeat `N` times)
+- category: at most random access
+- common: when `r` is common
+- sized: when `r` is sized
+- const-iterable: when `r` is const-iterable
+- borrowed: when `r` is borrowed
+- constant: when `r` is constant
+
+### `views::adjacent_transform<N: size_t>(f: (T, T, ...) -> U, r: [T]) -> [U]`
+Produce a new range where each elements is the result of `f(e1, e2, ...)`, where `e1, e2, ...` are the next consecutive `N` elements. `pairwise_transform` is an alias for `adjacent_transform<2>`.
+If `r` has less than `N` elements, the resulting range is empty.
+```python
+>>> adjacent_transform<4>(f, [1, 2, 3, 4, 5, 6])
+[f(1, 2, 3, 4), f(2, 3, 4, 5), f(3, 4, 5, 6)]
+>>> adjacent_transform<4>((a, b, c, d) => a + b + c + d, [1, 2, 3, 4, 5, 6])
+[10, 14, 18]
+>>> pairwise_transform((a, b) => a + b, ["A", "B", "C"])  # or adjacent_transform<2>
+["AB", "BC"]
+>>> adjacent_transform<0>(f, [1, 2, 3, 4, 5, 6])
+[]  # empty view with type of the result of f()
+```
+- constraint: `r` is a forward range, `N > 0`, `F` is move constructible and is an object type, and invocable by `T, T, ...` (repeat `N` times)
+- reference: `U`
+- category: if `f(e1, e2, ...)` does not return a lvalue reference, then input; otherwise at most random access
+- common: when `r` is common
+- sized: when `r` is sized
+- const-iterable: when `r` is const-iterable and `f` is const-invocable
+- borrowed: never
+- constant: when the result of `f(e1, e2, ...)` is a non-class or `std::tuple` (pr)value, or when it returns a constant reference
+
+### `chunk`
+### `slide`
+### `chunk_by`
+### `stride`
+
+# C++26 Range Adaptors
+## Factories
+### `concat`
+
+## Real Adaptors
+### `enumerate`
+
