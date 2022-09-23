@@ -93,7 +93,7 @@ Also, `beg == end`, `beg != end` (and reverse) are valid.
 - value type: `B`
 - category:
   - if `B` is advanceable (`beg += n`, `beg -= n`, `beg + n`, `n + beg`, `beg - n`, `beg - beg` are all valid, and `B` is totally ordered), random access.
-  - otherwise, if `B` is decrementable (support pre/postfix `--`), bidirectional
+  - otherwise, if `B` is decrementable (support pre/postfix `--`), then bidirectional
   - otherwise, if `B` is `incrementable` (regular and `beg++` returns `B`), then forward
   - otherwise, input.
 - common: when `B` and `E` are the same type
@@ -103,7 +103,7 @@ Also, `beg == end`, `beg != end` (and reverse) are valid.
   - `E` is a sized sentinel for `B`.
 - const-iterable: always
 - borrowed: always (iterator owns the current value)
-- constant: always
+- constant: when `B` is a non-class type (like `int`)
 
 ### `views::istream<T>(in: In) -> [T&]`
 Produce a range of `T` such that elements are read by `in >> t` (read one element per increment).
@@ -309,7 +309,7 @@ Produce a range that splits a range of `T` into a range of several range-of-`T`s
 ### `views::common(r: [T]) -> [T]`
 Produce a range with same element as in `r`, but ensure that the result is a common range.
 (Basically exists as a compatibility layer so that pre-C++20 iterator-pair algorithms can use C++20 ranges)
-- constraint: iterators of `R` must be copyable
+- constraint: either `r` is common, or iterators of `R` must be copyable
 - reference: `T`
 - value type: same as `r`'s value type
 - category: if `r` is common or both random access and sized, then same as `r` (preserve contiguous); otherwise at most forward
@@ -403,15 +403,15 @@ Produce a new range that is `r1`, `r2`, ... zipped together; i.e. a range of tup
 - constraint: all the ranges are input
 - reference: `tuple<T1, T2, ...>` (note that `TI` is the reference type)
 - value type: `tuple<range_value_t<R1>, ...>` (**not** the reference type minus reference)
-- category: the weakest category in all of `r1, r2, ...`, and also at most random access
+- category: the weakest category in all of `r1`, `r2`, ..., and also at most random access
 - common: when either of following is true:
   - there is only one range (`zip(r)`) and this range is common, or
-  - the `zip_view` is not bidirectional (i.e. at most forward), and all of `r1, r2, ...` are common, or
-  - all of `r1, r2, ...` are both random access and sized
-- sized: when all of `r1, r2, ...` are sized
-- const-iterable: when all of `r1, r2, ...` are const-iterable
-- borrowed: when all of `r1, r2, ...` are borrowed
-- constant: when all of `r1, r2, ...` are constant
+  - the `zip_view` is not bidirectional (i.e. at most forward), and all of `r1`, `r2`, ... are common, or
+  - all of `r1`, `r2`, ... are both random access and sized
+- sized: when all of `r1`, `r2`, ... are sized
+- const-iterable: when all of `r1`, `r2`, ... are const-iterable
+- borrowed: when all of `r1`, `r2`, ... are borrowed
+- constant: when all of `r1`, `r2`, ... are constant
 
 ### `views::zip_transform(f: (T1, T2, ...) -> U, r1: [T1], r2: [T2], ...) -> [U]`
 Produce a new range in which each element is `f(e1, e2, ...)` where `e1`, `e2` is the corresponding element of `r1`, `r2`, ... respectfully.
@@ -426,10 +426,10 @@ Produce a new range in which each element is `f(e1, e2, ...)` where `e1`, `e2` i
 - constraint: `F` is move constructible and is an object type, is invocable by `T1, T2, ...`, and all the ranges are input
 - reference: `U`
 - value type: `remove_cvref_t<U>`
-- category: if `f(e1, e2, ...)` does not return a lvalue reference, input; otherwise the weakest category in all of `r1, r2, ...`, and also at most random access
+- category: if `f(e1, e2, ...)` does not return a lvalue reference, input; otherwise the weakest category in all of `r1`, `r2`, ..., and also at most random access
 - common: when `zip(r1, r2, ...)` is common
-- sized: when all of `r1, r2, ...` are sized
-- const-iterable: when all of `r1, r2, ...` are const-iterable and `f` is const-invocable
+- sized: when all of `r1`, `r2`, ... are sized
+- const-iterable: when all of `r1`, `r2`, ... are const-iterable and `f` is const-invocable
 - borrowed: never
 - constant: when the result of `f(e1, e2, ...)` is a non-class or `std::tuple` (pr)value, or when it returns a constant reference
 
@@ -453,10 +453,10 @@ Produce a new range that is `r1`, `r2`, ... cartesian producted together; i.e. a
   - otherwise, if the first range `r1` is forward, then forward
   - otherwise, input
 - common: when `r1` is common, or is both sized and random access
-- sized: when all of `r1, r2, ...` are sized
-- const-iterable: when all of `r1, r2, ...` are const-iterable
+- sized: when all of `r1`, `r2`, ... are sized
+- const-iterable: when all of `r1`, `r2`, ... are const-iterable
 - borrowed: never
-- constant: when all of `r1, r2, ...` are constant
+- constant: when all of `r1`, `r2`, ... are constant
 
 ### `views::repeat(t: T[, n: N]) -> [const T&]`
 Produce a range that repeats the same value `t` either infinitely (when there is only one argument), or for `n` times.
@@ -524,7 +524,7 @@ Produce a range with same element as in `r`, but ensure that the result's elemen
 - sized: when `r` is sized
 - const-iterable: when `r` is const-iterable
 - borrowed: when `r` is borrowed
-- constant: when `r` is constant
+- constant: always
 
 ### `views::adjacent<N: size_t>(r: [T]) -> [(T, T, ...)]`
 Produce a new range where each elements is a tuple of the next consecutive `N` elements. `pairwise` is an alias for `adjacent<2>`.
@@ -670,8 +670,49 @@ void f() {
 
 # C++26 Range Adaptors
 ## Factories
-### `concat`
+### `views::concat(r1: [T1], r2: [T2], ...) -> [common_reference_t<T1, T2, ...>]`
+(Current design as of [P2542R2](https://wg21.link/P2542R2))
+
+Produce a new range that is `r1`, `r2`, ... concated head-to-tail together; i.e. a range that starts at the first element of the first range, ends at the last element of the last range, with all
+range elements sequenced in between respectively in the order of arguments.
+```python
+>>> concat([1, 2, 3], [4, 5, 6])
+[1, 2, 3, 4, 5, 6]
+>>> concat([1, 2], [3, 4], [1.0, 2.0])
+[1.0, 2.0, 3.0, 4.0, 1.0, 2.0]
+# concat() is ill-formed
+```
+- constraint: all of `T1`, `T2`, ... have a `common_reference_t`, and all of `r1`, `r2`, ...'s value type have a `common_type_t`
+- reference: `common_reference_t<T1, T2, ...>`
+- value type: `common_type_t<range_value_t<R1>, ...>` (**not** the reference type minus reference)
+- category:
+  - if all of `r1`, `r2`, ... are both random access and sized, then random access
+  - otherwise, if all of `r1`, `r2`, ... are bidirectional, and all but the last range are either common, or both random access and sized, then bidirectional
+  - otherwise, if all of `r1`, `r2`, ... are forward, then forward
+  - otherwise, input
+- common: when the last range `rn` is common
+- sized: when all of `r1`, `r2`, ... are sized
+- const-iterable: when all of `r1`, `r2`, ... are const-iterable
+- borrowed: never
+- constant: when all of `r1`, `r2`, ... are constant
 
 ## Real Adaptors
-### `enumerate`
+### `views::enumerate(r: [T]) -> [(N, T)]`
+(Current design as of [P2164R6](https://wg21.link/P2164R6))
+
+Produce a range such that each of the original elements of `r` is accompanied by its index in `r`.
+```python
+>>> enumerate([1, 3, 6])
+[(0, 1), (1, 3), (2, 6)]
+```
+(Notice that the index type, `N`, is defined as `range_size_t<R>` if `r` is sized, and `make_unsigned_t<range_difference_t<R>>` otherwise)
+- constraint: `r` is an input range
+- reference: `enumerate_result` (a simple `struct` of `index: N` and `value: T`)
+- value type: `tuple<N, range_value_t<R>>` (notice that this is one of the case where value type and reference type are completely unrelated)
+- category: at most random access
+- common: when `r` is common and sized
+- sized: when `r` is sized
+- const-iterable: when `r` is const-iterable
+- borrowed: when `r` is borrowed
+- constant: when `r` is constant
 
