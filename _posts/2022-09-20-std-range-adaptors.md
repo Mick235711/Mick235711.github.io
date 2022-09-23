@@ -177,7 +177,7 @@ Produce a new range consists of the first `n` elements of `r`. If `r` has less t
 [1, 2, 3, 4]
 ```
 Note that `views::take` will produce `r`'s type whenever possible (for example, `empty_view` passed in will return an `empty_view`).
-- constraint: `N` is convertible to `r`'s difference type
+- constraint: `n >= 0` and `N` is convertible to `r`'s difference type
 - reference: `T`
 - value type: same as `r`'s value type
 - category: same as `r` (preserve contiguous)
@@ -213,7 +213,7 @@ Produce a new range consists of the all but the first `n` elements of `r`. If `r
 []
 ```
 Note that `views::drop` will produce `r`'s type whenever possible (for example, `empty_view` passed in will return an `empty_view`).
-- constraint: `N` is convertible to `r`'s difference type
+- constraint: `n >= 0` and `N` is convertible to `r`'s difference type
 - reference: `T`
 - value type: same as `r`'s value type
 - category: same as `r` (preserve contiguous)
@@ -246,15 +246,15 @@ Join together a range of several range-of-`T`s into a single range-of-`T`. Commo
 >>> join([[1, 2], [3], [4, 5, 6]])
 [1, 2, 3, 4, 5, 6]
 ```
-- constraint: `R` and `R`'s reference type (`[T]`) are both input ranges
+- constraint: `r` and `R`'s reference type (`[T]`) are both input ranges
 - reference: `T`
 - value type: same as `[T]`'s value type (the value type of inner range)
 - category:
   - If `r` is a range of glvalue ranges, then at most bidirectional based on inner range's category
   - Otherwise (range of prvalue ranges), input
-- common: when both `R` and inner range is forward and common, and `r` is a range of glvalue ranges
+- common: when both `r` and inner range are forward and common, and `r` is a range of glvalue ranges
 - sized: never
-- const-iterable: when `r` is const-iterable and `const R` have a reference type of real reference (not a prvalue/proxy range)
+- const-iterable: when `r` is const-iterable and is a range of glvalue ranges
 - borrowed: never
 - constant: when inner range is constant
 
@@ -277,9 +277,9 @@ and thus support input ranges. However, the tradeoff is that the resulting inner
 - value type: outer range same as reference, inner range same as `r`'s value type
 - category: both outer range and inner range is at most forward based on `R`'s category (for a stronger inner range, see `views::split`)
 - common: outer range when `r` is forward and common, inner range never
-- sized: never (both outer and inner range)
+- sized: (both outer and inner range) never
 - const-iterable: outer range when `r` is const-iterable and both `R` and `const R` are forward ranges; inner range always
-- borrowed: never (both outer and inner range)
+- borrowed: (both outer and inner range) never
 - constant: outer range never, inner range when `r` is constant
 
 ### `views::split(r: [T], p: T | [T]) -> [[T]]`
@@ -301,9 +301,9 @@ Produce a range that splits a range of `T` into a range of several range-of-`T`s
 - value type: same as reference type (inner range's value type same as `r`'s)
 - category: outer range forward, inner range same as `r` (preserve contiguous)
 - common: outer range when `r` is common, inner range always
-- sized: outer range never, inner range when `r` is random access
+- sized: outer range never, inner range when `r`'s sentinel is a sized sentinel (common case is when `r` is random access)
 - const-iterable: outer range never, inner range when `r` is const-iterable
-- borrowed: never (both outer and inner range)
+- borrowed: outer range never, inner range always
 - constant: outer range never, inner range when `r` is constant
 
 ### `views::common(r: [T]) -> [T]`
@@ -313,7 +313,7 @@ Produce a range with same element as in `r`, but ensure that the result is a com
 - reference: `T`
 - value type: same as `r`'s value type
 - category: if `r` is common or both random access and sized, then same as `r` (preserve contiguous); otherwise at most forward
-- common: always
+- common: always (this is the point of this adaptor)
 - sized: when `r` is sized
 - const-iterable: when `r` is const-iterable
 - borrowed: when `r` is borrowed
@@ -360,7 +360,7 @@ and either `T` is a true reference (not prvalue/proxy range), or the `I`-th type
 ## Other Standard Views
 (`std::initializer_list<T>` is technically a view, but it does not model `ranges::view`.)
 
-### `std::basic_string_view<charT, traits>: [charT&]`
+### `std::basic_string_view<charT[, traits[, Alloc]]>: [charT&]`
 A lightweight view of a constant contiguous sequence of `charT`s (i.e. a string). Can view `const charT*`, `std::basic_string`, and many more.
 - constraint: `charT` must be char-like (non-array trivial standard-layout type), and `traits` must be a character trait
 - reference: `charT&`
@@ -477,9 +477,55 @@ Produce a range that repeats the same value `t` either infinitely (when there is
 - constant: always
 
 ## Real Adaptors
-### `as_rvalue`
-### `join_with`
-### `as_const`
+### `views::as_rvalue(r: [T]) -> [T&&]`
+Produce a range with same element as in `r`, but ensure that the result is a range of rvalue reference.
+(Basically, did a `std::move` on each element so that you can then move every element from the view into some container or things like that)
+- constraint: `r` is an input range
+- reference: `range_rvalue_reference_t<R>` (which normally is the result type of `std::move(*r.begin())` so basically `T&&`, but you can customize it by `ranges::iter_move`)
+- value type: same as `r`'s value type
+- category: at most random access (the original intent is that `as_rvalue_view` should be input-only, but later [P2520R0](https://wg21.link/P2520R0) changed `as_rvalue_view` to now be up to random access)
+- common: when `r` is common
+- sized: when `r` is sized
+- const-iterable: when `r` is const-iterable
+- borrowed: when `r` is borrowed
+- constant: when `r` is constant
+
+### `views::join_with(r: [[T]], p: U | [U]) -> [common_reference_t<T, U>]`
+Join together a range of several range-of-`T`s into a single range-of-`T`, with `p` inserted between each parts. This is the reverse of `views::split`.
+```python
+>>> join_with([[1, 2], [3], [4, 5, 6]], 3)
+[1, 2, 3, 3, 3, 4, 5, 6]
+>>> join_with([[1, 2], [3], [4, 5, 6]], [3, 4])
+[1, 2, 3, 4, 3, 3, 4, 4, 5, 6]
+```
+- constraint: `r` and `R`'s reference type (`[T]`) are both input ranges, `p` is either a forward range or convertible to the value type of `R`.
+(inner range and `p`'s value and reference type must also have common reference)
+- reference: `common_reference_t<T, U>`
+- value type: the `common_type_t` of inner range and `p`'s value type
+- category:
+  - If `r` is a range of prvalue ranges, then input
+  - Otherwise (`r` is a range of glvalue ranges), and if `r` is bidirectional, and inner range and `p` are both bidirectional and common, then bidirectional
+  - Otherwise, if `r` and inner range are both forward, then forward
+  - Otherwise, input
+- common: when both `r` and inner range are forward and common, and `r` is a range of glvalue ranges
+- sized: never
+- const-iterable: when both `r` and `p` are const-iterable and `r` is a range of glvalue ranges
+- borrowed: never
+- constant: when inner range and `p` are both constant
+
+### `views::as_const(r: [T]) -> [T]`
+Produce a range with same element as in `r`, but ensure that the result's element cannot be modified (i.e. a constant range).
+(Basically, did a `std::as_const` on each element so that you cannot modify them, albeit with a much more complicated algorithm that avoid wrapping if at all possible by delegate to `std::as_const`)
+- constraint: `r` is an input range
+- reference: `range_const_reference_t<R>` (assuming `r`'s value type is just `remove_cvref_t` of its reference, then for a range of `T&`, just `const T&`; for a range of `T&&`, just `const T&&`; for a range of prvalue `T`, just `T`)
+- value type: same as `r`'s value type
+- category: same as `r`'s category (preserve contiguous)
+- common: when `r` is common
+- sized: when `r` is sized
+- const-iterable: when `r` is const-iterable
+- borrowed: when `r` is borrowed
+- constant: when `r` is constant
+
 ### `views::adjacent<N: size_t>(r: [T]) -> [(T, T, ...)]`
 Produce a new range where each elements is a tuple of the next consecutive `N` elements. `pairwise` is an alias for `adjacent<2>`.
 If `r` has less than `N` elements, the resulting range is empty.
@@ -526,10 +572,101 @@ If `r` has less than `N` elements, the resulting range is empty.
 - borrowed: never
 - constant: when the result of `f(e1, e2, ...)` is a non-class or `std::tuple` (pr)value, or when it returns a constant reference
 
-### `chunk`
-### `slide`
-### `chunk_by`
-### `stride`
+### `views::chunk(r: [T], n: N) -> [[T]]`
+Produce a new range-of-range that is the result of dividing `r` into non-overlapping `n`-sized chunks (except that last chunk can be smaller than `n`).
+```python
+>>> chunk([1, 2, 3, 4, 5], 2)
+[[1, 2], [3, 4], [5]]
+>>> chunk([1, 2, 3, 4], 8)
+[[1, 2, 3, 4]]
+```
+- constraint: `n > 0` and `N` is convertible to `r`'s difference type
+- reference: `[T]` (if `r` is forward, then actually the reference type is `ranges::subrange<iterator_t<R>>`)
+- value type: same as reference type (inner range's value type same as `r`'s)
+- category: outer range at most random access, inner range same as `r` (preserve contiguous)
+- common: outer range when `r` is common and either both sized and bidirectional, or forward and not bidirectional; inner range when `r` is common
+- sized: outer range when `r` is sized, inner range when `r`'s sentinel is a sized sentinel (common case is when `r` is random access)
+- const-iterable: (both outer and inner range) when `r` is const-iterable and forward
+- borrowed: outer range when `r` is borrowed and forward, inner range when `r` is forward
+- constant: outer range never, inner range when `r` is constant
+
+### `views::slide(r: [T], n: N) -> [[T]]`
+Produce a new range-of-range that is the result of dividing `r` into overlapping `n`-sized chunks (basically, the `m`-th range is a view into the `m`-th through `m+n-1`-th elements of `r`).
+This is similar to `views::adjacent<n>` with the difference being that `adjacent` require a compile-time size and produce range-of-tuples, while `views::slide` require a runtime size
+and provide range-of-ranges.
+```python
+>>> slide([1, 2, 3, 4, 5], 2)
+[[1, 2], [2, 3], [3, 4], [4, 5]]
+>>> slide([1, 2, 3, 4], 8)
+[]
+```
+- constraint: `r` is a forward range, `n > 0`, and `N` is convertible to `r`'s difference type
+- reference: `[T]` (specifically, the reference type is precisely the result type of `views::counted(r.begin(), n)`, which is a span (when `r` is contiguous) or a `ranges::subrange` otherwise)
+- value type: same as reference type (inner range's value type same as `r`'s)
+- category: outer range at most random access, inner range same as `r` (preserve contiguous)
+- common: outer range when `r` is common or is both random access and sized, inner range when `r` is random access
+- sized: outer range when `r` is sized, inner range always
+- const-iterable: outer range when `r` is const-iterable and random access and sized, inner range always
+- borrowed: outer range when `r` is borrowed, inner range always
+- constant: outer range never, inner range when `r` is constant
+
+### `views::chunk_by(r: [T], f: (T, T) -> bool) -> [[T]]`
+Produce a new range-of-range such that `f` is invoked on consecutive elements, and a new group is started when `f` returns `false`.
+```python
+>>> chunk_by([1, 2, 2, 3, 1, 2, 0, 4, 5, 2], (a, b) => a <= b)
+[[1, 2, 2, 3], [1, 2], [0, 4, 5], [2]]
+>>> chunk_by([1, 2, 2, 3, 1, 2, 0, 4, 5, 2], (a, b) => a >= b)
+[[1], [2, 2], [3, 1], [2, 0], [4], [5, 2]]
+```
+- constraint: `r` is a forward range, and `f` is invocable on any combination of `T` and `r`'s value type (and return a contextually-convertible-to-`bool`)
+- reference: `[T]` (specifically, the reference type is precisely `ranges::subrange<iterator_t<R>>`)
+- value type: same as reference type (inner range's value type same as `r`'s)
+- category: outer range at most bidirectional, inner range same as `r` (preserve contiguous)
+- common: outer range when `r` is common, inner range always
+- sized: outer range never, inner range when `r`'s sentinel is a sized sentinel (common case is when `r` is random access)
+- const-iterable: outer range never, inner range when `r` is const-iterable
+- borrowed: outer range never, inner range always
+- constant: outer range never, inner range when `r` is constant
+
+### `views::stride(r: [T], n: N) -> [T]`
+Produce a new range consists of an evenly-spaced subset of `r` (with space fixed at `n`).
+```python
+>>> stride([1, 2, 3, 4], 2)
+[1, 3]
+>>> stride([1, 2, 3, 4, 5, 6, 7], 3)
+[1, 4, 7]
+```
+- constraint: `n > 0` and `N` is convertible to `r`'s difference type
+- reference: `T`
+- value type: same as `r`'s value type
+- category: at most random access
+- common: when `r` is common and either sized or non-bidirectional
+- sized: when `r` is sized
+- const-iterable: when `r` is const-iterable
+- borrowed: when `r` is borrowed
+- constant: when `r` is constant
+
+## Other Standard Views
+### `std::generator<T[, U[, Alloc]]> : [U ? T : T&&]`
+Produce a view of all the things you have `co_yield`ed in a coroutine.
+```cpp
+std::generator<int> ints(int start = 0) {
+    while (true) co_yield start++;
+}
+
+void f() {
+    std::println("{}", ints(3) | views::take(3)); // [3, 4, 5]
+}
+```
+- constraint: if `U` is present, it is a cv-unqualified object type and `T` is either a true reference or copy constructible
+- reference: if `U` is present, `T`; otherwise `T&&`
+- value type: if `U` is present, `U`; otherwise `remove_cvref_t<T>`
+- category: input
+- common: never
+- sized: never
+- const-iterable: never
+- borrowed: never
+- constant: when `T` is a const reference
 
 # C++26 Range Adaptors
 ## Factories
