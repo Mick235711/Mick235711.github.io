@@ -356,9 +356,10 @@ As for the delimeter themselves, there are many choice:
 
 We can easily see that there are only two common choice of delimeter: `{}` and `()`. In which `{}` have 20 language users, while
 `()` only have 5, so `{}` is the overwhelmingly favorite. Also, C++ `std::format` already used `{}` as delimeter, so I think that there
-should be no controversy on the choice for C++: just continue to use `{}` as delimeter. However, noted that in C++ we have to use a prefix
-introducer (more on this below), so we cannot introduce the greedy no-delimeter matching facility, forcing C++ to be in the `{}` only group
-(it is the group with most people anyway).
+should be no controversy on the choice for C++: just continue to use `{}` as delimeter. (One can also argue that both `{}` and `()` have had
+precedent in C++, with the latter being the delimeter used for raw strings; but I think consistency with `std::format` is much more important.)
+However, noted that in C++ we have to use a prefix introducer (more on this below), so we cannot introduce the greedy no-delimeter
+matching facility, forcing C++ to be in the `{}` only group (it is the group with most people anyway).
 
 ### Introducer
 Now comes the fun part.
@@ -444,6 +445,8 @@ its own bunch of issues, specifically because of its interaction with other feat
 
 ### Availability of `@`, `$` and `` ` ``
 
+### What is the type of interpolated string?
+
 ### Macro conflict
 
 ### Ambiguity of `=` specifier
@@ -456,6 +459,12 @@ its own bunch of issues, specifically because of its interaction with other feat
 
 ### Interaction with UDL
 
+### `constexpr` interpolated strings
+
 ### Translation stage
 
 ### Implementation difficulty
+
+## Wording
+Note: this wording is just an initial attempt and is known to be incorrect and incomplete, if this were to be a proposal,
+the wording is probably in need of an overhaul. Wording is based on [N4917](https://wg21.link/N4917).
