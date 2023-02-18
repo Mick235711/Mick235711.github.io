@@ -17,11 +17,11 @@ In C++20 standard, following the adoption of Ranges TS, the standard adopted 18 
 - 5 factories: `empty`, `single`, `iota`, `istream`, `counted`
 - 13 (real) adaptors: `all`, `filter`, `transform`, `take`, `take_while`, `drop`, `drop_while`, `join`, `lazy_split`, `split`, `common`, `reverse`, `elements` (`keys`/`values` are aliases)
 
-Of course, this is only a small subset of what is provided in range-v3 (over 100 adaptors). C++23 greatly expanded range support in multiple ways, including the addition of 13 more adaptors:
+Of course, this is only a small subset of what is provided in range-v3 (over 100 adaptors). C++23 greatly expanded range support in multiple ways, including the addition of 14 more adaptors:
 - 4 new factories: `zip`, `zip_transform`, `cartesian_product`, `repeat`
-- 9 new (real) adaptors: `as_rvalue`, `join_with`, `as_const`, `adjacent`, `adjacent_transform` (`pairwise` are aliases), `chunk`, `slide`, `chunk_by`, `stride`
+- 10 new (real) adaptors: `as_rvalue`, `join_with`, `as_const`, `enumerate`, `adjacent`, `adjacent_transform` (`pairwise` are aliases), `chunk`, `slide`, `chunk_by`, `stride`
 
-and C++26 is expected to provide even more (`enumerate` and `concat` being the most expected ones).
+and C++26 is expected to provide even more (`concat` and `maybe` being the most expected ones).
 
 Each adaptor has its own use case, feature, and limitations. Especially, each adaptors has its own accepted range properties, and the output range's properties also differ.
 These properties limitations are often not documented, in standard or elsewhere, making determine those properties a pain.
@@ -386,8 +386,7 @@ A `span<T>` is by default with dynamic extent, and `span<T, extent>` is a view o
 - constant: when `T` is `const`-qualified
 
 # C++23 Range Adaptors
-These are the range adaptors available in C++23 CD. As C++23 is already in feature-freeze mode, it is highly likely
-that this will be the set of range adaptors we actually get in C++23.
+These are the range adaptors available in C++23 DIS.
 
 ## Factories
 ### `views::zip(r1: [T1], r2: [T2], ...) -> [(T1, T2, ...)]`
@@ -525,6 +524,23 @@ Produce a range with same element as in `r`, but ensure that the result's elemen
 - const-iterable: when `r` is const-iterable
 - borrowed: when `r` is borrowed
 - constant: always
+
+### `views::enumerate(r: [T]) -> [(N, T)]`
+Produce a range such that each of the original elements of `r` is accompanied by its index in `r`.
+```python
+>>> enumerate([1, 3, 6])
+[(0, 1), (1, 3), (2, 6)]
+```
+(Notice that the index type `N` is `range_difference_t<R>`)
+- constraint: `r` is an input range, and `T` is move constructible.
+- reference: `tuple<N, T>`
+- value type: `tuple<N, range_value_t<R>>` (**not** the reference type minus reference)
+- category: at most random access
+- common: when `r` is common and sized
+- sized: when `r` is sized
+- const-iterable: when `r` is const-iterable
+- borrowed: when `r` is borrowed
+- constant: when `r` is constant
 
 ### `views::adjacent<N: size_t>(r: [T]) -> [(T, T, ...)]`
 Produce a new range where each elements is a tuple of the next consecutive `N` elements. `pairwise` is an alias for `adjacent<2>`.
@@ -697,22 +713,4 @@ range elements sequenced in between respectively in the order of arguments.
 - constant: when all of `r1`, `r2`, ... are constant
 
 ## Real Adaptors
-### `views::enumerate(r: [T]) -> [(N, T)]`
-(Current design as of [P2164R6](https://wg21.link/P2164R6))
-
-Produce a range such that each of the original elements of `r` is accompanied by its index in `r`.
-```python
->>> enumerate([1, 3, 6])
-[(0, 1), (1, 3), (2, 6)]
-```
-(Notice that the index type, `N`, is defined as `range_size_t<R>` if `r` is sized, and `make_unsigned_t<range_difference_t<R>>` otherwise)
-- constraint: `r` is an input range
-- reference: `enumerate_result` (a simple `struct` of `index: N` and `value: T`)
-- value type: `tuple<N, range_value_t<R>>` (notice that this is one of the case where value type and reference type are completely unrelated)
-- category: at most random access
-- common: when `r` is common and sized
-- sized: when `r` is sized
-- const-iterable: when `r` is const-iterable
-- borrowed: when `r` is borrowed
-- constant: when `r` is constant
 
