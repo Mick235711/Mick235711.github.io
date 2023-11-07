@@ -32,7 +32,7 @@ History:
 #### P2573: `= delete("should have a reason");`
 - Audience: EWG
 - Target: C++26
-- Revisions: [R0](https://wg21.link/P2573R0), [R1 draft](http://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/Mick235711/wg21-papers/main/draft-P2573.bs)
+- Revisions: [R0](https://wg21.link/P2573R0), [R1 draft](https://wg21.link/D2573R1)
 - Current Status: Stage 2
 
 C++20 added `[[nodiscard("with reason")]]`, together with `[[deprecated]]` and `static_assert`, forming the group of "diagnostic with reason" constructs in C++.
@@ -40,6 +40,7 @@ C++20 added `[[nodiscard("with reason")]]`, together with `[[deprecated]]` and `
 to it too.
 
 History:
+- 2023-11-06: Backtrack to Stage 1, then [D2573R1](https://wg21.link/D2573R1) seen by EWGI in Kona (2023-11), approved for EWG. (Stage 2 -> Stage 1 -> Stage 2)
 - 2022-04-12: [P2573R0](https://wg21.link/P2573R0) shipped in the [2022-04 Mailing](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/#mailing2022-04).
 
 #### P2613: Add the missing `empty()` to `mdspan`
