@@ -30,16 +30,19 @@ History:
 - 2022-02-13: [P2549R0](https://wg21.link/P2549R0) shipped in the [2022-02 Mailing](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/#mailing2022-02).
 
 #### P2573: `= delete("should have a reason");`
-- Audience: EWG
+- Audience: CWG
 - Target: C++26
-- Revisions: [R0](https://wg21.link/P2573R0), [R1 draft](https://wg21.link/D2573R1)
-- Current Status: Stage 2
+- Revisions: [R0](https://wg21.link/P2573R0), [R1](https://wg21.link/P2573R1), [R2](https://wg21.link/P2573R2)
+- Current Status: Stage 3
 
 C++20 added `[[nodiscard("with reason")]]`, together with `[[deprecated]]` and `static_assert`, forming the group of "diagnostic with reason" constructs in C++.
 `= delete` functions often have a reason to delete themselves (alternative exist, prevent rvalue dangling, etc), so this proposal proposed adding a reason clause
 to it too.
 
 History:
+- 2024-03-22: R2 seen by CWG in Tokyo (2024-03), approved for plenary.
+- 2024-03-19: R1 seen by EWG in Tokyo (2024-03), approved for CWG. (Stage 2 -> Stage 3)
+- 2022-04-12: [P2573R1](https://wg21.link/P2573R0) shipped in the [2023-12 post-Kona Mailing](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/#mailing2023-12).
 - 2023-11-06: Backtrack to Stage 1, then [D2573R1](https://wg21.link/D2573R1) seen by EWGI in Kona (2023-11), approved for EWG. (Stage 2 -> Stage 1 -> Stage 2)
 - 2022-04-12: [P2573R0](https://wg21.link/P2573R0) shipped in the [2022-04 Mailing](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/#mailing2022-04).
 
