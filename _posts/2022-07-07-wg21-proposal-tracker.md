@@ -41,7 +41,7 @@ to it too.
 
 History:
 - 2024-04-15: [P2573R2](https://wg21.link/P2573R2) shipped in the [2024-04 post-Tokyo Mailing](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/#mailing2024-04).
-- 2024-03-23: ~~R2 approved for inclusion in C++26 in the Tokyo (2024-03) WG21 plenary. (Plenary -> Approved)~~ (Awaiting decision)
+- 2024-03-23: R2 approved for inclusion in C++26 in the Tokyo (2024-03) WG21 plenary. (Plenary -> Approved)
 - 2024-03-22: R2 seen by CWG in Tokyo (2024-03), approved for plenary. (Stage 3 -> Plenary)
 - 2024-03-19: R1 seen by EWG in Tokyo (2024-03), approved for CWG. (Stage 2 -> Stage 3)
 - 2023-12-15: [P2573R1](https://wg21.link/P2573R1) shipped in the [2023-12 post-Kona Mailing](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/#mailing2023-12).
