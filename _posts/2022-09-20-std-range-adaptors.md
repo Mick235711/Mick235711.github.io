@@ -731,7 +731,7 @@ nullable(q) // []
 - common: always
 - sized: always
 - const-iterable: always
-- borrowed: when input is a pointer, a `reference_wrapper` or a reference
+- borrowed: when `N` is a pointer, a `reference_wrapper` or a reference
 - constant: when `T` is `const`-qualified
 
 ### `views::upto(n: N) -> [N]`
@@ -784,7 +784,7 @@ Useful to avoid expensive operations that many range algorithm/adaptor perform t
 Cache the last element of any range to avoid extra work.
 For example: `r | views::transform(f) | views::filter(g)` will call `f` twice for every element of `r` when iterating, because `filter` dereferences twice on each iteration. If you add `views::cache_latest` between the two adaptor, `f` will only be called once per element.
 
-- constraint: `r` is an input range_reference_t
+- constraint: `r` is an input range
 - reference: `T&` (force lvalue reference here)
 - value type: same as `r`'s value type
 - category: input
