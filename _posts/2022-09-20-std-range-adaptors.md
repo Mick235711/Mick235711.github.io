@@ -712,5 +712,27 @@ range elements sequenced in between respectively in the order of arguments.
 - borrowed: never (can be made conditionally borrowed, but the space cost is too high)
 - constant: when all of `r1`, `r2`, ... are constant
 
+### `views::nullable(n: Nullable<T>) -> [T&]`
+
+(Current design as of [P1255R12](https://wg21.link/P1255R12).)
+
+Produce a new range of 0 or 1 element based on a nullable object.
+```cpp
+int* p = new int(3);
+nullable(p) // [3]
+int* q = nullptr;
+nullable(q) // []
+```
+
+- constraint: `N` is copyable, an object type, derefencible, and contextually convertible to `bool`. (Or a `reference_wrapper` of such a type)
+- reference: `T&` (the iterator type is actually `T*`)
+- value type: `T`
+- category: contiguous
+- common: always
+- sized: always
+- const-iterable: always
+- borrowed: when input is a pointer, a `reference_wrapper` or a reference
+- constant: when `T` is `const`-qualified
+
 ## Real Adaptors
 
