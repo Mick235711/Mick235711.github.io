@@ -687,7 +687,7 @@ void f() {
 # C++26 Range Adaptors
 ## Factories
 ### `views::concat(r1: [T1], r2: [T2], ...) -> [common_reference_t<T1, T2, ...>]`
-(Current design as of [P2542R2](https://wg21.link/P2542R2))
+(Current design as of [P2542R8](https://wg21.link/P2542R8), already adopted for C++26.)
 
 Produce a new range that is `r1`, `r2`, ... concated head-to-tail together; i.e. a range that starts at the first element of the first range, ends at the last element of the last range, with all
 range elements sequenced in between respectively in the order of arguments.
@@ -698,18 +698,18 @@ range elements sequenced in between respectively in the order of arguments.
 [1.0, 2.0, 3.0, 4.0, 1.0, 2.0]
 # concat() is ill-formed
 ```
-- constraint: all of `T1`, `T2`, ... have a `common_reference_t`, and all of `r1`, `r2`, ...'s value type have a `common_type_t`
+- constraint: all of `T1`, `T2`, ... have a `common_reference_t`, each of which is converted to that common reference type, and all of `r1`, `r2`, ...'s value type have a `common_type_t`
 - reference: `common_reference_t<T1, T2, ...>`
 - value type: `common_type_t<range_value_t<R1>, ...>` (**not** the reference type minus reference)
 - category:
-  - if all of `r1`, `r2`, ... are both random access and sized, then random access
-  - otherwise, if all of `r1`, `r2`, ... are bidirectional, and all but the last range are either common, or both random access and sized, then bidirectional
+  - if all of `r1`, `r2`, ... are random access, and all but the last range are common, then random access
+  - otherwise, if all of `r1`, `r2`, ... are bidirectional, and all but the last range are common, then bidirectional
   - otherwise, if all of `r1`, `r2`, ... are forward, then forward
   - otherwise, input
 - common: when the last range `rn` is common
 - sized: when all of `r1`, `r2`, ... are sized
 - const-iterable: when all of `r1`, `r2`, ... are const-iterable
-- borrowed: never
+- borrowed: never (can be made conditionally borrowed, but the space cost is too high)
 - constant: when all of `r1`, `r2`, ... are constant
 
 ## Real Adaptors
