@@ -734,5 +734,63 @@ nullable(q) // []
 - borrowed: when input is a pointer, a `reference_wrapper` or a reference
 - constant: when `T` is `const`-qualified
 
+### `views::upto(n: N) -> [N]`
+
+(Current design as of [P3060R1](https://wg21.link/P3060R1).)
+
+A convenient alias/alternative for `views::iota(0uz, ranges::size(r))`. Basically, produce a range of `0`, `1`, ..., `n - 1`.
+```python
+>>> upto(5)
+[0, 1, 2, 3, 4]
+```
+
+- constraint: `N` must be an integral type
+- reference: `N` (prvalue range!)
+- value type: `N`
+- category: random access
+- common: always
+- sized: always
+- const-iterable: always
+- borrowed: always (iterator owns the current value)
+- constant: always
+
 ## Real Adaptors
+### `views::to_input(r: [T]) -> [T]`
+
+(Current design as of [P3137R0](https://wg21.link/P3137R0).)
+
+Downgrade any range to an input, non-common range.
+
+Useful to avoid expensive operations that many range algorithm/adaptor perform to preserve higher properties. For example:
+- `views::join`'s iterator comparison need to do two base iterator comparisons (one for outer and one for inner) for common range, but only one is needed for non-common range.
+- `views::chunk` have more expensive algorithm when passed with a forward range: iterating through chunk border will incur a whole pass of all the elements for forward ranges.
+
+(Note that `views::to_input` will produce `r`'s type whenever possible)
+
+- constraint: `r` is an input range
+- reference: `T`
+- value type: same as `r`'s value type
+- category: input (this is the point of this adaptor)
+- common: never
+- sized: when `r` is sized
+- const-iterable: when `r` is const-iterable
+- borrowed: when `r` is borrowed
+- constant: when `r` is constant
+
+### `views::cache_latest(r: [T]) -> [T]`
+
+(Current design as of [P3138R0](https://wg21.link/P3138R0).)
+
+Cache the last element of any range to avoid extra work.
+For example: `r | views::transform(f) | views::filter(g)` will call `f` twice for every element of `r` when iterating, because `filter` dereferences twice on each iteration. If you add `views::cache_latest` between the two adaptor, `f` will only be called once per element.
+
+- constraint: `r` is an input range_reference_t
+- reference: `T&` (force lvalue reference here)
+- value type: same as `r`'s value type
+- category: input
+- common; never
+- sized: when `r` is sized
+- const-iterable: never
+- borrowed: never
+- constant: when `r` is constant
 
