@@ -7,11 +7,6 @@ categories:
 feature_image: "/upload/iceberg.jpg"
 ---
 
-## Contents
-
-* TOC
-{:toc}
-
 Recently, EWG reviewed [P1819R0 Interpolated String Literal](https://wg21.link/P1819R0), igniting
 a new round of discussion on the possibility of adding string interpolation into C++. The review results
 were quite split, and a lot of contentious issues were polled with no consensus in either direction.
@@ -19,6 +14,10 @@ Therefore, I want to write a post about all the subtle issues in the idea, and c
 how existing languages handle the issue, to try to converge on an agreed way for C++ to go forward.
 This is not a proposal, on its own, but may form as a base reading material for future revisions of
 P1819 or other proposals.
+
+## Contents
+* TOC
+{:toc}
 
 ## Motivation
 ### What is string interpolation?
