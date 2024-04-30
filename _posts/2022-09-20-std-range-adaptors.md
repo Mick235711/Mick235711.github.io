@@ -794,3 +794,112 @@ For example: `r | views::transform(f) | views::filter(g)` will call `f` twice fo
 - borrowed: never
 - constant: when `r` is constant
 
+### `views::transform_join(r: [T], f: T -> [U]) -> [U]`
+
+(Current design as of [P3211R0](https://wg21.link/P3211R0).)
+
+Transform the input sequence to a range-of-range, and then join all the ranges. Commonly called FlatMap in other languages. Following [P2328](https://wg21.link/P2328), this adaptor can be implemented directly as `views::join(views::transform(r, f))`, therefore `views::transform_join` is just an alias for that.
+```python
+>>> transform_join([0, 1, 2], x => [x, x, x])
+[0, 0, 0, 1, 1, 1, 2, 2, 2]
+```
+- constraint: `r` and `[U]` are both input ranges, `F` is move-constructible, an object type, and is invocable by `T`
+- reference: `U`
+- value type: same as `[U]`'s value type (the value type of invocation result)
+- category:
+  - If `[U]` is a glvalue range, then at most bidirectional based on `[U]`'s category
+  - Ohterwise (range of prvalue ranges), input
+- common: when both `r` and `[U]` are forward and common, and `[U]` is a glvalue range
+- sized: never
+- const-iterable: when `r` is const-iterable and `f` is const-invocable, and `[U]` is a glvalue range
+- borrowed: never
+- constant: when `[U]` is constant
+
+### `views::slice(r: [T], m: N, n: N) -> [T]`
+
+(Current design as of [P3216R0](https://wg21.link/P3216R0).)
+
+Produce a new range consists of the `m`-th to `n`-th (as usual, left inclusive, right exclusive) elements of `r`. If `r` has less than `n` elements, contains all the elements after the `m`-th. If `r` has less than `m` elements, produce an empty range.
+```python
+>>> slice([1, 2, 3, 4, 5], 1, 3)
+[2, 3]
+>>> slice([1, 2, 3, 4, 5], 1, 10)
+[2, 3, 4, 5]
+>>> slice([1, 2, 3, 4, 5], 10, 12)
+[]
+```
+Note that `views::slice` will produce `r`'s type whenever possible (for example, `empty_view` passed in will return an `empty_view`). This is due to the fact that `views::slice(r, m, n)` is just an alias for `views::take(views::drop(r, m), n - m)`.
+- constraint: `n >= m && m >= 0` and `N` is convertible to `r`'s difference type
+- reference: `T`
+- value type: same as `r`'s value type
+- category: same as `r` (preserve contiguous)
+- common: when `r` is sized and random access
+- sized: when `r` is sized
+- const-iterable: when `r` is const-iterable
+- borrowed: when `r` is borrowed
+- constant: when `r` is constant
+
+### `views::take_exactly(r: [T], n: N) -> [T]`
+
+(Current design as of [P3230R0](https://wg21.link/P3230R0).)
+
+A variation of `views::take` that assumes there are at least `n` elements in `r`.
+In other words, more efficient in common cases but is UB if you try to take more than length elements.
+```python
+>>> take_exactly([1, 2, 3, 4], 2)
+[1, 2]
+```
+Note that `views::take_exactly` will produce `r`'s type whenever possible (for example, `empty_view` passed in will return an `empty_view`). Also note that `views::take_exactly` may downgrade infinite ranges to finite ones (`views::iota(0) | views::take_exactly(5)` is just `views::iota(0, 5)`, while `views::take` cannot preserve type when `iota_view` is not sized).
+- constraint: `n >= 0 && n <= ranges::distance(r)` and `N` is convertible to `r`'s difference type
+- reference: `T`
+- value type: same as `r`'s value type
+- category: same as `r` (preserve contiguous)
+- common: when `r` is random access
+- sized: always (`n`)
+- const-iterable: when `r` is const-iterable
+- borrowed: when `r` is borrowed
+- constant: when `r` is constant
+
+### `views::drop_exactly(r: [T], n: N) -> [T]`
+
+(Current design as of [P3230R0](https://wg21.link/P3230R0).)
+
+A variation of `views::drop` that assumes there are at least `n` elements in `r`.
+In other words, more efficient in common cases but is UB if you try to drop more than length elements.
+```python
+>>> drop_exactly([1, 2, 3, 4], 2)
+[3, 4]
+```
+Note that `views::drop_exactly` will produce `r`'s type whenever possible (for example, `empty_view` passed in will return an `empty_view`). Also note that `views::drop_exactly` may process infinite ranges better (`views::iota(0) | views::drop_exactly(5)` is just `views::iota(5)`, while `views::drop` cannot preserve type when `iota_view` is not sized).
+- constraint: `n >= 0 && n <= ranges::distance(r)` and `N` is convertible to `r`'s difference type
+- reference: `T`
+- value type: same as `r`'s value type
+- category: same as `r` (preserve contiguous)
+- common: when `r` is common
+- sized: when `r` is sized
+- const-iterable: when `r` is const-iterable
+- borrowed: when `r` is borrowed
+- constant: when `r` is constant
+
+### `views::delimit(r: [T] | It, p: U) -> [T]`
+
+
+(Current design as of [P3220R0](https://wg21.link/P3220R0).)
+
+Produce a new range that includes all the element of `r` until `p` (inclusive). Similar to `views::take_while` but using a value instead of a predicate for ending detection. Very useful in cases like importing NTBS ranges with `views::delimit(str, '\0')`.
+```python
+>>> delimit([1, 2, 3, 4, 5], 3)
+[1, 2, 3]
+>>> delimit([1, 2, 3, 4, 5], 6)
+[1, 2, 3, 4, 5]
+```
+- constraint: `r` is an input range, and `U` is an object type and move constructible and `t == u` is well-formed for both `T` and `r`'s value type. If `r` does not model `range` (i.e. `It`), then it must be an input iterator.
+- reference: `T`
+- value type: same as `r`'s value type
+- category: same as `r` (preserve contiguous)
+- common: never (`begin()` must return an iterator-to-`r`, so `end()` cannot reuse that iterator type)
+- sized: never
+- const-iterable: when `r` is const-iterable and `U` is equality comparable with the reference and lvalue of value type of `as_const(r)`
+- borrowed: never
+- constant: when `r` is constant
+
