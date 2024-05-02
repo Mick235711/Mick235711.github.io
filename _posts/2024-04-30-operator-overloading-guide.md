@@ -70,7 +70,7 @@ Now that you know the basic syntax and guidelines of operator overloading, a nat
 
 That leaves the already-usable operators. A thing to mention here is that not all operators in the core language consist only of punctuations; examples are `sizeof` and `typeid`, which are technically unary operators since they can apply to objects. However, all of those “text” operators cannot be overloaded, so we will not consider them operators in this guide. However, there is one notable exception: `swap`. Even though `swap` is not even a keyword and doesn’t really have any meaning in the core language, it is used and relied on so heavily in the standard library that I will make an exception and consider it as an overloadable binary “operator” in this guide. We will see the reason for this declaration more clearly in its section.
 
-Now that is resolved, among the remaining (“real”) operators, there are only four that cannot be overloaded: `.` (object member access), `.*` (object member access through pointers), `::` (namespace access), and `?:` (ternary/condition operator). Of those four “home-restricted”, their reasons are a little different. You obviously cannot overload `::` due to the inability to pass a namespace name to a function, but there are not really any technical reasons for `?:` not to be overloadable. Bjarne himself admitted that the only reason `?:` is not overloadable is that it is the only ternary operator in the standard, and he does not want to cave an exception for the allowance of a three-parameter `operator?:` when all other operators are restricted to take one or two arguments (except `()`, and later `[]`, but they are unique in more than this respect, as seen above). Recently, there have been [some attempts](https://wg21.link/P0917R3) to persuade WG21 (the ISO C++ standards committee) to allow `operator?:` in the context of natural SIMD conditionals that may benefit significantly from this operator.
+Now that is resolved, among the remaining (“real”) operators, there are only four that cannot be overloaded: `.` (object member access), `.*` (object member access through pointers), `::` (namespace access), and `?:` (ternary/condition operator). Of those four “home-restricted”, their reasons are a little different. You obviously cannot overload `::` due to the inability to pass a namespace name to a function, but there are not really any technical reasons for `?:` not to be overloadable. The committee [admitted](https://isocpp.org/wiki/faq/operator-overloading#overload-dot) that the only reason `?:` is not overloadable is that it is the only ternary operator in the standard, and he does not want to cave an exception for the allowance of a three-parameter `operator?:` when all other operators are restricted to take one or two arguments (except `()`, and later `[]`, but they are unique in more than this respect, as seen above). Recently, there have been [some attempts](https://wg21.link/P0917R3) to persuade WG21 (the ISO C++ standards committee) to allow `operator?:` in the context of natural SIMD conditionals that may benefit significantly from this operator.
 
 As for `.` and `.*`, the story is much more interesting and revealing. The urge to overload `operator.`, the dot operator, to finally allow for a perfect wrapper class that can forward every method to an inner object (perhaps a perfect strong type alias or a locking guard that provides a lock for each method invocation), had been overwhelming in the last 20 years, and [multiple](https://wg21.link/N1671) [proposals](https://wg21.link/P0700R0) [had](https://wg21.link/P0252R2) been put forward to allow exactly that. However, this “smart reference” (*a la* smart pointers) operator had been one of the most contentious topics in WG21 history due to issues like the clashing between the wrapper class’s own member function and `operator.`, and whether `a + b` should invoke `operator.` on `a` if it is translated to `a.operator+(b)`, and so on. In the end, the topic has been left unresolved on the platform for a few years now (the most recent attempt seems to be in 2016).
 
@@ -89,15 +89,348 @@ Another subtlety is that two operators are secretly expanding inside the unary o
 (Finally, alert readers may point out that `->` should be a binary operator since it is used like `ptr->member()`. This is not a mistake; welcome to the weird world of Arrow! Read its section to find out why it is a unary operator and a bizarre one at that.)
 
 ## Basic Idioms
+Before we embark on the journey to survey every single operator’s canonical forms and rules, we need to know about some general idioms that apply to nearly every operator overloading function.
+
 ### Deducing This: A Retrospective and A Mistake Unfixed
+For example, how exactly do you write a member operator function?
+
+This may sound trivially nonsense, but it’s not. In C++23, a new way to write member functions, [Deducing This](https://wg21.link/P0847), is introduced into the standard. Specifically, this feature allows you to explicitly write the normally-implicit object argument (aka `this`) in the argument list, just like Python’s `self` argument. The syntax is to prepend `this` on the first argument:
+```cpp
+struct S
+{
+    int value;
+    void fun(int r) { value = r; } // normal member
+    void fun2(this const S& self, int r) { self.value = r; } // deducing this
+};
+
+S s;
+s.fun(4);
+s.fun2(5); // usage is the same
+```
+Some non-obvious details regarding those kinds of “deducing this” member functions need to be resolved. First of all, implicit and explicit access to `this` is disabled in those functions; you cannot just write `value` or write `this->value` and expect it to work. Instead, you need to access the members via `self` (notice that this name is just an argument name and can be anything, not just `self`). Secondly, I actually sorta lied when saying Deducing This is a new way of writing member functions. The best way to understand this is to again think DT as a syntactic sugar for an equivalent function by deleting `this` and prepending `static`:
+```cpp
+struct S
+{
+    void fun(this const S& self, int r);
+    // equivalent to:
+    static void fun(const S& self, int r);
+};
+```
+Then, the compiler simply transforms `s.fun(5)` to a call of `S::fun(s, 5)` whenever the overload resolution selects a DT function. This makes sense since we don’t have a `this` pointer inside the function, making it ABI equivalent to a static function with better performance.
+
+Now, what are the benefits of using DT, you may ask? At first glance, this new form just adds more keystrokes and reduces the convenience of implicit `this`. However, there are three main advantages of using DT.
+
+First of all, since DT members are just equivalent to a static member function, there is no rule whatsoever as to what the first argument’s type must be. For normal member functions, the implicit object argument’s type can be `S&`, `S&&`, `const S&`, or `const S&&` depending on the cv- and ref-qualifier at the end of the declaration, but it must be a reference. There is no such requirement on DT member functions:
+```cpp
+struct S
+{
+    void fun(); // implicit object argument is S& (sorta, see below)
+    void fun2() const; // implicit object argument is const S&
+
+    void fun3(this S&); // equivalent (sorta, see below) to fun
+    void fun4(this const S&); // equivalent to fun2
+
+    void fun5(this S); // pass by value! impossible to write for normal members
+};
+```
+Passing the implicit object by value has many benefits, including better performance due to avoiding implicit pointer access when writing members for small classes like `string_view` that fits in registers and the possibility of a simple `sorted()`-like function that returns a modified version of self without modifying in-place.
+
+But more importantly, there is no reason why a (static or not) member function cannot be a template. What makes DT special? Its first argument can also be templated!
+```cpp
+struct S
+{
+    T value;
+    T& fun() { return value; }
+    const T& fun() const { return value; } // common overload set to serve both kinds of this
+
+    template<typename U>
+    auto& fun(this U&& self) { return self.value; } // only need to write once!
+};
+```
+Using a forwarding reference (sometimes in conjunction with `std::forward[_like]`), we can collapse the two or four duplicate overloads needed to handle different `const`-ness into one templated member, and the right overload will be instantiated when needed.
+
+The second important advantage of DT is the possibility of exposing the `this` pointer in a lambda. Since lambdas are basically syntactic sugars for anonymous classes with an `operator()` overload, we cannot normally use `this` to refer to that anonymous class because of `this`-related captures. However, with DT syntax, we now have a way to refer to the lambda object inside itself:
+```cpp
+auto fac = [](this auto fac, int n)
+{ return n <= 1 ? 1 : n * fac(n - 1); }
+fac(5); // 120
+```
+Besides the obvious recursive lambda, this also enables us to write a better overloading lambda wrapper. See [the original proposal](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2021/p0847r7.html#recursive-lambdas) for details.
+
+The third advantage is not actually mentioned in the proposal at all and is a very less-known fact of normal member functions in C++. It is so less known that the standard itself made mistakes in this aspect, and this advantage is actually very relevant to why using DT to overload operators is a good idea. What is the weird quirk, you may ask? Basically, the above text (and the standard)’s reference to the “normal, non-`const` member function’s implicit object argument is of type `S&`” is a lie. Only lvalues of type `S` will be accepted for a normal function taking an `S&` argument. However, for normal non-`const` member functions, both lvalue and rvalues are accepted!
+```cpp
+struct S { void fun(); };
+void fun2(S&);
+
+int main()
+{
+    S s;
+    s.fun(); // okay
+    fun2(s); // okay
+    S{}.fun(); // prvalue, okay
+    fun2(S{}); // prvalue, error!
+}
+```
+You see, the implicit object argument of non-`const` member functions is actually the first instance of a “universal reference” in C++ standard that can accept both lvalues and rvalues, introduced way before C++11 forwarding references are a thing. This quirk does not apply to `const` member functions because a normal function with `const S&` arguments can already accept both lvalues and rvalues, making them truly equivalent.
+
+What does this quirk have to do with operator overloading? Remember, **operator functions are just normal functions with a special name**, so all the properties of a regular member function apply. This has two important implications:
+1. **Asymmetry of Two Forms**: In nearly all regards, the compiler treats an operator’s member and non-member forms equivalently; `a + b` will search and make overload resolutions with both forms and rewrite accordingly. However, this quirk means that if you write `operator+=` as a member (without defense, see below), it will accept rvalues as the left-hand operand, making `S{} += 2` valid. That statement will be invalid if you implement `operator+=` as a non-member.
+2. **Rvalue Modification**: This might be somewhat obvious since `S{} += 2`, or in general, modifying an rvalue, which is most likely a temporary expression, is usually not a great idea. The modification result is most likely discarded, so write `S{} + 2` is probably clearer. The standard library itself made this mistake: all of its `operator=`s are member functions without defense, so nonsense expressions like `std::string{} = std::string{}` [are actually valid](https://godbolt.org/z/TcPaeT4vY).
+
+You may wonder who actually writes expressions like that, modifying clearly temporary values. Well, maybe not directly, but you should remember that misspelling `==` as `=` is a very common mistake:
+```cpp
+std::optional<int> getOptional();
+int getInt();
+
+if (getOptional() = 2) // oops, meant to be ==
+if (getInt() = 2) // protected! compile error
+```
+Built-in types like `int` do not have overloaded operators, so `operator=` on `int`s does not accept rvalues as LHS, and the above mistake is actually protected. However, regarding `std::optional` (or any other STL types), even though `getOptional()` returns a prvalue, you can still write an assignment like that, and [all major compilers compile successfully, albeit with a warning](https://godbolt.org/z/MMzTYKEf7). (Apparently, MSVC does not even warn about this…)
+
+Now, a defense against this quirk exists, which is the *ref-qualifier* feature introduced in C++11. This feature allows you to append `&` or `&&` after a member function to constraint whether the function only accepts lvalue `this` or rvalue `this`:
+```cpp
+struct S
+{
+    void fun();
+    void fun2() &;
+    void fun3() &&;
+};
+
+S getS();
+
+int main()
+{
+    S s;
+    s.fun(); // okay
+    s.fun2(); // lvalue, okay
+    s.fun3(); // error!
+
+    getS().fun(); // okay (quirk)
+    getS().fun2(); // error! (good)
+    getS().fun3(); // rvalue, okay
+}
+```
+This not only gives you a way to express a member function with implicit object argument as `S&&`, but appending `&` also gives you feature parity with a normal `S&` argument. Now, `struct S { void fun() &; };` is indeed equivalent to `void fun(S&);`, minus calling syntax. (However, now `struct S { void fun() const &; };` is again not equivalent to `void fun(const S&);`, instead being a non-expressible “const true lvalue reference” that only accepts lvalue. Isn’t C++ *fantastic*? 😜)
+
+Applying this feature to operator overloading, we can now guard against modifying rvalues, and achieving symmetry:
+```cpp
+struct S
+{
+    S& operator=(int) &; // <- notice the &
+};
+S s;
+S getS();
+s = 2; // okay
+getS() = 2; // error, good
+```
+Unfortunately, *ref-qualifier*s is probably one of the least known features of C++11, with little to no adoption both inside and outside the STL. There had been [a proposal](https://wg21.link/N2819) in the C++11 cycle requesting WG21 to change all existing standard library types to use an `operator=` with `&` qualifier and eventually modify the automatic generation rules to force that as default. However, due to the sheer amount of breakage this may cause, without any surprise, that proposal is not accepted. To maintain consistency, new library types introduced after C++11 still haven’t adopted any `operator=` with a qualifier, resulting in our unsatisfactory contemporary status.
+
+But now, we may have a cure for that disease: Deducing This. One of the main reasons `&`-qualified members had not seen great adoption is due to its asymmetry: you have to remember to add `&` for non-`const` members, but also remember **not** to add `&` for `const` members to achieve feature parity. However, DT has no such asymmetry: due to its equivalence with static functions, `void fun(this S&)` is, so obviously, equivalent to normal `void fun(S&)`, and `void fun(this const S&)` is also just equivalent to normal `void fun(const S&)`. Even better, since DT uses normal function declarations syntax, there is literally no way to write the quirky “universal reference” or “const true lvalue reference” in DT members, so there are no bad defaults here; you have to write out the type physically. By simply writing all (non-`virtual`, for now) members (including operator overloads) in DT form, you already achieved the rvalue modification prevention goal without intentionally doing anything!
+
+So, in conclusion, for modifying operators that probably should be written as non-`const` member functions (see below section for why), the canonical form is to either write it in Deducing This form or to append the `&` qualifier. This way, both symmetry and prevention of rvalue modification can be achieved.
+```cpp
+struct S
+{
+    S& operator=(this S&, const S&); // canonical and preferred
+    S& operator=(const S&) &; // canonical
+    S& operator=(const S&); // not recommended
+};
+```
+(Of course, if your operator does want to allow modification on rvalues, you can write it as a normal member (or preferably a DT member with forwarding reference); maybe the Builder pattern’s `operator=` can be one example.)
 
 ### Hidden Friends and the Barton-Nackman Trick
+Now that we know the canonical forms for member function implementation of operator overloading, what about the non-member implementation? There, no symmetry problem occurs since both arguments are treated equally. However, another problem arose, necessitating the introduction of another commonly used implementation technique of non-member functions: the Hidden Friend Idiom.
+
+To understand hidden friends, we first must understand a `friend` declaration. Traditionally, `friend` declarations are used to intentionally loosen a class’s encapsulation in a controlled manner. For example, you may have a CRTP base class that you want to access some private method to aid implementation, which you do not want to expose to the outside world:
+```cpp
+template<typename Derived>
+struct provide_work
+{
+    void work() { static_cast<Derived*>(this)->doWork(); /* do some logging */ }
+};
+
+struct concrete_class : private provide_work<concrete_class>
+{
+    friend class provide_work<concrete_class>;
+private:
+    void doWork();
+};
+```
+`doWork()` is an internal function without logging, so you may not want to expose it to the outside world. However, since the CRTP base class usually uses `private` inheritance due to the nature of the composition, that cast inside `work()` doesn’t actually work unless you make it see the inheritance through a `friend` declaration. (**Note**: This example works much better if you use Deducing This, in which you simply write `void work(this const auto&)` and don’t worry about `friend`s anymore.) `friend` declarations can apply to both classes (like above) and non-member functions (like `friend void fun();`), and in both cases, the mentioned class/function will gain access to the `private` members of `concrete_class`.
+
+However, in modern C++, `friend` declarations are increasingly less necessary due to the focus on reducing coupling between classes and also strengthening encapsulation. Those relationships are usually much better expressed by utilizing a class’s `public` API, maybe through a hidden base class. However, another (unintended?) use of `friend` declarations has risen in popularity in recent years and has gradually become one of the most important use cases of the `friend` keyword: the Hidden Friend Idiom.
+
+Now, what is a hidden friend? Basically, when using `friend` to befriend a function, simply put that function’s definition right after the `friend` declaration (define the function in-line), and you get a hidden friend.
+```cpp
+struct S
+{
+    S(int);
+    friend void fun(S s) // hidden friend!
+    {
+        // implement fun(), can use private parts of S here
+    }
+};
+S s;
+fun(s); // okay
+fun(2); // error!
+fun(S(2)); // okay
+::fun(s); // error!
+```
+A hidden friend like this is **still** a non-member function, albeit residing inside the definition of a class. However, precisely because the function only has a declaration inside a class scope, it is *hidden* against all normal lookup methods. Thus, it cannot be found from normal qualified lookup (like `::fun(s)`).
+
+However, how is `fun(s)` valid then? This is because hidden friends can only be found via one special rule in the lookup family: Argument-Dependent Lookup (ADL). ADL is an exception in the unqualified lookup phase that is actually invented specifically to convenience operator overloading. Basically, for ADL to happen, three conditions must be met:
+- The lookup performed must be an **un**qualified lookup (without namespace prefix); `::fun(s)` or `N::fun(s)` will not invoke ADL.
+- Normal unqualified lookup must **only** find functions. This precludes the following scenario: (cannot “overload” function with non-function variables)
+```cpp
+namespace N { struct S {}; void fun(S); template<typename> struct Mem; }
+int fun;
+N::S s;
+fun(s); // no ADL here, hard error
+```
+- Finally, at least one argument must be of (possibly a pointer or reference to) a class type.
+
+When all the conditions are met, ADL specifies that a list of *associated entities* is compiled for each (class type or pointer to or reference to a class type) argument to the function. The rules for finding associated entities are a bit complex, but in general, the following are included:
+- If a pointer or reference, associated entities of the referred type
+- If a class type, then the class itself, all direct or indirect base classes, and all nested classes if the class is a nested type.
+- In addition, if a templated class type, associated entities of all type parameters
+
+This is not the full list of rules, but it is sufficient for this guide’s purpose. Notice especially that the second rule is not recursive: if `N::S` derives from `M::P`, then `M` is not an associated namespace for `s`. However, `M` *is* an associated namespace for `N::Mem<M::P>`.
+
+After finding all the associated entities, the associated namespace is constructed by finding the innermost enclosing namespace for each entity. Then, ADL will search all the associated namespaces, as well as all hidden friends within the associated entities. What this all means is that ADL will find two more kinds of “distant” function declarations not found by normal unqualified lookup:
+1. All function declarations residing in the same namespace as one of the associated entities; and
+2. All the hidden friends in associated entities
+```cpp
+namespace M
+{
+    struct S
+    {
+        friend void fun(S);
+    };
+    void fun2(S);
+}
+N::S s;
+fun(s); // okay, #2
+fun2(s); // okay, #1
+```
+Alerted readers may ask, why is ADL a special rule invented specifically for operator overloading? Well, you see, again, operator functions are just normal functions with special names, and they can be found by ADL, too. This is especially suitable for operators because we almost never call them by the normal function syntax but instead choose to write `a + b`, which always tries to find `operator+` through unqualified lookup, so all the namespace-level and hidden friend `operator+` for `a` and `b` will be found. This is specifically to enable people to write operator functions inside the class’s own scope or enclosing namespace without polluting the global namespace. In fact, in the early days of C++ standardization, ADL only occurred when calling the operator through that syntactic sugar and was only extended to all functions [in 1996](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/1996/N0952.asc), very late in the standardization cycle.
+
+Now we know when hidden friends are found, why are they useful in terms of operator overloading? Writing operator functions as hidden friends at least have three advantages. First, hidden friends greatly *reduce* the overload set, thus delivering significantly better compiling time and (most importantly) diagnostics. You see, if you write a normal non-member `operator+`, it will get picked up every time everyone writes `a + b`, no matter what type `a` or `b` has. Hidden friends can *only* be found via ADL, so at least one of `a` or `b` must have a relevant type to your `operator+`’s enclosing class. Otherwise, it will not be shown in the overload set (which the compiler often prints *in full* whenever some `a + b` goes wrong).
+
+Secondly, hidden friends **reside physically** within the class scope. Yes, this is an advantage because operators are most definitely deeply tied to a class’s semantics and should form a class’s public API. If you define a non-member operator just at namespace scope, it may be separated arbitrarily from the class definition, thus making it hard to find and harder to link to the class. Also, a side note is that hidden friends also contribute to the feature-parity between non-members and member forms of operator overloading since hidden friends are still friends and can access the class’s `private` parts. This may arguably be a good or bad thing since many operators can be implemented fully from public API, and making more friends is generally seen as weakening the encapsulation. However, since member operator functions can (obviously) already access the `private` parts, I would argue that all operators of a class should be “seen as” members and should have equal access.
+
+Finally, one of the most important advantages of using hidden friends for operator functions, and the trick that makes it indispensable in operator overloading, is the fact that hidden friends will enable the use of [the Barton-Nackman trick](https://en.wikipedia.org/wiki/Barton%E2%80%93Nackman_trick). If your class is actually templated (say, overloading `operator+` for `Rational<T>`), then there is a very important distinction between hidden friends and ordinary non-members:
+```cpp
+template<typename T>
+struct Rational
+{
+    Rational(T); // implicit conversion from T
+
+    // hidden friend
+    friend Rational operator+(const Rational&, const Rational&);
+};
+
+// normal non-member
+template<typename T>
+Rational<T> operator+(const Rational<T>&, const Rational<T>&);
+```
+Have you found the distinction? The hidden friend is actually **not a template function**! This is a boon granted by being inside the `Rationl<T>` class scope: you don’t need to template the operator to refer to any kind of `Rational`; you only have to implement for the current `Rational<T>` (can be shortened to simply `Rational` inside the class scope, as seen above). And each invocation of `r1 + r2` will *synthesize* a non-template `operator+` from `r1` and `r2`’s class scope.
+
+This distinction had profound implications for the usability of the operator: templated functions only do *substitution*; they never consider any kind of *casting*.
+```cpp
+Rational<int> r1, r2;
+r1 + r2; // okay for both form
+r1 + 2; // okay for hidden friend, error (!) for non-member
+```
+Why does `r1 + 2` fail for a non-member declaration? Because it is a template, the compiler tries to match `2` (aka `int`) against `const Rational<T>&` for the second argument and finds that no `T` can satisfy this equivalence; thus, the declaration is discarded. In the hidden friend case, since `operator+` is not a template, no substitution is needed; the compiler knows that it must try to *convert* `2` to some object of `Rational<int>`, so the constructor is selected.
+
+This trick, the fact that hidden friends can strip away the template-ness of operators, is known as the Barton-Nackman trick and is the premier reason why operator overloading for templated classes is usually always done in member form or hidden friend form. (Though the most common knowledge of this trick probably stems from Item 46 of the famous *Effective C++* book, where the same example of `Rational<T>` is given.)
+
+However, the other two advantages remain even for non-templated classes. This is why I recommend in this guide that all operator overloading be done in member form or hidden friend form if a non-member is preferred. It leads to better compiling time, better diagnostics, better grouping, and API documentation, and enables conversion in templates. What’s there not to love?
 
 ### [You Must Type It Three Times](https://www.youtube.com/watch?v=I3T4lePH-yA): SFINAE Woes
+Now, we venture into some more advanced topics, like the concept of SFINAE-friendly, which you should consider for each of your overloaded operators. One important thing to note here is that the answer to “Should I make my operator SFINAE-friendly?” is no 99% of the time, both because making it friendly is a bit complex and the advantage is only applicable in a very specific group of types. Most users don’t really need to care about this section. If you don’t know what SFINAE is at all, then you don’t need to read this section, as it will not really affect you.
+
+So, what is SFINAE-friendly? This term refers to the fact that your type *perfectly forwards* SFINAE-ness. For a friendlier example, let’s again consider the example of `Rational<T>`. But this time, we will assume that there is a widely adopted concept `multipliable` that tests if your type is multipliable simply by testing if `t * u` is valid; and someone had written a function to choose different algorithm based on the multipliability of your type.
+```cpp
+template<typename T>
+concept multipliable = requires (T t, T u) { t * u; };
+
+template<multipliable T>
+T fun(T t) { /* some specific impl */ return t * t; }
+
+template<typename T>
+T fun(T t) { /* some general impl */ return t; }
+```
+Now, assume that there is some wrapper on `int`s that only allows addition, not multiplication (perhaps because there is some invariant that it must hold, and it may require too much effort to maintain in multiplication):
+```cpp
+template<typename T>
+struct Rational
+{
+    T n, d;
+    friend Rational operator+(const Rational&, const Rational&) { /* ... */ }
+    friend Rational operator*(const Rational& lhs, const Rational& rhs)
+    {
+        return Rational{lhs.n * rhs.n, lhs.d * rhs.d};
+    }
+};
+
+struct Number
+{
+    int value;
+    friend Number operator+(Number, Number);
+    // no operator* defined
+};
+```
+Now, on the surface, this is a very natural implementation of `operator*`, right? It uses hidden friends as recommended (though everything below applied to regular non-members and members, too) and simply returns an object with the calculated multiplication result. However, take a look at the following result! ([Compiler Explorer](https://godbolt.org/z/5nP85Mv7G))
+```cpp
+int main()
+{
+    Rational<int> ri{1, 2};
+    ri + ri; // good
+    ri * ri; // good
+    Rational<Number> rn{Number{3}, Number{4}};
+    rn + rn; // good, rn * rn will obviously error out
+    static_assert(multipliable<Rational<int>>); // good
+    static_assert(!multipliable<Number>); // good
+    static_assert(multipliable<Rational<Number>>); // ???
+    fun(ri); // good, returns ri * ri
+    fun(Number{3}); // good, returns Number{3} itself
+    fun(rn); // hard error!
+}
+```
+Why is `Rational<Number>` multipliable? And why is `fun(rn)` a hard error?
+
+Actually, the answer to the second question directly results from the answer to the first question. It is because `multipliable<Rational<Number>>` is satisfied, such that the specific overload for `fun` is selected, and evaluating `t * t` inside the body results in a hard error. So why is `multipliable` satisfied in the first place? The answer is that `Rational<T>`’s `operator*` is not SFINAE-friendly.
+
+For a function to be SFINAE-friendly, it must perfectly forward the SFINAE-ness, meaning that when `lhs.n * rhs.n` is invalid; the entire `operator*` declaration should be SFINAE-away. However, as currently declared, `operator*` for `Rational<T>` is *always* present in the overload set, and simply testing for the validness of `rn * rn` will always succeed since you are only asking if `operator*` exists. However, *calling* that expression instantiated the operator and the `lhs.n * rhs.n` line simply results in a hard error. Then how do we make it SFINAE-friendly? The solution is to forward SFINAE-ness by adding a `requires` clause:
+```cpp
+template<typename T>
+struct Rational
+{
+    // ...
+    friend Rational operator*(const Rational& lhs, const Rational& rhs)
+    requires requires (T t, T u) { t * u; }
+    {
+        return Rational{lhs.n * rhs.n, lhs.d * rhs.d};
+    }
+};
+// Before C++20, this is typically done by
+// friend auto operator*(const Rational& lhs, const Rational& rhs) -> decltype(lhs.n * rhs.n, void(), Rational{})
+// simply doing a SFINAE test in the return type
+```
+(Or, in this case, `requires multipliable<T>` will do it.) Now, since `operator*` is only present if and only if `t * u` is valid, in the case of `Rational<Number>`, the `operator*` is simply *not present* in the overload set, and `multipliable` will now report false as `rn * rn` is no longer valid.
+
+So, when is this technique actually useful? Actually, SFINAE-friendliness is only required in very limited cases, mostly dealing with TMP code. You only need to make your operator SFINAE-friendly if you actively *need* `multipliable` to detect your `operator*` status correctly; in most cases, there is no such concept to deal with, or the user is not expecting `Rational<Number>` to actually report its status transparently. Coupled with the fact that making functions SFINAE-friendly requires some non-trivial and non-obvious TMP work like the above `requires` clause, it is generally not recommended to just slap those kinds of requirements on the operators. Only if you are **sure** that your operator absolutely needs SFINAE-friendliness do you then do it.
+
+One example of those kinds of needs in the STL is in the context of C++20 Ranges. A very important concept for any range is the range properties, like `sized_range<R>`. This concept basically tells you if your range is sized (i.e., can report its size in O(1) time) and is achieved by simply detecting if `ranges::size(r)` is valid (and also provides an opt-out in the form of `disable_sized_range<R>`). Then, each *range adaptor* like `views::transform` in the standard will then only provide the `size()` member function if and only if the underlying range is sized, making `sized_range<transform_view<R, F>>`  always equal to `sized_range<R>`. This is a critical requirement for those adaptors to calculate/forward the range properties correctly, so `filter_view::size()` is made SFINAE-friendly.
+
+SFINAE-friendly also has some interesting implications in the context of perfect forwarding call wrappers, which will be discussed in the section for overloading `operator()`. Otherwise, this guide will not mention SFINAE-friendly again, and all canonical forms will assume that friendliness is not required. Please append the `requires` clause as needed.
+
+Now that we know about some general idioms that apply to all operators, we went on to some choices that apply to some specific operators and their implications. Then, a classification of overloadable operators will be present, and the rest of the guide will focus on overloading specific operators.
 
 ## Choices and Classification
 
-### Member or Non-Member or Hidden Friend? A Difficult Choice
+### Member or Hidden Friend? A Difficult Choice
 
 ### The Good, The Arithmetic, The Pointer, The Bad, and The Irrelevant
 
