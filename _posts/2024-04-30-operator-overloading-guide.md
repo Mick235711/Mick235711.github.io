@@ -429,10 +429,57 @@ SFINAE-friendly also has some interesting implications in the context of perfect
 Now that we know about some general idioms that apply to all operators, we went on to some choices that apply to some specific operators and their implications. Then, a classification of overloadable operators will be present, and the rest of the guide will focus on overloading specific operators.
 
 ## Choices and Classification
-
 ### Member or Hidden Friend? A Difficult Choice
+Now that we know member operator functions should either be implemented via Deducing This or (sometimes) have a ref-qualifier attached, and non-member operator functions should nearly always be implemented via Hidden Friends, the question remains: Which form should we choose? Member or non-member (hidden friends)?
 
-### The Good, The Arithmetic, The Pointer, The Bad, and The Irrelevant
+For some of the overloadable operators, the standard has made this choice for us:
+- Operators `()`, `[]`, `->`, `=`, and `operator T` (conversion) **must** be overloaded via the member form.
+- Operator `swap` and `operator ""s` (UDL) **must** be overloaded via the non-member form.
+- When (mis)used as Input/Output operators, operators `<<` and `>>` **must** be overloaded via the non-member form.
+
+For all other scenarios, there is no restriction: you can choose freely between the member form and the non-member form. However, again, there exists a canonical form (a custom) for which operators should be members, as a non-member `operator+=` just seems weird, while a member `operator+` seems equally weird.
+
+In general, the rule of thumb here is that whenever the operator is unary, or binary and needs to modify its left-hand operand, it should be overloaded as a member; otherwise (binary and non-modifying), it should be a non-member. Notice here that this rule *technically* says nothing — there is no regulation requiring your `operator+=` to modify the left-hand operand. However, again, **remember the motto.** Your operators should all be following what the builtin ones do; `+=` on `int`s (and other builtin types) performs the operation `a = a + b`, and thus you should follow that convention.
+
+The operators that are customarily left-hand modifying, and thus nearly always overloaded as members include:
+- All the compound assignment operator `@=`, where `@` is one of `+ - * / % & | ^ << >>`. These are the most obvious bunch, since `operator=` had already been required to be a member, and those are closely tied to `=` since you should always make `a @= b` and `a = a @ b` equivalent.
+- The increment and decrement operator `++` and `--` (both forms). These also modify their arguments, and since `++a` is equivalent to `a += 1` (at least I hope you make it so), they belong in the same category.
+- All the unary operators. These include `u+`, `u-`, `u*`, `u&`, `!`, `~`, and `co_await`. Although those do not (usually) modify their arguments, the unary-ness makes them tied closely to the argument and thus suitable for being a member.
+
+All other operators should be overloaded as non-members. The reasoning for the existence of those rules is that left-modifying operators are naturally asymmetrical towards their two arguments and also tie more closely to the LHS since it needs to modify the argument. Therefore, they should use an asymmetrical syntax, namely overload as a member function. Other binary, non-modifying operators often treat their arguments equally (there are exceptions to this, like `->*`) and expect the same treatment (conversion, etc.) to happen to both operators, which member functions cannot provide. As for why non-modifying unary operators are recommended to members, too, that’s probably just a customary thing since non-member `operator*` just seems too weird.
+
+### The Big Classification
+Finally, after all the preludes, the general introduction stops here. The rest of the guide will be tailored to each operator, as their similarities and general principles have already been introduced, and the rest of the text will introduce each operator’s intricacies and conventions in detail. However, before we can start our journey for real, we still need to classify all the operators into several groups since each operator group still has some generality that can be introduced together (such as compound assignment operators `@=` are practically following the same principle, even though `@` can be different).
+
+There are many different ways to classify operators:
+
+By arity:
+- Unary: `u+`, `u-`, …
+- Binary: `b+`, `b-`, …
+- N-ary: `()`, `[]`
+- N/A (Can’t talk about arity): Conversion `operator T` (technically unary, but too different to count) and UDL `operator ""s`
+
+By membership-ness:
+- Required to be members: `()`, `[]`, `->`, `=`, `operator T` (conversion)
+- Usually members: `u*`, `+=`, …
+- Usually non-members: `b+`, `b-`, …
+- Required to be non-members: `swap`, `<<`, `>>` (as I/O), `operator ""s` (UDL)
+
+However, in this guide, the operators will be classified through *how often you should overload them* (ordered from most frequently to least):
+- The Good Four: `=`, `<=>`, `==`, `swap`. Those are the **only** operators that you should consider overloading for all classes. All other operators below this category are only meant to be overloaded for specialized kinds of classes, not universally. **Note**: This does **not** mean that you **should** always overload these operators since the first rule for operator overloading is still **Don’t Do It!**. Only comparatively, those are the most commonly overloaded operators.
+- The Functors: `()`. The call operator is so special and common that it deserves its own group.
+- The Pointer: `u*`, `->`, `->*`, `[]`, `++`, and `--` (all forms). You should consider overloading these operators only for **pointer-like** or **nullable** classes. Notice that increment and decrement appear twice; that’s because they have completely different meanings here and below.
+- UDLs: `operator ""s`. This is very interesting and sufficiently different from all other operators that it deserves its own group. Definitely take a read, though; it may be more commonly useable than you think!
+- The Arithmetic: These are the operators you should consider overloading only for **number-like** classes. Multiple subgroups exist: (still ordered by often-ness)
+	- Normal Arithmetic: `b+`, `b-`, `b*`, `/`, `%`. These should be considered for most number-like classes.
+	- Weirdos: `u+` and `u-`. Whenever `b+` and `b-` are overloaded, these should be, too, but they are still weird.
+	- Increment/Decrement: `++`, `--` (all forms). In general, most classes that are **closed** on `b+` and `b-` should consider these.
+	- Bitwise Arithmetic: `|`, `b&`, `~`, `>>`, `<<`. These should **only** be considered for number-like classes for which a bitwise interface makes sense.
+- Coroutine: `co_await`. This is also special and deserves its own group. However, you, as a user, probably never need to overload this operator.
+- The Bad Nine: `u&`, `&&`, `||`, `,`, all `new`/`delete` forms, and `operator T` (conversion). **Here lies the evil ones.** Under normal circumstances, you should **never** overload these operators at all, no matter what kind of class you are dealing with.
+- Irrelevant: `<`, `>`, `<=`, `>=`, `!=`, `!`. These are the lowest category, however, not because they are evil or anything. It’s just that overloading those operators is completely pointless, and you should not bother with any of those since it doesn’t matter at all in functionality.
+
+The rest of the guide will follow this classification (not in order), so please just jump to the corresponding operator group you want to learn about. Let the journey in the operator zoo finally begin!
 
 ## The Good Four
 ### Simple Assignment: `operator=`
