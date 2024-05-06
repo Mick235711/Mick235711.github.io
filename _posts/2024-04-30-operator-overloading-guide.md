@@ -466,20 +466,20 @@ By membership-ness:
 - Required to be non-members: `swap`, `<<`, `>>` (as I/O), `operator ""s` (UDL)
 
 However, in this guide, the operators will be classified through *how often you should overload them* (ordered from most frequently to least):
-- The Good Four: `=`, `<=>`, `==`, `swap`. Those are the **only** operators that you should consider overloading for all classes. All other operators below this category are only meant to be overloaded for specialized kinds of classes, not universally. **Note**: This does **not** mean that you **should** always overload these operators since the first rule for operator overloading is still **Don’t Do It!**. Only comparatively, those are the most commonly overloaded operators.
-- The Functors: `()`. The call operator is so special and common that it deserves its own group.
-- The Pointer: `u*`, `->`, `->*`, `[]`, `++`, and `--` (all forms). You should consider overloading these operators only for **pointer-like** or **nullable** classes. Notice that increment and decrement appear twice; that’s because they have completely different meanings here and below.
-- UDLs: `operator ""s`. This is very interesting and sufficiently different from all other operators that it deserves its own group. Definitely take a read, though; it may be more commonly useable than you think!
-- The Arithmetic: These are the operators you should consider overloading only for **number-like** classes. Multiple subgroups exist: (still ordered by often-ness)
+- [The Good Four](#the-good-four): `=`, `<=>`, `==`, `swap`. Those are the **only** operators that you should consider overloading for all classes. All other operators below this category are only meant to be overloaded for specialized kinds of classes, not universally. **Note**: This does **not** mean that you **should** always overload these operators since the first rule for operator overloading is still **Don’t Do It!**. Only comparatively, those are the most commonly overloaded operators.
+- [The Functors](#functors-overloading-operator): `()`. The call operator is so special and common that it deserves its own group.
+- [The Pointer](#simulating-a-pointer): `u*`, `->`, `->*`, `[]`, `++`, and `--` (all forms). You should consider overloading these operators only for **pointer-like** or **nullable** classes. Notice that increment and decrement appear twice; that’s because they have completely different meanings here and below.
+- [UDLs](#user-defined-literal-hidden-pearl-of-c): `operator ""s`. This is very interesting and sufficiently different from all other operators that it deserves its own group. Definitely take a read, though; it may be more commonly useable than you think!
+- [The Arithmetic](#arithmetic-operators): These are the operators you should consider overloading only for **number-like** classes. Multiple subgroups exist: (still ordered by often-ness)
 	- Normal Arithmetic: `b+`, `b-`, `b*`, `/`, `%`. These should be considered for most number-like classes.
 	- Weirdos: `u+` and `u-`. Whenever `b+` and `b-` are overloaded, these should be, too, but they are still weird.
 	- Increment/Decrement: `++`, `--` (all forms). In general, most classes that are **closed** on `b+` and `b-` should consider these.
 	- Bitwise Arithmetic: `|`, `b&`, `~`, `>>`, `<<`. These should **only** be considered for number-like classes for which a bitwise interface makes sense.
-- Coroutine: `co_await`. This is also special and deserves its own group. However, you, as a user, probably never need to overload this operator.
-- The Bad Nine: `u&`, `&&`, `||`, `,`, all `new`/`delete` forms, and `operator T` (conversion). **Here lies the evil ones.** Under normal circumstances, you should **never** overload these operators at all, no matter what kind of class you are dealing with.
+- [Coroutine](#coroutine-internals-overloading-operator-co_await): `co_await`. This is also special and deserves its own group. However, you, as a user, probably never need to overload this operator.
+- [The Bad Nine](#the-bad-nine): `u&`, `&&`, `||`, `,`, all `new`/`delete` forms, and `operator T` (conversion). **Here lies the evil ones.** Under normal circumstances, you should **never** overload these operators at all, no matter what kind of class you are dealing with.
 - Irrelevant: `<`, `>`, `<=`, `>=`, `!=`, `!`. These are the lowest category, however, not because they are evil or anything. It’s just that overloading those operators is completely pointless, and you should not bother with any of those since it doesn’t matter at all in functionality.
 
-The rest of the guide will follow this classification (not in order), so please just jump to the corresponding operator group you want to learn about. Let the journey in the operator zoo finally begin!
+The rest of the guide will follow this classification (not in order, click the above links to jump), so please just jump to the corresponding operator group you want to learn about. Let the journey in the operator zoo finally begin!
 
 ## The Good Four
 ### Simple Assignment: `operator=`
