@@ -67,3 +67,16 @@ History:
 - 2022-06-28: R0 seen by LEWG (of which I forgot to attend the telecon, sorry!), approved for EP. (Stage 2 -> EP)
 - 2022-06-25: [P2613R1](https://wg21.link/P2613R1) shipped in the [2022-07 Mailing](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/#mailing2022-07) (LWG request a one-line wording change, so this is quick).
 - 2022-06-23: [P2613R0](https://wg21.link/P2613R0) shipped in the [2022-06 Mailing](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/#mailing2022-06) (as a late paper).
+
+#### P3351: `views::scan`
+- Audience: SG9
+- Target: C++26
+- Revisions: [R0](https://wg21.link/P3351R0)
+- Current Status: Stage 1
+
+This paper proposes the `views::scan` range adaptor family, which takes a range and a function that takes the current element and the current state as parameters. Basically, `views::scan` is a lazy view version of `std::inclusive_scan`, or `views::transform` with a stateful function.
+
+This paper also proposed `views::prescan` and `views::partial_sum` as convenient aliases.
+
+History:
+- 2024-07-07: [P3351R0](https://wg21.link/P3351R0) shipped in the 2024-07 post-St. Louis Mailing.
