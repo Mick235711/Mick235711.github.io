@@ -79,4 +79,4 @@ This paper proposes the `views::scan` range adaptor family, which takes a range 
 This paper also proposed `views::prescan` and `views::partial_sum` as convenient aliases.
 
 History:
-- 2024-07-07: [P3351R0](https://wg21.link/P3351R0) shipped in the 2024-07 post-St. Louis Mailing.
+- 2024-07-08: [P3351R0](https://wg21.link/P3351R0) shipped in the 2024-07 post-St. Louis Mailing.
