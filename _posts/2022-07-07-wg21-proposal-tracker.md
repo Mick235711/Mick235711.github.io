@@ -79,5 +79,5 @@ This paper proposes the `views::scan` range adaptor family, which takes a range 
 This paper also proposed `views::prescan` and `views::partial_sum` as convenient aliases.
 
 History:
-- 2024-09-24: [P3351R1](https://wg21.link/P3351R1) shipped in the 2024-10 pre-Wroclaw Mailing.
+- 2024-09-24: [P3351R1](https://wg21.link/P3351R1) shipped in the 2024-10 pre-Wrocław Mailing.
 - 2024-07-08: [P3351R0](https://wg21.link/P3351R0) shipped in the [2024-07 post-St. Louis Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2024/#mailing2024-07).
