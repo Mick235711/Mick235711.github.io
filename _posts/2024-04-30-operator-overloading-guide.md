@@ -468,7 +468,7 @@ By membership-ness:
 However, in this guide, the operators will be classified through *how often you should overload them* (ordered from most frequently to least):
 - [The Good Four](#the-good-four): `=`, `<=>`, `==`, `swap`. Those are the **only** operators that you should consider overloading for all classes. All other operators below this category are only meant to be overloaded for specialized kinds of classes, not universally. **Note**: This does **not** mean that you **should** always overload these operators since the first rule for operator overloading is still **Don’t Do It!**. Only comparatively, those are the most commonly overloaded operators.
 - [The Functors](#functors-overloading-operator): `()`. The call operator is so special and common that it deserves its own group.
-- [The Pointer](#simulating-a-pointer): `u*`, `->`, `->*`, `[]`, `++`, and `--` (all forms). You should consider overloading these operators only for **pointer-like** or **nullable** classes. Notice that increment and decrement appear twice; that’s because they have completely different meanings here and below.
+- [The Pointer and Iterator](#simulating-a-pointer): `u*`, `->`, `->*`, `[]`, `++`, and `--` (all forms). You should consider overloading these operators only for **pointer-like** or **iterator-like** classes. Notice that increment and decrement appear twice; that’s because they have completely different meanings here and below.
 - [UDLs](#user-defined-literal-hidden-pearl-of-c): `operator ""s`. This is very interesting and sufficiently different from all other operators that it deserves its own group. Definitely take a read, though; it may be more commonly useable than you think!
 - [The Arithmetic](#arithmetic-operators): These are the operators you should consider overloading only for **number-like** classes. Multiple subgroups exist: (still ordered by often-ness)
 	- Normal Arithmetic: `b+`, `b-`, `b*`, `/`, `%`. These should be considered for most number-like classes.
@@ -514,6 +514,13 @@ The rest of the guide will follow this classification (not in order, click the a
 
 #### Spaceship Idioms: Ignoring, Reversing
 
+## Functors: Overloading `operator()`
+### `static`, `const`, Lambda, `mutable`, Oh My!
+
+### Stateful and Pure Functors with Standard Algorithms
+
+### Perfect-Forwarding Functors: `= delete` and Deducing This
+
 ## Arithmetic Operators
 ### Compound Assignment: `operator@=`
 
@@ -558,13 +565,6 @@ The rest of the guide will follow this classification (not in order, click the a
 #### The Basics: `const`-Coercing Subscript and Deducing This
 
 #### Deploying an Multidimensional `operator[]`
-
-## Functors: Overloading `operator()`
-### `static`, `const`, Lambda, `mutable`, Oh My!
-
-### Stateful and Pure Functors with Standard Algorithms
-
-### Perfect-Forwarding Functors: `= delete` and Deducing This
 
 ## Coroutine Internals: Overloading `operator co_await`
 ### Understanding Awaiter and Awaitable
@@ -616,11 +616,24 @@ The rest of the guide will follow this classification (not in order, click the a
 ## Operator Overloading in the STL: A Glimpse
 ### The Great Comparison Revolution
 
+### Iterator Special: Cornerstone of STL Algorithms
+#### The Basics: Evolution of Iterator Category in the STL
+
+#### `u*`, `->` and `++`: Disguised Core
+
+#### `--`, `+=`, `-=`, and `[]`: Extending the Basic Iterator
+
+#### Comparison For Iterators: A War Story
+
+#### Sentinel: Revolution on the Old STL
+
+#### Postfix `++ --` in C++20: A Rebellion
+
+#### `explicit operator bool` for Ranges: A Twist
+
 ### `u*`: Nullable, Pointer or Optional?
 
 ### Deprecating and Decreasing `operator->`
-
-### Postfix `++ --` in C++20: A Rebellion
 
 ### `operator+` For `std::string`: A Mistake? Nightmare with `string_view`?
 
@@ -643,7 +656,28 @@ The rest of the guide will follow this classification (not in order, click the a
 
 ### The Great Search For Dot
 
-### Overloadable `operator^`: Customising Reflection
+### Overloadable `operator^^`: Customising Reflection
 
-### A Pipeline-Rewrite Operator
+### A Pipeline-Rewrite Operator: `|>`
 
+### A Control-Flow Operator: `??`
+
+### A Implication Arrow: A Herculean Task
+
+### A War Story on Pattern Matching and Operators (`is`, `as`, `match`, ...)
+#### Basics: What Is PM And Why Should You Care?
+
+#### Chaining vs Composition: The PM Debate in C++26
+
+#### Generalized `match` and `is`: Converging Solutions
+
+### Prefix UDL: String Interpolation and More
+
+### Future of Operator Rewriting: Shooting An Arrow At The Star
+#### MORE Rewriting! What's Not To Like?
+
+#### Rewriting `->` and `->*`: War Signal From Library
+
+#### Rewriting Arithmetic: How Far?
+
+### Chained Comparison: A Dream Revisited
