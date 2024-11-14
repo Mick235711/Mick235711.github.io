@@ -86,7 +86,7 @@ History:
 - Audience: EWG
 - Target: C++26
 - Revisions: [R0](https://wg21.link/P3423R0)
-- Current Status: Stage 2
+- Current Status: Stage 1
 
 During Varna (2023-06), [P2741R3](https://wg21.link/P2741R3) had been adopted into the C++26 working draft, which gave `static_assert` the ability to accept a user-generated string-like object as the message parameter. This extension allowed the user of `static_assert` to provide a more precise error message in compile time, thus significantly increasing the user-friendliness of libraries. This proposal, therefore, proposes to unify the language by allowing other constructs in the language that currently accept a message parameter, namely `[[nodiscard]]`, `[[deprecated]]`, and `= delete`, to also allow a user-generated string-like object as the provided message.
 
