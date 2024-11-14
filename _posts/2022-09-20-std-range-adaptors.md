@@ -714,9 +714,9 @@ range elements sequenced in between respectively in the order of arguments.
 - borrowed: never (can be made conditionally borrowed, but the space cost is too high)
 - constant: when all of `r1`, `r2`, ... are constant
 
-### `views::nullable(n: Nullable<T>) -> [T&]`
+### `views::nullable(n: std::maybe<T>) -> [T&]`
 
-(Current design as of [P1255R12](https://wg21.link/P1255R12).)
+(Current design as of [P1255R14](https://wg21.link/P1255R12).)
 
 Produce a new range of 0 or 1 element based on a nullable object.
 ```cpp
@@ -726,7 +726,7 @@ int* q = nullptr;
 nullable(q) // []
 ```
 
-- constraint: `N` is copyable, an object type, derefencible, and contextually convertible to `bool`. (Or a `reference_wrapper` of such a type)
+- constraint: `N` is copyable, an object type, and models `std::maybe` (basically dereferencable and contextually convertible to `bool`). (Or a `reference_wrapper` of such a type)
 - reference: `T&` (the iterator type is actually `T*`)
 - value type: `T`
 - category: contiguous
@@ -756,10 +756,49 @@ A convenient alias/alternative for `views::iota(0uz, ranges::size(r))`. Basicall
 - borrowed: always (iterator owns the current value)
 - constant: always
 
+### `any_view<V[, Opts[, R[, RR[, Diff]]]]>: [R ? R : V&]`
+
+(Current design as of [P3411R0](https://wg21.link/P3411R0).)
+
+A type-erased view that allows customizing the traversal category and other properties. Useful for hiding the concrete result type of a range pipeline, such as:
+```cpp
+ranges::any_view<Widget> getWidgets()
+{
+    std::vector<Widget> widgets_{ /* ... */ };
+    return widgets_ | views::filter(/* ... */) | views::take_while(/* ... */);
+}
+```
+Here, if you used `auto` as return type, the return type will be `take_while_view<filter_view<vector<Widget>, ...>, ...>`, which is not only complicated to spell and mangle, but also exposed internal implementation. Using `any_view` here hide that nicely.
+
+The `Opts` template parameter (defaults to `any_view_options::input`) is a scoped enum that specifies the category, sized, borrowedness and copyability of the resulting `any_view`:
+```cpp
+enum class any_view_options
+{
+    input = 1,
+    forward = 3,
+    bidirectional = 7,
+    random_access = 15,
+    contiguous = 31,
+    sized = 32,
+    borrowed = 64,
+    move_only = 128
+} Opts;
+```
+Users are expected to bit-or these options to construct the desired composition of properties. Note that this view does not support `constexpr` to allow SBO, and `RRef` specifies the desired `range_rvalue_reference_t` (defaults to `Ref - & + &&`).
+
+- reference: `R` (defaults to `V&` if not specified)
+- value type: `V`
+- category: depends on `Opts`
+- common: never
+- sized: depends on `Opts`
+- const-iterable: never
+- borrowed: depends on `Opts`
+- constant: depends on `V`, `R` and `RRef`
+
 ## Real Adaptors
 ### `views::to_input(r: [T]) -> [T]`
 
-(Current design as of [P3137R0](https://wg21.link/P3137R0).)
+(Current design as of [P3137R2](https://wg21.link/P3137R2).)
 
 Downgrade any range to an input, non-common range.
 
@@ -779,9 +818,9 @@ Useful to avoid expensive operations that many range algorithm/adaptor perform t
 - borrowed: when `r` is borrowed
 - constant: when `r` is constant
 
-### `views::cache_latest(r: [T]) -> [T]`
+### `views::cache_latest(r: [T]) -> [T&]`
 
-(Current design as of [P3138R0](https://wg21.link/P3138R0).)
+(Current design as of [P3138R3](https://wg21.link/P3138R3).)
 
 Cache the last element of any range to avoid extra work.
 For example: `r | views::transform(f) | views::filter(g)` will call `f` twice for every element of `r` when iterating, because `filter` dereferences twice on each iteration. If you add `views::cache_latest` between the two adaptor, `f` will only be called once per element.
@@ -790,7 +829,7 @@ For example: `r | views::transform(f) | views::filter(g)` will call `f` twice fo
 - reference: `T&` (force lvalue reference here)
 - value type: same as `r`'s value type
 - category: input
-- common; never
+- common: never
 - sized: when `r` is sized
 - const-iterable: never
 - borrowed: never
@@ -885,7 +924,6 @@ Note that `views::drop_exactly` will produce `r`'s type whenever possible (for e
 
 ### `views::delimit(r: [T] | It, p: U) -> [T]`
 
-
 (Current design as of [P3220R0](https://wg21.link/P3220R0).)
 
 Produce a new range that includes all the element of `r` until `p` (inclusive). Similar to `views::take_while` but using a value instead of a predicate for ending detection. Very useful in cases like importing NTBS ranges with `views::delimit(str, '\0')`.
@@ -904,4 +942,23 @@ Produce a new range that includes all the element of `r` until `p` (inclusive). 
 - const-iterable: when `r` is const-iterable and `U` is equality comparable with the reference and lvalue of value type of `as_const(r)`
 - borrowed: never
 - constant: when `r` is constant
+
+## Other Standard Views
+### `std::filesystem::path_view : [const path_view_component&]`
+
+(Current design as of [P1030R7](https://wg21.link/P1030R7).)
+
+`path_view` represents a trivially copyable view of explicitly unencoded or encoded character sequences in the format of a native or generic filesystem path. When iterated, it yields a `path_view_component` that represents a part of a path not separated by path separators.
+```python
+>>> path_view("/foo/bar")
+["foo", "bar"]
+```
+- reference: `const path_view_component&`
+- value type: `path_view_component`
+- category: bidirectional
+- common: always
+- sized: never
+- const-iterable: always
+- borrowed: never
+- constant: always
 
