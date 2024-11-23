@@ -820,7 +820,7 @@ Useful to avoid expensive operations that many range algorithm/adaptor perform t
 
 ### `views::cache_latest(r: [T]) -> [T&]`
 
-(Current design as of [P3138R3](https://wg21.link/P3138R3).)
+(Current design as of [P3138R5](https://wg21.link/P3138R5), already adopted for C++26.)
 
 Cache the last element of any range to avoid extra work.
 For example: `r | views::transform(f) | views::filter(g)` will call `f` twice for every element of `r` when iterating, because `filter` dereferences twice on each iteration. If you add `views::cache_latest` between the two adaptor, `f` will only be called once per element.
@@ -849,7 +849,7 @@ Transform the input sequence to a range-of-range, and then join all the ranges. 
 - value type: same as `[U]`'s value type (the value type of invocation result)
 - category:
   - If `[U]` is a glvalue range, then at most bidirectional based on `[U]`'s category
-  - Ohterwise (range of prvalue ranges), input
+  - Otherwise (range of prvalue ranges), input
 - common: when both `r` and `[U]` are forward and common, and `[U]` is a glvalue range
 - sized: never
 - const-iterable: when `r` is const-iterable and `f` is const-invocable, and `[U]` is a glvalue range
@@ -944,6 +944,26 @@ Produce a new range that includes all the element of `r` until `p` (inclusive). 
 - constant: when `r` is constant
 
 ## Other Standard Views
+### `std::optional<T>: [T&]`
+
+(Current design as of [P3168R2](https://wg21.link/P3168R2), already adopted for C++26.)
+
+In C++26, `std::optional<T>`, who represents an object that may or may not store a `T`, is upgraded to model `view`. The underlying intention is for `optional` to behave as a container of 0 or 1 elements.
+```python
+>>> optional<int>()
+[]
+>>> optional<int>(1)
+[1]
+```
+- reference: `T&`
+- value type: `remove_cv_t<T>`
+- category: contiguous
+- common: always
+- sized: always (0 if disengaged, 1 if engaged)
+- const-iterable: always
+- borrowed: never
+- constant: when `T` is `const`-qualified
+
 ### `std::filesystem::path_view : [const path_view_component&]`
 
 (Current design as of [P1030R7](https://wg21.link/P1030R7).)
