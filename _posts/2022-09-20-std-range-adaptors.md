@@ -689,8 +689,6 @@ void f() {
 # C++26 Range Adaptors
 ## Factories
 ### `views::concat(r1: [T1], r2: [T2], ...) -> [common_reference_t<T1, T2, ...>]`
-(Current design as of [P2542R8](https://wg21.link/P2542R8), already adopted for C++26.)
-
 Produce a new range that is `r1`, `r2`, ... concated head-to-tail together; i.e. a range that starts at the first element of the first range, ends at the last element of the last range, with all
 range elements sequenced in between respectively in the order of arguments.
 ```python
@@ -714,6 +712,41 @@ range elements sequenced in between respectively in the order of arguments.
 - borrowed: never (can be made conditionally borrowed, but the space cost is too high)
 - constant: when all of `r1`, `r2`, ... are constant
 
+## Real Adaptors
+### `views::cache_latest(r: [T]) -> [T&]`
+Cache the last element of any range to avoid extra work.
+For example: `r | views::transform(f) | views::filter(g)` will call `f` twice for every element of `r` when iterating, because `filter` dereferences twice on each iteration. If you add `views::cache_latest` between the two adaptor, `f` will only be called once per element.
+
+- constraint: `r` is an input range
+- reference: `T&` (force lvalue reference here)
+- value type: same as `r`'s value type
+- category: input
+- common: never
+- sized: when `r` is sized
+- const-iterable: never
+- borrowed: never
+- constant: when `r` is constant
+
+## Other Standard Views
+### `std::optional<T>: [T&]`
+In C++26, `std::optional<T>`, who represents an object that may or may not store a `T`, is upgraded to model `view`. The underlying intention is for `optional` to behave as a container of 0 or 1 elements.
+```python
+>>> optional<int>()
+[]
+>>> optional<int>(1)
+[1]
+```
+- reference: `T&`
+- value type: `remove_cv_t<T>`
+- category: contiguous
+- common: always
+- sized: always (0 if disengaged, 1 if engaged)
+- const-iterable: always
+- borrowed: never
+- constant: when `T` is `const`-qualified
+
+# Future Range Adaptors In Review
+## Factories
 ### `views::nullable(n: std::maybe<T>) -> [T&]`
 
 (Current design as of [P1255R14](https://wg21.link/P1255R12).)
@@ -816,23 +849,6 @@ Useful to avoid expensive operations that many range algorithm/adaptor perform t
 - sized: when `r` is sized
 - const-iterable: when `r` is const-iterable
 - borrowed: when `r` is borrowed
-- constant: when `r` is constant
-
-### `views::cache_latest(r: [T]) -> [T&]`
-
-(Current design as of [P3138R5](https://wg21.link/P3138R5), already adopted for C++26.)
-
-Cache the last element of any range to avoid extra work.
-For example: `r | views::transform(f) | views::filter(g)` will call `f` twice for every element of `r` when iterating, because `filter` dereferences twice on each iteration. If you add `views::cache_latest` between the two adaptor, `f` will only be called once per element.
-
-- constraint: `r` is an input range
-- reference: `T&` (force lvalue reference here)
-- value type: same as `r`'s value type
-- category: input
-- common: never
-- sized: when `r` is sized
-- const-iterable: never
-- borrowed: never
 - constant: when `r` is constant
 
 ### `views::transform_join(r: [T], f: T -> [U]) -> [U]`
@@ -944,26 +960,6 @@ Produce a new range that includes all the element of `r` until `p` (inclusive). 
 - constant: when `r` is constant
 
 ## Other Standard Views
-### `std::optional<T>: [T&]`
-
-(Current design as of [P3168R2](https://wg21.link/P3168R2), already adopted for C++26.)
-
-In C++26, `std::optional<T>`, who represents an object that may or may not store a `T`, is upgraded to model `view`. The underlying intention is for `optional` to behave as a container of 0 or 1 elements.
-```python
->>> optional<int>()
-[]
->>> optional<int>(1)
-[1]
-```
-- reference: `T&`
-- value type: `remove_cv_t<T>`
-- category: contiguous
-- common: always
-- sized: always (0 if disengaged, 1 if engaged)
-- const-iterable: always
-- borrowed: never
-- constant: when `T` is `const`-qualified
-
 ### `std::filesystem::path_view : [const path_view_component&]`
 
 (Current design as of [P1030R7](https://wg21.link/P1030R7).)
