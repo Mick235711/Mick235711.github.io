@@ -12,6 +12,17 @@ feature_image: "/upload/minecraft-launcher.jpg"
     --distrowidth: 95px;
 }
 
+figure.screenshot {
+    display: block;
+    text-align: center;
+}
+figure.screenshot img {
+    vertical-align: top;
+}
+figure.screenshot figcaption {
+    font-size: medium;
+}
+
 table.comparison {
     margin-top: 1em;
     text-align: center;
@@ -195,15 +206,69 @@ This guide does not include launchers that
 - Only support pirated play of Minecraft. Please buy an official version, it is not expensive.
 - Have stopped maintaining.
 - Is a fork of one of the above.
+- That does not let you create custom instances (such as Technic's official launcher).
 - Have a limited user base.
 
 The last one is subjective, but I really think these ten is a good representation of the most popular launchers in 2024. If you have any suggestions, feel free to [open an issue](https://github.com/Mick235711/Mick235711.github.io/issues) to add more launchers.
 
 # Comparison Table
 
+# Screenshots
+Several screenshots, mostly from official websites, to give a sense on what the UI for each launcher looks like.
+
+<figure class="image screenshot">
+    <img src="/upload/minecraft-launcher-comparison/official-launcher.webp" alt="Official Launcher">
+    <figcaption>Official Launcher</figcaption>
+</figure>
+
+<figure class="image screenshot">
+    <img src="/upload/minecraft-launcher-comparison/modrinth.webp" alt="Modrinth App">
+    <figcaption>Modrinth App v0.8.9</figcaption>
+</figure>
+
+<figure class="image screenshot">
+    <img src="/upload/minecraft-launcher-comparison/curseforge.webp" alt="Modrinth App">
+    <figcaption>CurseForge App v1.265.0</figcaption>
+</figure>
+
+<figure class="image screenshot">
+    <img src="/upload/minecraft-launcher-comparison/ftb.webp" alt="FTB App">
+    <figcaption>FTB App v1.26.3</figcaption>
+</figure>
+
+<figure class="image screenshot">
+    <img src="/upload/minecraft-launcher-comparison/prism-launcher.webp" alt="Prism Launcher">
+    <figcaption>Prism Launcher v9.1</figcaption>
+</figure>
+
+<figure class="image screenshot">
+    <img src="/upload/minecraft-launcher-comparison/atlauncher.webp" alt="ATLauncher">
+    <figcaption>ATLauncher v3.4.38.0</figcaption>
+</figure>
+
+<figure class="image screenshot">
+    <img src="/upload/minecraft-launcher-comparison/gdlauncher.webp" alt="GDLauncher">
+    <figcaption>GDLauncher v2.0.20</figcaption>
+</figure>
+
+<figure class="image screenshot">
+    <img src="/upload/minecraft-launcher-comparison/hmcl.png" alt="HMCL">
+    <figcaption>HMCL v3.2.134</figcaption>
+</figure>
+
+<figure class="image screenshot">
+    <img src="/upload/minecraft-launcher-comparison/pcl2.jpg" alt="PCL2">
+    <figcaption>PCL v2.8.9</figcaption>
+</figure>
+
+<figure class="image screenshot">
+    <img src="/upload/minecraft-launcher-comparison/bakaxl.png" alt="BakaXL">
+    <figcaption>BakaXL v3.5.1.0</figcaption>
+</figure>
+
 # Star History Charts
 Here is the GitHub star history graph for some of the launchers above:
 [![Star History Chart](https://api.star-history.com/svg?repos=MultiMC/Launcher,PrismLauncher/PrismLauncher,ATLauncher/ATLauncher,gorilla-devs/GDLauncher,HMCL-dev/HMCL,Hex-Dragon/PCL2,BakaXL-Launcher/BakaXL&type=Date)](https://star-history.com/#MultiMC/Launcher&PrismLauncher/PrismLauncher&ATLauncher/ATLauncher&gorilla-devs/GDLauncher&HMCL-dev/HMCL&Hex-Dragon/PCL2&BakaXL-Launcher/BakaXL&Date)
 
-Note that PCL2 is not fully open-sources, so its star count is not representative. MultiMC has stopped development after 2023, hence the difference in trend.
+Note that PCL2 and BakaXL is not fully open-sources, so its star count is not representative. MultiMC has stopped development after 2023, hence the difference in trend.
 
