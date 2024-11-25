@@ -104,6 +104,12 @@ table.comparison tr td:nth-child(2) {
     padding-right: 5px;
 }
 
+table.comparison tr td {
+    line-height: normal;
+    vertical-align: middle;
+    padding: 5px 0 5px 0;
+}
+
 .center, table.comparison tr td {
     text-align: center;
 }
@@ -151,7 +157,12 @@ table.comparison tr td:nth-child(2) {
 }
 
 img.logo {
-    width: 90%;
+    object-fit: cover;
+    width: 80%;
+    max-height: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 td.yes,
@@ -233,7 +244,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <tr>
 <td class="legend" rowspan="3"></td>
 <td>Official</td>
-<td colspan="4">Distribution Official</td>
+<td colspan="3">Distribution Official</td>
 <td colspan="3">International</td>
 <td colspan="3">Chinese</td>
 </tr>
@@ -257,6 +268,19 @@ This table only resembles the then-current functionality as of Nov 2024.
 </thead>
 
 <tbody>
+<tr>
+<td></td>
+<td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/official-launcher.webp" /></td>
+<td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/modrinth.avif" /></td>
+<td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/curseforge.png" /></td>
+<td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/ftb.png" /></td>
+<td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/prism-launcher.png" /></td>
+<td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/atlauncher.svg" /></td>
+<td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/gdlauncher.png" /></td>
+<td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/hmcl.ico" /></td>
+<td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/pcl2.png" /></td>
+<td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/bakaxl.png" /></td>
+</tr>
 </tbody>
 
 </table>
