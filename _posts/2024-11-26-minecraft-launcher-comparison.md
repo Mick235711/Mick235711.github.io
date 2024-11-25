@@ -4,7 +4,7 @@ categories:
 - Minecraft
 - Mass Survey
 - Comparison
-feature_image: "/upload/minecraft-launcher.jpg"
+feature_image: "/upload/title-pages/minecraft-launcher.jpg"
 ---
 <style>
 :root {
@@ -270,5 +270,5 @@ Several screenshots, mostly from official websites, to give a sense on what the 
 Here is the GitHub star history graph for some of the launchers above:
 [![Star History Chart](https://api.star-history.com/svg?repos=MultiMC/Launcher,PrismLauncher/PrismLauncher,ATLauncher/ATLauncher,gorilla-devs/GDLauncher,HMCL-dev/HMCL,Hex-Dragon/PCL2,BakaXL-Launcher/BakaXL&type=Date)](https://star-history.com/#MultiMC/Launcher&PrismLauncher/PrismLauncher&ATLauncher/ATLauncher&gorilla-devs/GDLauncher&HMCL-dev/HMCL&Hex-Dragon/PCL2&BakaXL-Launcher/BakaXL&Date)
 
-Note that PCL2 and BakaXL is not fully open-sources, so its star count is not representative. MultiMC has stopped development after 2023, hence the difference in trend.
+Note that PCL2 and BakaXL are not fully open-sourced, so their star counts are not representative. MultiMC has stopped development after 2023, hence the difference in trend.
 

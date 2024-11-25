@@ -4,7 +4,7 @@ categories:
 - C++
 - Language
 - Mass Survey
-feature_image: "/upload/iceberg.jpg"
+feature_image: "/upload/title-pages/iceberg.jpg"
 ---
 
 Recently, EWG reviewed [P1819R0 Interpolated String Literal](https://wg21.link/P1819R0), igniting
