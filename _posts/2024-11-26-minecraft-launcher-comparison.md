@@ -8,8 +8,8 @@ feature_image: "/upload/title-pages/minecraft-launcher.jpg"
 ---
 <style>
 :root {
-    --legendwidth: 275px;
-    --distrowidth: 95px;
+    --legendwidth: 150px;
+    --launcherwidth: 90px;
 }
 
 figure.screenshot {
@@ -29,8 +29,7 @@ table.comparison {
     border: none;
     table-layout: fixed;
     font-size: small;
-    width: calc(var(--legendwidth) + 17 * var(--distrowidth));
-    height: 100%;
+    width: calc(var(--legendwidth) + 10 * var(--launcherwidth));
 }
 
 thead {
@@ -78,7 +77,7 @@ td img {
 table.split {
     border: none;
     table-layout: fixed;
-    width: calc(var(--distrowidth));
+    width: calc(var(--launcherwidth));
     height: 100%;
 }
 
@@ -105,7 +104,7 @@ table.comparison tr td:nth-child(2) {
     padding-right: 5px;
 }
 
-.center {
+.center, table.comparison tr td {
     text-align: center;
 }
 
@@ -212,6 +211,55 @@ This guide does not include launchers that
 The last one is subjective, but I really think these ten is a good representation of the most popular launchers in 2024. If you have any suggestions, feel free to [open an issue](https://github.com/Mick235711/Mick235711.github.io/issues) to add more launchers.
 
 # Comparison Table
+This table only resembles the then-current functionality as of Nov 2024.
+
+<table class="comparison">
+
+<colgroup>
+<col style="text-align: left; white-space: nowrap; padding-right: 5px; width: var(--legendwidth);"> <!-- legend -->
+<col style="border-left: double; width: var(--launcherwidth);">
+<col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
+<col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
+<col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
+<col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
+<col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
+<col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
+<col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
+<col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
+<col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
+</colgroup>
+
+<thead>
+<tr>
+<td class="legend" rowspan="3"></td>
+<td>Official</td>
+<td colspan="4">Distribution Official</td>
+<td colspan="3">International</td>
+<td colspan="3">Chinese</td>
+</tr>
+
+<tr>
+<td rowspan="2">Minecraft Launcher</td>
+<td rowspan="2">Modrinth App</td>
+<td rowspan="2">CurseForge App</td>
+<td rowspan="2">FTB App</td>
+<td rowspan="2">Prism Launcher</td>
+<td rowspan="2">ATLauncher</td>
+<td rowspan="2">GDLauncher</td>
+<td rowspan="2">HMCL</td>
+<td rowspan="2">PCL2</td>
+<td>BakaXL</td>
+</tr>
+
+<tr>
+<td><table class="split"><tr><td style="font-size: smaller;">v3</td><td style="font-size: smaller;">v4</td></tr></table></td>
+</tr>
+</thead>
+
+<tbody>
+</tbody>
+
+</table>
 
 # Screenshots
 Several screenshots, mostly from official websites, to give a sense on what the UI for each launcher looks like.
