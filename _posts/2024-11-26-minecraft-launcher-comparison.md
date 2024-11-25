@@ -169,3 +169,14 @@ td.grey, td.blue, td.greyblue, td.extracolour1, td.extracolour2, td.purple, td.p
 }
 </style>
 
+Being a popular name, Minecraft have billions of players around the world. However, the official launcher really sucks, so there exists a plethora of unofficial, third-party launchers that blews the official one miles away in terms of design and functionality. In this post, I try to compare the functionality of the most popular Minecraft launchers/clients. Due to my inability to use all of the launchers in depth and the inherent subjectivity of the topic, I will not compare the design (aesthetics) and performance of different launchers, only their offered functionality.
+
+# Launcher Selection
+As of Nov 2024, I think there are five most popular launchers out there: (*italics* is the one-line summary that exists on each launcher's official website; these are not my words but theirs.)
+1. [Minecraft Official Launcher](https://www.minecraft.net/en-us/download). Well, the one and only, *officially supported*, launcher. Even though its bad performance, poor functionality, and lack of customization is the root cause of these different third-party launchers' existence, we still have to admit that this is the most used launcher, and the one that will be used by the beginners after buying the game.
+
+Internationally Popular:
+2. [Prism Launcher](https://prismlauncher.org). *An Open Source Minecraft launcher with the ability to manage multiple instances, accounts and mods. Focused on user freedom and free redistributability.* This is a fork of PolyMC after one of its main author committed several controversy actions, and PolyMC is a fork of ManyMC, who is a fork of MultiMC. [MultiMC](https://multimc.org/) used to be the absolute best multi-instance launcher out there, but its development was abandoned in 2023, so multiple forks had emerged. In this post, for the entire MultiMC-series of launcher, I will just use Prism Launcher as a representative of all the MultiMC forks, since it is the most popular one.
+3. [ATLauncher](https://atlauncher.com/). *ATLauncher is a simple and easy to use Minecraft Launcher which contains 155 modpacks for you to choose from, as well as the ability to browse and install packs from other platforms including CurseForge, Modrinth and Technic.* With built-in integration of many modpacks and download channels, this has become a recent favorite for many Minecraft modders.
+4. [GDLauncher](https://gdlauncher.com/). *GDLauncher is a simple, yet powerful Minecraft custom launcher with a strong focus on the user experience.* With automatic downloads of mods and modpacks from different channels and a builtin Java version manager, this is also a favorite for many people.
+
