@@ -570,7 +570,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend">Windows</td>
+<td class="legend" rowspan="4">Windows</td>
 <td class="legend">Microsoft Store</td>
 <td class="yes"><a href="https://www.xbox.com/en-SG/games/store/minecraft-launcher/9pgw18npbzv5?ocid=storeforweb">Yes</a></td>
 <td class="no">No</td>
@@ -581,6 +581,48 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend">Win-Get</td>
+<td class="yes"><a href="https://winget.run/pkg/Mojang/MinecraftLauncher">Yes</a></td>
+<td class="no">No</td>
+<td class="yes"><a href="https://winget.run/pkg/Overwolf/CurseForge">Yes</a></td>
+<td class="no">No</td>
+<td class="yes"><a href="https://winget.run/pkg/PrismLauncher/PrismLauncher">Yes</a></td>
+<td class="yes"><a href="https://winget.run/pkg/ATLauncher/ATLauncher">Yes</a></td>
+<td class="yes"><a href="https://winget.run/pkg/GorillaDevs/GDLauncher">Yes</a></td>
+<td class="yes"><a href="https://winget.run/pkg/huanghongxun/HelloMinecraftLauncher">Yes</a></td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend">Chocolatey</td>
+<td class="almost"><a href="https://community.chocolatey.org/packages/minecraft-launcher">Unofficial</a></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="almost"><a href="https://community.chocolatey.org/packages/prismlauncher">Unofficial</a></td>
+<td class="no">No</td>
+<td class="almost"><a href="https://community.chocolatey.org/packages/gdlauncher">Unofficial</a></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend">Scoops</td>
+<td class="yes tooltip">Yes<span class="tooltiptext">games/minecraft</span></td>
+<td class="mixed">Unofficial</td>
+<td class="mixed">Unofficial</td>
+<td class="no">No</td>
+<td class="yes tooltip">Yes<span class="tooltiptext">games/prismlauncher[-git]</span></td>
+<td class="mixed">Unofficial</td>
+<td class="mixed">Unofficial</td>
+<td class="mixed">Unofficial</td>
+<td class="mixed">Unofficial</td>
 <td class="no">No</td>
 </tr>
 </tbody>
