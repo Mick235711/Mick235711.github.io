@@ -329,7 +329,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tr>
 <td colspan="2"></td>
-<td class="semititle" colspan="10">Development &amp; Background</td>
+<td class="semititle line" colspan="10">Development &amp; Background</td>
 </tr>
 
 <tr>
@@ -440,7 +440,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tr>
 <td colspan="2"></td>
-<td class="semititle" colspan="10">Platform Support</td>
+<td class="semititle line" colspan="10">Platform Support</td>
 </tr>
 
 <tr>
@@ -566,7 +566,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tr>
 <td colspan="2"></td>
-<td class="semititle" colspan="10">Distribution Channel</td>
+<td class="semititle line" colspan="10">Distribution Channel</td>
 </tr>
 
 <tr>
@@ -587,9 +587,9 @@ This table only resembles the then-current functionality as of Nov 2024.
 <tr>
 <td class="legend">Win-Get</td>
 <td class="yes"><a href="https://winget.run/pkg/Mojang/MinecraftLauncher">Yes</a></td>
-<td class="no">No</td>
+<td class="yes"><a href="https://winstall.app/apps/Modrinth.ModrinthApp">Yes</a></td>
 <td class="yes"><a href="https://winget.run/pkg/Overwolf/CurseForge">Yes</a></td>
-<td class="no">No</td>
+<td class="yes"><a href="https://winstall.app/apps/FTB.App">Yes</a></td>
 <td class="yes"><a href="https://winget.run/pkg/PrismLauncher/PrismLauncher">Yes</a></td>
 <td class="yes"><a href="https://winget.run/pkg/ATLauncher/ATLauncher">Yes</a></td>
 <td class="yes"><a href="https://winget.run/pkg/GorillaDevs/GDLauncher">Yes</a></td>
@@ -603,7 +603,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="almost"><a href="https://community.chocolatey.org/packages/minecraft-launcher">Unofficial</a></td>
 <td class="no">No</td>
 <td class="no">No</td>
-<td class="no">No</td>
+<td class="almost"><a href="https://community.chocolatey.org/packages/ftb">Unofficial</a></td>
 <td class="almost"><a href="https://community.chocolatey.org/packages/prismlauncher">Unofficial</a></td>
 <td class="no">No</td>
 <td class="almost"><a href="https://community.chocolatey.org/packages/gdlauncher">Unofficial</a></td>
@@ -613,7 +613,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend">Scoops</td>
+<td class="legend">Scoop</td>
 <td class="yes tooltip">Yes<span class="tooltiptext">games/minecraft</span></td>
 <td class="mixed">Unofficial</td>
 <td class="mixed">Unofficial</td>
@@ -623,6 +623,21 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="mixed">Unofficial</td>
 <td class="mixed">Unofficial</td>
 <td class="mixed">Unofficial</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend">macOS</td>
+<td class="legend">Homebrew</td>
+<td class="yes"><a href="https://formulae.brew.sh/cask/minecraft">Yes</a></td>
+<td class="yes"><a href="https://formulae.brew.sh/cask/modrinth">Yes</a></td>
+<td class="yes"><a href="https://formulae.brew.sh/cask/curseforge">Yes</a></td>
+<td class="yes"><a href="https://formulae.brew.sh/cask/feed-the-beast">Yes</a></td>
+<td class="yes"><a href="https://formulae.brew.sh/cask/prismlauncher">Yes</a></td>
+<td class="yes"><a href="https://formulae.brew.sh/cask/atlauncher">Yes</a></td>
+<td class="yes"><a href="https://formulae.brew.sh/cask/gdlauncher">Yes</a></td>
+<td class="no">No</td>
+<td class="no">No</td>
 <td class="no">No</td>
 </tr>
 </tbody>
