@@ -394,7 +394,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes"><a href="https://github.com/FTBTeam/FTB-App/tags">Yes</a></td>
 <td class="yes tooltip"><a href="https://prismlauncher.org/wiki/development/development-builds/">Yes</a><span class="tooltiptext">Per-commit build. Also available as -git packages</span></td>
-<td class="almost tooltip">Normal versions<span class="tooltiptext">Normal builds appear nearly daily</span></td>
+<td class="yes"><a href="https://atl.pw/launcher-nightly">Yes</a></td>
 <td class="yes"><a href="https://github.com/gorilla-devs/GDLauncher/releases">Yes</a></td>
 <td class="yes"><a href="https://hmcl.huangyuhui.net/download/">Yes</a></td>
 <td class="mixed"><a href="https://afdian.com/p/0164034c016c11ebafcb52540025c377">Paywalled</a></td>
@@ -414,7 +414,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td>Java</td>
 <td class="tooltip">Rust<span class="tooltiptext">The old version was written in JavaScript</span></td>
 <td>Java</td>
-<td rowspan="2">VB.NET</td>
+<td>VB.NET</td>
 <td><table class="split"><tr>
 <td>JavaScript</td>
 <td>Rust</td>
@@ -430,6 +430,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td>Java Swing</td>
 <td class="tooltip">SolidJS<span class="tooltiptext">The old version was written in Electron</span></td>
 <td>JavaFX</td>
+<td>WPF</td>
 <td><table class="split"><tr>
 <td>Electron</td>
 <td>Tauri</td>
@@ -486,6 +487,34 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr></table></td>
 </tr>
 </tbody>
+
+<tr>
+<td class="legend">macOS 64-bit</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes" rowspan="2">Universal</td>
+<td class="yes">Yes</td>
+<td class="yes" rowspan="2">Universal</td>
+<td class="yes" rowspan="2">Universal JAR</td>
+<td class="yes" rowspan="2">Universal</td>
+<td class="yes tooltip" rowspan="2">Universal JAR<span class="tooltiptext">HMCL extended Minecraft ARM support to 1.8 using Rosetta 2</span></td>
+<td class="no" rowspan="2"><a href="https://github.com/Hex-Dragon/PCL2/issues/54">No</a></td>
+<td class="line"><table class="split"><tr>
+<td class="no">No</td>
+<td class="mixed">Unknown</td>
+</tr></table></td>
+</tr>
+
+<tr>
+<td class="legend">macOS ARM 64-bit</td>
+<td class="almost">Rosetta 2</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="line"><table class="split"><tr>
+<td class="no">No</td>
+<td class="yes">Yes</td>
+</tr></table></td>
+</tr>
 
 </table>
 
