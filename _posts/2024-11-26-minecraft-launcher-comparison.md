@@ -238,7 +238,7 @@ As of Nov 2024, I think there are ten most popular launchers out there: (*italic
     **Chinese Creation**: (Due to Netease's controversy takeover of Minecraft's distribution in China, many talented developer in China had developed fantastic third-party launchers for the international version of Minecraft, many exceeding the design and functionality provided by these mentioned above. However, a weakness is that these often have not-perfect English support.)
 8. [HMCL (Hello Minecraft! Launcher)](https://hmcl.huangyuhui.net/). *A Minecraft Launcher which is multi-functional, cross-platform and popular.* Being one of the oldest launcher developed, it enjoyed unparalleled popularity in China, with many beginner's tutorial directly recommending this launcher. During its early days, pirated play was a focus, but currently it supports official login pretty well.
 9. [PCL2 (Plain Craft Launcher 2)](https://afdian.com/a/LTCat). A recently-emerged launcher with convenient, sleek UI, and gained popularity very quickly.
-10. [BakaXL](https://www.bakaxl.com/). *BakaXL is distinctive in born. Breaking out the layer concept used by classical launchers, BakaXL is more than satisfying to use. You can use the powerful custom theme feature without any additional purchase, with parallax effect and live wallpaper working together, which is amazing!* One of the best-looking launchers out there, with blazing fast speed and modern design (written with Rust + Tauri).
+10. [BakaXL](https://www.bakaxl.com/). *BakaXL is distinctive in born. Breaking out the layer concept used by classical launchers, BakaXL is more than satisfying to use. You can use the powerful custom theme feature without any additional purchase, with parallax effect and live wallpaper working together, which is amazing!* Originally designed as a client for a specific server, it has since emerged to one of the best-looking launchers out there, with blazing fast speed and modern design (written with Rust + Tauri).
 
 ## What, Your Favorite Launcher Is Not Here?
 This guide does not include launchers that
@@ -285,7 +285,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td rowspan="2">FTB App</td>
 <td rowspan="2">Prism Launcher</td>
 <td rowspan="2">ATLauncher</td>
-<td rowspan="2">GDLauncher</td>
+<td rowspan="2" class="tooltip">GDLauncher<span class="tooltiptext">This table focuses on the <a href="https://gdlauncher.com/docs/gdlauncher-vs-gdlauncher-carbon/">Carbon version</a></span></td>
 <td rowspan="2">HMCL</td>
 <td rowspan="2">PCL2</td>
 <td>BakaXL</td>
@@ -296,7 +296,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <table class="split">
 <tr>
 <td style="font-size: smaller;">v3</td>
-<td class="tooltip" style="font-size: smaller;">v4<span class="tooltiptext">Just <a href="https://www.bakaxl.com/v4">announced</a>, no snapshot binary available yet.</span></td>
+<td class="tooltip" style="font-size: smaller;">v4<span class="tooltiptext">Just <a href="https://www.bakaxl.com/v4">announced</a>, no snapshot binary available yet</span></td>
 </tr>
 </table>
 </td>
@@ -316,6 +316,38 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/hmcl.ico" /></td>
 <td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/pcl2.png" /></td>
 <td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/bakaxl.png" /></td>
+</tr>
+
+<tr>
+<td class="legend semititle" colspan="11">Development &amp; Background</td>
+</tr>
+
+<tr>
+<td class="legend">Developer</td>
+<td>Microsoft</td>
+<td>Modrinth</td>
+<td>Curse LLC</td>
+<td>Feed The Beast</td>
+<td class="tooltip">Community<span class="tooltiptext">A <a href="https://prismlauncher.org/about/">group</a> of 11 maintainers</span></td>
+<td>Community</td>
+<td>GorillaDevs</td>
+<td class="tooltip">Individual<span class="tooltiptext">Made by huangyuhui</span></td>
+<td class="tooltip">Individual<span class="tooltiptext">Made by LTCat (龙腾猫跃)</span></td>
+<td class="tooltip">Individual<span class="tooltiptext">Made by TT702</span></td>
+</tr>
+
+<tr>
+<td class="legend">Initial release</td>
+<td class="tooltip">2013<span class="tooltiptext">The new launcher (v3.x) is released in Sep 2024</span></td>
+<td>2023</td>
+<td>2022</td>
+<td>2022</td>
+<td class="tooltip">2022 (2014 for MultiMC)<span class="tooltiptext">Prism Launcher's first forked version (v5.0) released in Oct 2022, before that it is under the name of PolyMC since Mar 2022, when it is itself forked from MultiMC</span></td>
+<td>2016</td>
+<td>2018</td>
+<td>2015</td>
+<td>2018</td>
+<td>2015</td>
 </tr>
 </tbody>
 
@@ -377,10 +409,13 @@ Several screenshots, mostly from official websites, to give a sense on what the 
 # Star History Charts
 Here is the GitHub star history graph for some of the launchers above:
 <figure class="image star-count">
-<a href="https://star-history.com/#MultiMC/Launcher&PrismLauncher/PrismLauncher&ATLauncher/ATLauncher&gorilla-devs/GDLauncher&HMCL-dev/HMCL&Hex-Dragon/PCL2&BakaXL-Launcher/BakaXL&Date">
-<img src="https://api.star-history.com/svg?repos=MultiMC/Launcher,PrismLauncher/PrismLauncher,ATLauncher/ATLauncher,gorilla-devs/GDLauncher,HMCL-dev/HMCL,Hex-Dragon/PCL2,BakaXL-Launcher/BakaXL&type=Date" alt="Star History Chart">
+<a href="https://star-history.com/#modrinth/code&MultiMC/Launcher&PrismLauncher/PrismLauncher&ATLauncher/ATLauncher&gorilla-devs/GDLauncher&HMCL-dev/HMCL&Hex-Dragon/PCL2&BakaXL-Launcher/BakaXL&Date">
+<img src="https://api.star-history.com/svg?repos=modrinth/code,MultiMC/Launcher,PrismLauncher/PrismLauncher,ATLauncher/ATLauncher,gorilla-devs/GDLauncher,HMCL-dev/HMCL,Hex-Dragon/PCL2,BakaXL-Launcher/BakaXL&type=Date" alt="Star History Chart">
 </a>
 </figure>
 
-Note that PCL2 and BakaXL are not fully open-sourced, so their star counts are not representative. MultiMC has stopped development after 2023, hence the difference in trend.
+Notes:
+- PCL2 and BakaXL are not fully open-sourced, so their star counts are not representative.
+- MultiMC has stopped development after 2023, hence the difference in trend.
+- Modrinth's repo contains both the code for the app and the entire website.
 
