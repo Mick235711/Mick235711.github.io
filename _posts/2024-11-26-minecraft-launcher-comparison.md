@@ -23,6 +23,24 @@ figure.screenshot figcaption {
     font-size: medium;
 }
 
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+@media (prefers-color-scheme: dark) {
+    th {
+        background-color: #222;
+        color: white;
+    }
+    .dropped, .ext, .yes, .no, .notreally, .mixed, .almost, .kdeapp, .gnomeapp, .mktshare1, .mktshare5, .mktshare20, .mktshare30, .mktshare40, .mktshare100, .otherclients, .mau0, .mau1, .mau2, .mau3, .mau4, .mau5, .mau6 {
+        color: black;
+    }
+    table tr.product td {
+        border-color: #333;
+    }
+}
+
 table.comparison {
     margin-left: auto;
     margin-right: auto;
@@ -53,7 +71,9 @@ thead tr td {
 }
 
 @media (prefers-color-scheme: dark) {
-    thead tr td, .legend {background-color: #222; color: white;  }
+    thead tr td, .legend {
+        background-color: #222; color: white;
+    }
 }
 
 @media (min-width: 578px){
@@ -123,6 +143,8 @@ table.comparison tr td {
 }
 
 .tooltip .tooltiptext {
+    width: max-content;
+    max-width: 200px;
     visibility: hidden;
     background-color: black;
     color: #fff;
@@ -162,6 +184,9 @@ img.logo {
     object-fit: cover;
     width: 80%;
     max-height: 100%;
+}
+
+img {
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -188,7 +213,9 @@ td.grey, td.blue, td.greyblue, td.extracolour1, td.extracolour2, td.purple, td.p
 .purple3 { background-color: violet; }
 
 @media (prefers-color-scheme: dark) {
-    td.grey, td.blue, td.greyblue, td.extracolour1, td.extracolour2, td.purple, td.purple2, td.purple3 { color: black;  }
+    td.grey, td.blue, td.greyblue, td.extracolour1, td.extracolour2, td.purple, td.purple2, td.purple3 {
+        color: black;
+    }
 }
 </style>
 
@@ -265,7 +292,14 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td><table class="split"><tr><td style="font-size: smaller;">v3</td><td style="font-size: smaller;">v4</td></tr></table></td>
+<td>
+<table class="split">
+<tr>
+<td style="font-size: smaller;">v3</td>
+<td class="tooltip" style="font-size: smaller;">v4<span class="tooltiptext">Just <a href="https://www.bakaxl.com/v4">announced</a>, no snapshot binary available yet.</span></td>
+</tr>
+</table>
+</td>
 </tr>
 </thead>
 
