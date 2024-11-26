@@ -566,7 +566,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tr>
 <td colspan="2"></td>
-<td class="semititle line" colspan="10">Distribution Channel</td>
+<td class="semititle line tooltip" colspan="10">Distribution Channel<span class="tooltiptext">Only Intel/AMD 64-bit distributions are considered</span></td>
 </tr>
 
 <tr>
@@ -585,7 +585,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend">Win-Get</td>
+<td class="legend">WinGet</td>
 <td class="yes"><a href="https://winget.run/pkg/Mojang/MinecraftLauncher">Yes</a></td>
 <td class="yes"><a href="https://winstall.app/apps/Modrinth.ModrinthApp">Yes</a></td>
 <td class="yes"><a href="https://winget.run/pkg/Overwolf/CurseForge">Yes</a></td>
@@ -637,6 +637,45 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes"><a href="https://formulae.brew.sh/cask/atlauncher">Yes</a></td>
 <td class="yes"><a href="https://formulae.brew.sh/cask/gdlauncher">Yes</a></td>
 <td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend" rowspan="3">Linux Universal</td>
+<td class="legend">Flathub</td>
+<td class="mixed"><a href="https://flathub.org/apps/com.mojang.Minecraft">Unofficial</a></td>
+<td class="yes tooltip"><a href="https://flathub.org/apps/com.modrinth.ModrinthApp">Yes<span class="tooltiptext">Although unverified, recommended by the official website</span></a></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes"><a href="https://flathub.org/apps/org.prismlauncher.PrismLauncher">Yes</a></td>
+<td class="yes"><a href="https://flathub.org/apps/com.atlauncher.ATLauncher">Yes</a></td>
+<td class="mixed"><a href="https://flathub.org/apps/io.gdevs.GDLauncher">Unofficial</a></td>
+<td class="no">No</td>
+<td class="no" rowspan="3">No</td>
+<td class="no" rowspan="3">No</td>
+</tr>
+
+<tr>
+<td class="legend">AppImage</td>
+<td class="mixed"><a href="https://portable-linux-apps.github.io/apps/minecraft-launcher.html">AppMan</a></td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="no">No</td>
+<td class="yes">Yes</td>
+<td class="mixed"><a href="https://portable-linux-apps.github.io/apps/hmcl.html">AppMan</a></td>
+</tr>
+
+<tr>
+<td class="legend">Snap</td>
+<td class="mixed"><a href="https://snapcraft.io/mc-installer">Unofficial</a></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="notreally"><a href="https://snapcraft.io/gdlauncher">Abandoned</a></td>
 <td class="no">No</td>
 <td class="no">No</td>
 </tr>
