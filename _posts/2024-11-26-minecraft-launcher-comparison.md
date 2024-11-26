@@ -409,6 +409,39 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no tooltip">No<span class="tooltiptext">Insider preview available for <a href="https://afdian.com/a/TT702">paid members</a></span></td>
 </tr></table></td>
 </tr>
+
+<tr>
+<td></td>
+<td class="semititle" colspan="10">Platform Support</td>
+</tr>
+
+<tr>
+<td class="legend">Windows 64-bit</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+</tr>
+
+<tr>
+<td class="legend tooltip">Windows 32-bit<span class="tooltiptext">Latest Minecraft version that supports 32-bit OS is 1.20.4</span></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no tooltip">No<span class="tooltiptext">MultiMC has 32-bit support</span></td>
+<td class="almost tooltip">Should work<span class="tooltiptext">JAR file provided</span></td>
+<td class="no">No</td>
+<td class="yes">Yes</td>
+<td class="almost tooltip">Yes<span class="tooltiptext">32-bit support works, but <a href="https://github.com/Hex-Dragon/PCL2/issues/3649">no maintenance work is planned</a>. Bugfix reports will be ignored</span></td>
+<td class="yes">Yes</td>
+</tr>
 </tbody>
 
 </table>
