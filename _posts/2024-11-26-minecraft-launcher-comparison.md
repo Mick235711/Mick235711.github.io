@@ -319,7 +319,8 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend semititle" colspan="11">Development &amp; Background</td>
+<td></td>
+<td class="semititle" colspan="10">Development &amp; Background</td>
 </tr>
 
 <tr>
@@ -348,6 +349,34 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td>2015</td>
 <td>2018</td>
 <td>2015</td>
+</tr>
+
+<tr>
+<td class="legend">Open source?</td>
+<td class="no">No</td>
+<td class="yes"><a href="https://github.com/modrinth/code/blob/main/apps/app/README.md">Yes</a></td>
+<td class="no">No</td>
+<td class="yes"><a href="https://github.com/FTBTeam/FTB-App">Yes</a></td>
+<td class="yes"><a href="https://github.com/PrismLauncher/PrismLauncher">Yes</a></td>
+<td class="yes"><a href="https://github.com/ATLauncher/ATLauncher">Yes</a></td>
+<td class="yes"><a href="https://github.com/gorilla-devs/GDLauncher">Yes</a></td>
+<td class="yes"><a href="https://github.com/HMCL-dev/HMCL">Yes</a></td>
+<td class="almost tooltip"><a href="https://github.com/Hex-Dragon/PCL2">Stable versions only</a><span class="tooltiptext">Source code repo is only updated after each stable release</span></td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend">License</td>
+<td>N/A</td>
+<td>GPL-3.0</td>
+<td>N/A</td>
+<td>LGPL-2.1</td>
+<td>GPL-3.0</td>
+<td>GPL-3.0</td>
+<td>GPL-3.0</td>
+<td>GPL-3.0</td>
+<td><a href="https://github.com/Hex-Dragon/PCL2/blob/main/LICENCE">Custom</a></td>
+<td>N/A</td>
 </tr>
 </tbody>
 
@@ -409,8 +438,8 @@ Several screenshots, mostly from official websites, to give a sense on what the 
 # Star History Charts
 Here is the GitHub star history graph for some of the launchers above:
 <figure class="image star-count">
-<a href="https://star-history.com/#modrinth/code&MultiMC/Launcher&PrismLauncher/PrismLauncher&ATLauncher/ATLauncher&gorilla-devs/GDLauncher&HMCL-dev/HMCL&Hex-Dragon/PCL2&BakaXL-Launcher/BakaXL&Date">
-<img src="https://api.star-history.com/svg?repos=modrinth/code,MultiMC/Launcher,PrismLauncher/PrismLauncher,ATLauncher/ATLauncher,gorilla-devs/GDLauncher,HMCL-dev/HMCL,Hex-Dragon/PCL2,BakaXL-Launcher/BakaXL&type=Date" alt="Star History Chart">
+<a href="https://star-history.com/#modrinth/code&FTBTeam/FTB-App&MultiMC/Launcher&PrismLauncher/PrismLauncher&ATLauncher/ATLauncher&gorilla-devs/GDLauncher&HMCL-dev/HMCL&Hex-Dragon/PCL2&BakaXL-Launcher/BakaXL&Date">
+<img src="https://api.star-history.com/svg?repos=modrinth/code,FTBTeam/FTB-App,MultiMC/Launcher,PrismLauncher/PrismLauncher,ATLauncher/ATLauncher,gorilla-devs/GDLauncher,HMCL-dev/HMCL,Hex-Dragon/PCL2,BakaXL-Launcher/BakaXL&type=Date" alt="Star History Chart">
 </a>
 </figure>
 
