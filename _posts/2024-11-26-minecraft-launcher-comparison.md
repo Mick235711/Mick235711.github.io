@@ -130,12 +130,6 @@ table.comparison tr td:nth-child(2) {
     vertical-align: bottom;
 }
 
-.legend {
-    text-align: left;
-    white-space: nowrap;
-    padding-right: 5px;
-}
-
 table.comparison tr td, table.comparison tr td table tr td {
     line-height: normal;
     vertical-align: middle;
@@ -166,7 +160,7 @@ table.comparison tr td:not(:has(table)), table.comparison tr td table tr td {
     border-radius: 6px;
     padding: 5px 5px;
     position: absolute;
-    z-index: 1;
+    z-index: 1000;
 }
 
 .tooltip:hover .tooltiptext {
@@ -462,7 +456,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip">Windows 32-bit<span class="tooltiptext">Latest Minecraft version that supports 32-bit OS is 1.20.4</span></td>
+<td class="legend tooltip" style="z-index: 1000;">Windows 32-bit<span class="tooltiptext">Latest Minecraft version that supports 32-bit OS is 1.20.4</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -473,6 +467,23 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="almost tooltip">Yes<span class="tooltiptext">32-bit support works, but <a href="https://github.com/Hex-Dragon/PCL2/issues/3649">no maintenance work is planned</a>. Bugfix reports will be ignored</span></td>
 <td class="yes">Yes</td>
+</tr>
+
+<tr>
+<td class="legend tooltip">Windows ARM 64-bit<span class="tooltiptext">Officially supported only after 1.19</span></td>
+<td class="yes">Yes</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes">Yes</td>
+<td class="almost tooltip">Should work<span class="tooltiptext">JAR file provided</span></td>
+<td class="no">No</td>
+<td class="yes tooltip">Yes<span class="tooltiptext">HMCL extended Minecraft ARM support to 1.8</span></td>
+<td class="no"><a href="https://github.com/Hex-Dragon/PCL2/issues/1960">No</a></td>
+<td class="line"><table class="split"><tr>
+<td class="no">No</td>
+<td class="yes">Yes</td>
+</tr></table></td>
 </tr>
 </tbody>
 
