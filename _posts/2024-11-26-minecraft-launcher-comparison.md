@@ -52,6 +52,16 @@ table.comparison {
     width: calc(var(--legendwidth) + 10 * var(--launcherwidth));
 }
 
+table.comparison tr td table {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    border: none;
+    table-layout: fixed;
+    font-size: small;
+    height: inherit;
+}
+
 thead {
     border: none;
     position: sticky;
@@ -126,9 +136,13 @@ table.comparison tr td:nth-child(2) {
     padding-right: 5px;
 }
 
-table.comparison tr td {
+table.comparison tr td, table.comparison tr td table tr td {
     line-height: normal;
     vertical-align: middle;
+    font-size: small;
+}
+
+table.comparison tr td:not(:has(table)), table.comparison tr td table tr td {
     padding: 5px 0 5px 0;
 }
 
@@ -377,6 +391,23 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td>GPL-3.0</td>
 <td><a href="https://github.com/Hex-Dragon/PCL2/blob/main/LICENCE">Custom</a></td>
 <td>N/A</td>
+</tr>
+
+<tr>
+<td class="legend tooltip">Development builds?<span class="tooltiptext">Including nightly, beta, ...</span></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes"><a href="https://github.com/FTBTeam/FTB-App/tags">Yes</a></td>
+<td class="yes tooltip"><a href="https://prismlauncher.org/wiki/development/development-builds/">Yes</a><span class="tooltiptext">Per-commit build. Also available as -git packages</span></td>
+<td class="almost tooltip">Normal versions<span class="tooltiptext">Normal builds appear nearly daily</span></td>
+<td class="yes"><a href="https://github.com/gorilla-devs/GDLauncher/releases">Yes</a></td>
+<td class="yes"><a href="https://hmcl.huangyuhui.net/download/">Yes</a></td>
+<td class="mixed"><a href="https://afdian.com/p/0164034c016c11ebafcb52540025c377">Paywalled</a></td>
+<td class="line"><table class="split" style="height: 44px;"><tr>
+<td class="yes tooltip"><a href="http://jk-insider.bakaxl.com:8888/job/BakaXL%20Insider%20Parrot/lastSuccessfulBuild/">Yes</a><span class="tooltiptext">Already in LTS, no new feature planned</span></td>
+<td class="no tooltip">No<span class="tooltiptext">Insider preview available for <a href="https://afdian.com/a/TT702">paid members</a></span></td>
+</tr></table></td>
 </tr>
 </tbody>
 
