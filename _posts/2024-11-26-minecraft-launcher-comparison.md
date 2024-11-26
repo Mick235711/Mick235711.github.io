@@ -498,7 +498,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes" rowspan="2">Universal JAR</td>
 <td class="yes" rowspan="2">Universal</td>
 <td class="yes tooltip" rowspan="2">Universal JAR<span class="tooltiptext">HMCL extended Minecraft ARM support to 1.8 using Rosetta 2</span></td>
-<td class="no" rowspan="2"><a href="https://github.com/Hex-Dragon/PCL2/issues/54">No</a></td>
+<td class="no" rowspan="5"><a href="https://github.com/Hex-Dragon/PCL2/issues/54">No</a></td>
 <td class="line"><table class="split"><tr>
 <td class="no">No</td>
 <td class="mixed">Unknown</td>
@@ -514,6 +514,51 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 </tr></table></td>
+</tr>
+
+<tr>
+<td class="legend">Linux 64-bit</td>
+<td class="almost">DEB+TAR</td>
+<td class="yes">DEB+RPM</td>
+<td class="mixed">DEB only</td>
+<td class="yes">DEB+RPM</td>
+<td class="mixed">TAR only</td>
+<td class="yes">DEB+RPM</td>
+<td class="mixed">AppImage only</td>
+<td class="yes">JAR</td>
+<td class="line"><table class="split" style="height: 44px;"><tr>
+<td class="no">No</td>
+<td class="yes">Yes</td>
+</tr></table></td>
+</tr>
+
+<tr>
+<td class="legend tooltip" style="z-index: 1000;">Linux ARM 64-bit<span class="tooltiptext">Officially supported only after 1.19</span></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes">DEB+RPM</td>
+<td class="mixed">Flatpak only</td>
+<td class="almost">JAR</td>
+<td class="no">No</td>
+<td class="yes">JAR</td>
+<td class="line"><table class="split"><tr>
+<td class="no">No</td>
+<td class="mixed">Unknown</td>
+</tr></table></td>
+</tr>
+
+<tr>
+<td class="legend tooltip">Other<span class="tooltiptext">No official support</span></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="mixed">JAR may work</td>
+<td class="no">No</td>
+<td class="yes tooltip">JAR<span class="tooltiptext">HMCL <a href="https://github.com/HMCL-dev/HMCL/blob/main/PLATFORM.md">supports</a> ARM32, MIPS64el, RISC-V 64, LoongArch64, and FreeBSD</span></td>
+<td class="no">No</td>
 </tr>
 
 </table>
