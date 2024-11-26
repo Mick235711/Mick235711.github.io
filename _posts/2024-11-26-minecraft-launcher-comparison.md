@@ -411,6 +411,38 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
+<td class="legend">Core Language</td>
+<td>C++</td>
+<td>Rust</td>
+<td rowspan="2">Unknown</td>
+<td>TypeScript</td>
+<td>C++</td>
+<td>Java</td>
+<td class="tooltip">Rust<span class="tooltiptext">The old version was written in JavaScript</span></td>
+<td>Java</td>
+<td rowspan="2">VB.NET</td>
+<td><table class="split"><tr>
+<td>JavaScript</td>
+<td>Rust</td>
+</tr></table></td>
+</tr>
+
+<tr>
+<td class="legend tooltip">UI Framework<span class="tooltiptext">Many also used Vue, which will not be listed</span></td>
+<td>Chromium Embedded Framework</td>
+<td>Tauri</td>
+<td>Electron</td>
+<td>Qt</td>
+<td>Java Swing</td>
+<td class="tooltip">SolidJS<span class="tooltiptext">The old version was written in Electron</span></td>
+<td>JavaFX</td>
+<td><table class="split"><tr>
+<td>Electron</td>
+<td>Tauri</td>
+</tr></table></td>
+</tr>
+
+<tr>
 <td></td>
 <td class="semititle" colspan="10">Platform Support</td>
 </tr>
