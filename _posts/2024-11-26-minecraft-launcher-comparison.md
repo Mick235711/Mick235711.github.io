@@ -8,7 +8,7 @@ feature_image: "/upload/title-pages/minecraft-launcher.jpg"
 ---
 <style>
 :root {
-    --legendwidth: 150px;
+    --legendwidth: 120px;
     --launcherwidth: 90px;
 }
 
@@ -49,7 +49,7 @@ table.comparison {
     border: none;
     table-layout: fixed;
     font-size: small;
-    width: calc(var(--legendwidth) + 10 * var(--launcherwidth));
+    width: calc(2 * var(--legendwidth) + 10 * var(--launcherwidth));
 }
 
 table.comparison tr td table {
@@ -86,8 +86,8 @@ thead tr td {
     }
 }
 
-@media (min-width: 578px){
-    table.comparison tr>td:first-child, .legend {
+@media (min-width: 578px) {
+    table.comparison tr>td:first-child[colspan="2"], table.comparison tr>td:first-child:not([colspan]) + td, .legend {
         position: -webkit-sticky;
         position: sticky;
         left: 0;
@@ -120,7 +120,7 @@ table.split tr td {
     hyphens: auto;
 }
 
-table.comparison tr td:nth-child(2) {
+table.comparison tr td:first-child[colspan="2"], table.comparison tr td:first-child:not([colspan]) + td {
     border-left: 1px dotted lightgrey;
 }
 
@@ -264,6 +264,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <table class="comparison">
 
 <colgroup>
+<col style="text-align: left; white-space: nowrap; padding-right: 5px; width: var(--legendwidth);">
 <col style="text-align: left; white-space: nowrap; padding-right: 5px; width: var(--legendwidth);"> <!-- legend -->
 <col style="border-left: double; width: var(--launcherwidth);">
 <col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
@@ -279,7 +280,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <thead>
 <tr>
-<td class="legend" rowspan="3"></td>
+<td class="legend" rowspan="3" colspan="2"></td>
 <td>Official</td>
 <td colspan="3">Distribution Official</td>
 <td colspan="3">International</td>
@@ -313,7 +314,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tbody>
 <tr>
-<td></td>
+<td colspan="2"></td>
 <td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/official-launcher.webp" /></td>
 <td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/modrinth.avif" /></td>
 <td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/curseforge.png" /></td>
@@ -327,12 +328,12 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td></td>
+<td colspan="2"></td>
 <td class="semititle" colspan="10">Development &amp; Background</td>
 </tr>
 
 <tr>
-<td class="legend">Developer</td>
+<td class="legend" colspan="2">Developer</td>
 <td>Microsoft</td>
 <td>Modrinth</td>
 <td>Curse LLC</td>
@@ -346,7 +347,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend">Initial release</td>
+<td class="legend" colspan="2">Initial release</td>
 <td class="tooltip">2013<span class="tooltiptext">The new launcher (v3.x) is released in Sep 2024</span></td>
 <td>2023</td>
 <td>2022</td>
@@ -360,7 +361,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend">Open source?</td>
+<td class="legend" colspan="2">Open source?</td>
 <td class="no">No</td>
 <td class="yes"><a href="https://github.com/modrinth/code/blob/main/apps/app/README.md">Yes</a></td>
 <td class="no">No</td>
@@ -374,7 +375,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend">License</td>
+<td class="legend" colspan="2">License</td>
 <td>N/A</td>
 <td>GPL-3.0</td>
 <td>N/A</td>
@@ -388,7 +389,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip">Development builds?<span class="tooltiptext">Including nightly, beta, ...</span></td>
+<td class="legend tooltip" colspan="2">Development builds?<span class="tooltiptext">Including nightly, beta, ...</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -405,7 +406,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend">Core Language</td>
+<td class="legend" colspan="2">Core Language</td>
 <td>C++</td>
 <td>Rust</td>
 <td rowspan="2">Unknown</td>
@@ -422,7 +423,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip">UI Framework<span class="tooltiptext">Many also used Vue, which will not be listed</span></td>
+<td class="legend tooltip" colspan="2">UI Framework<span class="tooltiptext">Many also used Vue, which will not be listed</span></td>
 <td>Chromium Embedded Framework</td>
 <td>Tauri</td>
 <td>Electron</td>
@@ -438,12 +439,13 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td></td>
+<td colspan="2"></td>
 <td class="semititle" colspan="10">Platform Support</td>
 </tr>
 
 <tr>
-<td class="legend">Windows 64-bit</td>
+<td class="legend" rowspan="3">Windows</td>
+<td class="legend">64-bit</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
@@ -457,7 +459,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip" style="z-index: 1000;">Windows 32-bit<span class="tooltiptext">Latest Minecraft version that supports 32-bit OS is 1.20.4</span></td>
+<td class="legend tooltip" style="z-index: 1000;">32-bit<span class="tooltiptext">Latest Minecraft version that supports 32-bit OS is 1.20.4</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -471,7 +473,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip">Windows ARM 64-bit<span class="tooltiptext">Officially supported only after 1.19</span></td>
+<td class="legend tooltip">ARM 64-bit<span class="tooltiptext">Officially supported only after 1.19</span></td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -486,10 +488,10 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 </tr></table></td>
 </tr>
-</tbody>
 
 <tr>
-<td class="legend">macOS 64-bit</td>
+<td class="legend" rowspan="2">macOS</td>
+<td class="legend">64-bit</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes" rowspan="2">Universal</td>
@@ -506,7 +508,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend">macOS ARM 64-bit</td>
+<td class="legend tooltip">ARM 64-bit<span class="tooltiptext">Officially supported only after 1.19</span></td>
 <td class="almost">Rosetta 2</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
@@ -517,7 +519,8 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend">Linux 64-bit</td>
+<td class="legend" rowspan="2">Linux</td>
+<td class="legend">64-bit</td>
 <td class="almost">DEB+TAR</td>
 <td class="yes">DEB+RPM</td>
 <td class="mixed">DEB only</td>
@@ -533,7 +536,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip" style="z-index: 1000;">Linux ARM 64-bit<span class="tooltiptext">Officially supported only after 1.19</span></td>
+<td class="legend tooltip" style="z-index: 1000;">ARM 64-bit<span class="tooltiptext">Officially supported only after 1.19</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -549,7 +552,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip">Other<span class="tooltiptext">No official support</span></td>
+<td class="legend tooltip" colspan="2">Other<span class="tooltiptext">No official support</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -560,6 +563,27 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes tooltip">JAR<span class="tooltiptext">HMCL <a href="https://github.com/HMCL-dev/HMCL/blob/main/PLATFORM.md">supports</a> ARM32, MIPS64el, RISC-V 64, LoongArch64, and FreeBSD</span></td>
 <td class="no">No</td>
 </tr>
+
+<tr>
+<td colspan="2"></td>
+<td class="semititle" colspan="10">Distribution Channel</td>
+</tr>
+
+<tr>
+<td class="legend">Windows</td>
+<td class="legend">Microsoft Store</td>
+<td class="yes"><a href="https://www.xbox.com/en-SG/games/store/minecraft-launcher/9pgw18npbzv5?ocid=storeforweb">Yes</a></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+</tbody>
 
 </table>
 
