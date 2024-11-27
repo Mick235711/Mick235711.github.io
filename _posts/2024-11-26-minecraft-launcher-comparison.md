@@ -577,6 +577,20 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
+<td class="legend tooltip" colspan="2">Portable<span class="tooltiptext">i.e. no setup and no dependency executable</span></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes">Yes</td>
+<td class="yes tooltip">Yes<span class="tooltiptext">Windows only; other platform can use JAR</span></td>
+<td class="no">No</td>
+<td class="yes tooltip">Yes<span class="tooltiptext">Windows only; other platform can use JAR</span></td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
 <td class="legend" rowspan="4">Windows</td>
 <td class="legend">Microsoft Store</td>
 <td class="yes"><a href="https://www.xbox.com/en-SG/games/store/minecraft-launcher/9pgw18npbzv5?ocid=storeforweb">Yes</a></td>
