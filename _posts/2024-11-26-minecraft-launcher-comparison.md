@@ -1011,7 +1011,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend" rowspan="5">Mod Loader<br />Auto Install</td>
+<td class="legend" rowspan="7">Mod Loader<br />Auto Install</td>
 <td class="legend">Forge</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1054,6 +1054,20 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
+<td class="legend tooltip">Legacy Fabric<span class="tooltiptext">Fork of Fabric that supports version prior to 1.14</span></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes">Yes</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
 <td class="legend tooltip">Quilt<span class="tooltiptext">Only available for 1.14+</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1074,6 +1088,20 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend tooltip">OptiFine<span class="tooltiptext">Not a mod loader, but essential for some shaders</span></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1385,6 +1413,20 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
+<td class="legend" colspan="2">One-Click Instance Launch</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes">Yes</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
 <td class="legend tooltip" colspan="2">World Management<span class="tooltiptext">e.g. Rename without launch the game, MCEdit, ...</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1432,7 +1474,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
-<td class="no">No</td>
+<td class="mixed">Have Cat</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1558,6 +1600,20 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend tooltip" colspan="2">Window Settings<span class="tooltiptext">process priority, window title, ...</span></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 </tr>
 
