@@ -191,6 +191,7 @@ table.comparison tr td:not(:has(table)), table.comparison tr td table tr td {
 
 .no {
     background-color: #EBC1AD;
+    color: #384743;
 }
 
 img.logo {
