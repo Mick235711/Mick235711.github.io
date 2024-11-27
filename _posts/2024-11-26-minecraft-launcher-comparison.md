@@ -28,7 +28,7 @@ table, th, td {
     border-collapse: collapse;
 }
 
-@media (prefers-color-scheme: dark) {
+/*@media (prefers-color-scheme: dark) {
     th {
         background-color: #222;
         color: white;
@@ -39,7 +39,7 @@ table, th, td {
     table tr.product td {
         border-color: #333;
     }
-}
+}*/
 
 table.comparison {
     margin-left: auto;
@@ -80,11 +80,12 @@ thead tr td {
     z-index: 999;
 }
 
-@media (prefers-color-scheme: dark) {
+/*@media (prefers-color-scheme: dark) {
     thead tr td, .legend {
-        background-color: #222; color: white;
+        background-color: #222;
+        color: white;
     }
-}
+}*/
 
 @media (min-width: 578px) {
     table.comparison tr>td:first-child[colspan="2"], table.comparison tr>td:first-child:not([colspan]) + td, .legend {
@@ -120,9 +121,13 @@ table.split tr td {
     hyphens: auto;
 }
 
-table.comparison tr td:first-child[colspan="2"], table.comparison tr td:first-child:not([colspan]) + td {
+/*table.comparison tr td:first-child[colspan="2"], table.comparison tr td:first-child:not([colspan]) + td {
     border-left: 1px dotted lightgrey;
 }
+
+table.comparison tr td:last-child {
+    border-right: 1px dotted lightgrey;
+}*/
 
 .semititle {
     text-decoration: underline;
@@ -220,11 +225,11 @@ td.grey, td.blue, td.greyblue, td.extracolour1, td.extracolour2, td.purple, td.p
 .purple2 { background-color: thistle; }
 .purple3 { background-color: violet; }
 
-@media (prefers-color-scheme: dark) {
+/*@media (prefers-color-scheme: dark) {
     td.grey, td.blue, td.greyblue, td.extracolour1, td.extracolour2, td.purple, td.purple2, td.purple3 {
         color: black;
     }
-}
+}*/
 </style>
 
 Being a popular name, Minecraft have billions of players around the world. However, the official launcher really sucks, so there exists a plethora of unofficial, third-party launchers that blews the official one miles away in terms of design and functionality. In this post, I try to compare the functionality of the most popular Minecraft launchers/clients. Due to my inability to use all of the launchers in depth and the inherent subjectivity of the topic, I will not compare the design (aesthetics) and performance of different launchers, only their offered functionality.
@@ -275,16 +280,16 @@ This table only resembles the then-current functionality as of Nov 2024.
 <col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
 <col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
 <col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
-<col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
+<col style="border-left: 1px solid lightgrey; border-right: solid; width: var(--launcherwidth);">
 </colgroup>
 
 <thead>
 <tr>
 <td class="legend" rowspan="3" colspan="2"></td>
-<td>Official</td>
-<td colspan="3">Distribution Official</td>
-<td colspan="3">International</td>
-<td colspan="3">Chinese</td>
+<td class="line">Official</td>
+<td class="line" colspan="3">Distribution Official</td>
+<td class="line" colspan="3">International</td>
+<td class="line" colspan="3">Chinese</td>
 </tr>
 
 <tr>
@@ -305,7 +310,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <table class="split">
 <tr>
 <td style="font-size: smaller;">v3</td>
-<td class="tooltip" style="font-size: smaller;">v4<span class="tooltiptext">Just <a href="https://www.bakaxl.com/v4">announced</a>, no snapshot binary available yet</span></td>
+<td class="tooltip" style="font-size: smaller; border-right: 1px solid !important;">v4<span class="tooltiptext">Just <a href="https://www.bakaxl.com/v4">announced</a>, no snapshot binary available yet</span></td>
 </tr>
 </table>
 </td>
