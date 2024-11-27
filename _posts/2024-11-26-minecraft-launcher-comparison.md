@@ -1280,6 +1280,95 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 </tr>
+
+<tr>
+<td class="legend" colspan="2">CurseForge World Download</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes">Yes</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend" colspan="2">Modrinth Datapack Download</td>
+<td class="no">No</td>
+<td class="yes">Yes</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td colspan="2"></td>
+<td class="semititle line" colspan="10">Functionality</td>
+</tr>
+
+<tr>
+<td class="legend" colspan="2">Ads</td>
+<td class="yes">No</td>
+<td class="yes">No</td>
+<td class="yes">No</td>
+<td class="yes">No</td>
+<td class="yes">No</td>
+<td class="yes">No</td>
+<td class="yes">No</td>
+<td class="yes">No</td>
+<td class="yes">No</td>
+<td class="yes">No</td>
+</tr>
+
+<tr>
+<td class="legend" colspan="2">In-Game Overlay</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes tooltip">Yes<span class="tooltiptext">via Overwolf</span></td>
+<td class="yes tooltip">Yes<span class="tooltiptext">via Overwolf</span></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend" colspan="2">Instance Separation</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes">Yes</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend" colspan="2">Themes</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes">Yes</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
 </tbody>
 
 </table>
