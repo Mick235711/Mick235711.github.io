@@ -355,7 +355,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tr>
 <td class="legend" colspan="2">Initial release</td>
-<td class="tooltip">2013<span class="tooltiptext">The new launcher (v3.x) is released in Sep 2024</span></td>
+<td class="tooltip">2013<span class="tooltiptext">The new launcher (v2.x, v3.x) was released in Jul 2019</span></td>
 <td>2023</td>
 <td>2022</td>
 <td>2022</td>
@@ -850,8 +850,8 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
-<td class="no">No</td>
 <td class="yes">Yes</td>
+<td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -864,8 +864,8 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
-<td class="no">No</td>
 <td class="yes">Yes</td>
+<td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -878,8 +878,8 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
-<td class="no">No</td>
 <td class="yes">Yes</td>
+<td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -892,8 +892,8 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
-<td class="no">No</td>
 <td class="yes">Yes</td>
+<td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -935,8 +935,8 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
-<td class="no">No</td>
 <td class="yes">Yes</td>
+<td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -949,8 +949,8 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
-<td class="no">No</td>
 <td class="yes">Yes</td>
+<td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
