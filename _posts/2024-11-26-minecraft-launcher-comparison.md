@@ -212,8 +212,9 @@ td.mixed,
 td.notreally,
 td.line,
 td.grey, td.blue, td.greyblue, td.extracolour1, td.extracolour2, td.purple, td.purple2, td.purple3 {
-    border-top: 1px solid ivory;
-    border-bottom: 1px solid ivory;
+    border-top: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
+    /* FIXME: sticky cannot use border-collapse: collapse */
 }
 
 .grey { background-color: lightgrey; }
