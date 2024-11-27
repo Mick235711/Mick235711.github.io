@@ -1130,7 +1130,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
-<td class="yes">Yes</td>
+<td class="yes tooltip">Yes<span class="tooltiptext">Use website opening to bypass blocked mods</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
