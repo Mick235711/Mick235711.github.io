@@ -685,6 +685,147 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 </tr>
+
+<tr>
+<td class="legend" rowspan="10">Linux Distros</td>
+<td class="legend">Alpine</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="almost"><a href="https://pkgs.alpinelinux.org/package/edge/community/x86_64/prismlauncher">Community</a></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend tooltip">Arch<span class="tooltiptext">incl. Manjaro</span></td>
+<td class="almost tooltip"><a href="https://aur.archlinux.org/packages/minecraft-launcher">AUR</a><span class="tooltiptext">Officially recommended</span></td>
+<td class="mixed"><a href="https://aur.archlinux.org/packages/modrinth-app">AUR</a></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes"><a href="https://archlinux.org/packages/extra/x86_64/prismlauncher/">Yes</a></td>
+<td class="mixed"><a href="https://aur.archlinux.org/packages/atlauncher">AUR</a></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend tooltip">Fedora<span class="tooltiptext">incl. CentOS Stream/RHEL</span></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="mixed"><a href="https://copr.fedorainfracloud.org/coprs/g3tchoo/prismlauncher/">COPR</a></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend tooltip">Debian<span class="tooltiptext">incl. Ubuntu</span></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="mixed"><a href="https://mpr.makedeb.org/packages/prismlauncher">MPR</a></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend">Pi OS</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes"><a href="https://pi-apps.io/wiki/getting-started/apps-list/#minecraft-java-prism-launcher">Yes</a></td>
+<td class="no">No</td>
+<td class="yes"><a href="https://pi-apps.io/wiki/getting-started/apps-list/#minecraft-java-gdlauncher">Yes</a></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend">Gentoo</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes"><a href="https://packages.gentoo.org/packages/games-action/prismlauncher">Yes</a></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend">NixOS</td>
+<td class="no">No</td>
+<td class="yes"><a href="https://search.nixos.org/packages?query=modrinth-app">Yes</a></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes"><a href="https://search.nixos.org/packages?query=prismlauncher">Yes</a></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend tooltip">openSUSE<span class="tooltiptext">incl. SLE</span></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="mixed"><a href="https://build.opensuse.org/package/show/home:getchoo/prismlauncher">OBS</a></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend">Slackware</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="mixed"><a href="https://slackbuilds.org/repository/15.0/games/PrismLauncher/">SlackBuilds</a></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend">Void</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes tooltip">Yes<span class="tooltiptext">PrismLauncher</span></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
 </tbody>
 
 </table>
