@@ -1338,9 +1338,24 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend" colspan="2">Modrinth Datapack Download</td>
+<td class="legend" rowspan="2">Datapack Download</td>
+<td class="legend">Modrinth</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend">CurseForge</td>
+<td class="no">No</td>
+<td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
