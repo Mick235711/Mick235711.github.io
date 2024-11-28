@@ -919,7 +919,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="legend">Bundled</td>
 <td class="yes tooltip">Yes<span class="tooltiptext">Bundled with Microsoft-built OpenJDK</span></td>
 <td class="no">No</td>
-<td class="no">No</td>
+<td class="notreally tooltip">Delegated<span class="tooltiptext">Used the official launcher's Java</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1029,7 +1029,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="legend">Forge</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
@@ -1043,7 +1043,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="legend tooltip">NeoForge<span class="tooltiptext">Fork of Forge, only available for 1.20.1+</span></td>
 <td class="no">No</td>
 <td class="almost tooltip">Yes<span class="tooltiptext">Crash/hang when unsupported version selected</span></td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
@@ -1057,7 +1057,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="legend tooltip">Fabric<span class="tooltiptext">Only available for 1.14+</span></td>
 <td class="no">No</td>
 <td class="almost tooltip">Yes<span class="tooltiptext">Crash/hang when unsupported version selected</span></td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
@@ -1085,7 +1085,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="legend tooltip">Quilt<span class="tooltiptext">Only available for 1.14+</span></td>
 <td class="no">No</td>
 <td class="almost tooltip">Yes<span class="tooltiptext">Crash/hang when unsupported version selected</span></td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
@@ -1142,7 +1142,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="legend">CurseForge</td>
 <td class="no">No</td>
 <td class="no">No</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="yes tooltip">Yes<span class="tooltiptext">Use website opening to bypass blocked mods</span></td>
 <td class="no">No</td>
@@ -1171,7 +1171,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="legend">CurseForge</td>
 <td class="no">No</td>
 <td class="no">No</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
@@ -1200,7 +1200,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="legend">CurseForge</td>
 <td class="no">No</td>
 <td class="no">No</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
@@ -1212,11 +1212,25 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tr>
 <td class="legend" colspan="2">Mod Version Auto-Match</td>
+<td>N/A</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend" colspan="2">Mod Dependency</td>
+<td>N/A</td>
+<td class="almost tooltip">Install only<span class="tooltiptext">Disable mods will not warn about dependency</span></td>
 <td class="yes">Yes</td>
+<td class="no">No</td>
+<td class="almost tooltip">Install only<span class="tooltiptext">Disable mods will not warn about dependency</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1243,7 +1257,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="legend">CurseForge</td>
 <td class="no">No</td>
 <td class="no">No</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1257,7 +1271,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="legend" colspan="2">CurseForge World Download</td>
 <td class="no">No</td>
 <td class="no">No</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
@@ -1286,7 +1300,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="legend">CurseForge</td>
 <td class="no">No</td>
 <td class="no">No</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="yes tooltip">Yes<span class="tooltiptext">URL / Select</span></td>
 <td class="no">No</td>
@@ -1338,25 +1352,12 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 </tr>
 
-<tr>
-<td class="legend" colspan="2">Mod Dependency</td>
-<td class="no">No</td>
-<td class="almost tooltip">Install only<span class="tooltiptext">Disable mods will not warn about dependency</span></td>
-<td class="no">No</td>
-<td class="no">No</td>
-<td class="almost tooltip">Install only<span class="tooltiptext">Disable mods will not warn about dependency</span></td>
-<td class="no">No</td>
-<td class="no">No</td>
-<td class="no">No</td>
-<td class="no">No</td>
-<td class="no">No</td>
-</tr>
 
 <tr>
-<td class="legend" colspan="2">Mod Auto Update</td>
-<td class="no">No</td>
+<td class="legend" colspan="2">Mod(pack) Auto Update</td>
+<td>N/A</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
@@ -1417,7 +1418,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="legend" colspan="2">Instance Separation</td>
 <td class="notreally tooltip">Manual<span class="tooltiptext">Possible by manually selecting different directories</span></td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
@@ -1501,7 +1502,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="legend" colspan="2">Themes</td>
 <td class="no">No</td>
 <td class="mixed tooltip">Preset<span class="tooltiptext">Have preset light / dark / OLED themes, no custom theme support</span></td>
-<td class="no">No</td>
+<td class="mixed tooltip">Paywalled<span class="tooltiptext">Classic / Light is free, other themes need premium</span></td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
@@ -1552,7 +1553,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="legend tooltip">CurseForge<span class="tooltiptext">ZIP</span></td>
 <td class="no">No</td>
 <td class="mixed tooltip">Import only<span class="tooltiptext">Can only import from CurseForge App</span></td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
@@ -1622,7 +1623,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="legend" colspan="2">JVM Param / Memory Limit</td>
 <td class="almost tooltip">Yes<span class="tooltiptext">No memory limit support, possible by passing -Xmx/-Xms</span></td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="almost tooltip">Yes<span class="tooltiptext">Built-in memory limit support but no parameter support, possible through official launcher</span></td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
