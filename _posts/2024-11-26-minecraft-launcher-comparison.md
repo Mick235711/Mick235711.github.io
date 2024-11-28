@@ -851,7 +851,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -865,7 +865,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -879,7 +879,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -893,7 +893,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -948,9 +948,9 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
-<td class="almost tooltip">Yes<span class="tooltiptext">Automatically downloads Adoptopium JDK at startup, regardless of whether you have Java installed</span></td>
+<td class="almost tooltip">Yes<span class="tooltiptext">Automatically downloads Adoptium JDK at startup, regardless of whether you have Java installed</span></td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -964,7 +964,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1032,7 +1032,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1046,7 +1046,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1060,7 +1060,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1088,7 +1088,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1131,7 +1131,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1145,7 +1145,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes tooltip">Yes<span class="tooltiptext">Use website opening to bypass blocked mods</span></td>
-<td class="no">No</td>
+<td class="yes tooltip">Yes<span class="tooltiptext">Use website opening to bypass blocked mods</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1160,7 +1160,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1174,7 +1174,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1189,7 +1189,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1203,7 +1203,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1217,7 +1217,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1231,7 +1231,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="almost tooltip">Install only<span class="tooltiptext">Disable mods will not warn about dependency</span></td>
-<td class="no">No</td>
+<td class="almost tooltip">Install only<span class="tooltiptext">Disable mods will not warn about dependency</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1289,7 +1289,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1303,7 +1303,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes tooltip">Yes<span class="tooltiptext">URL / Select</span></td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1331,7 +1331,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1345,7 +1345,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="almost">Experimental</td>
-<td class="yes">Yes</td>
+<td class="yes tooltip">Yes<span class="tooltiptext">URL / ID / Select</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1360,7 +1360,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1393,7 +1393,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="yes">Yes</td>
+<td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
@@ -1421,7 +1421,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1436,6 +1436,20 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes tooltip">Yes<span class="tooltiptext">Via setting categories</span></td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend" colspan="2">Instance Backup</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes">Yes</td>
+<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1463,7 +1477,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1519,7 +1533,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="mixed tooltip">Paywalled<span class="tooltiptext">Classic / Light is free, other themes need premium</span></td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1544,6 +1558,20 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
+<td class="legend tooltip" colspan="2">Utilities<span class="tooltiptext">Network Checker, Skin Updater, ...</span></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes">Yes</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
 <td colspan="2"></td>
 <td class="semititle line" colspan="10">Advanced</td>
 </tr>
@@ -1556,7 +1584,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1570,7 +1598,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="mixed">Import only</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes tooltip">Yes<span class="tooltiptext">ZIP / URL</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1597,7 +1625,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
-<td class="yes">Yes</td>
+<td class="mixed">Import only</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1612,7 +1640,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1640,7 +1668,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="almost tooltip">Yes<span class="tooltiptext">Built-in memory limit support but no parameter support, possible through official launcher</span></td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1668,7 +1696,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
