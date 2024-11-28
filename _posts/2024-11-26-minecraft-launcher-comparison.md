@@ -375,7 +375,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes"><a href="https://github.com/FTBTeam/FTB-App">Yes</a></td>
 <td class="yes"><a href="https://github.com/PrismLauncher/PrismLauncher">Yes</a></td>
 <td class="yes"><a href="https://github.com/ATLauncher/ATLauncher">Yes</a></td>
-<td class="yes"><a href="https://github.com/gorilla-devs/GDLauncher">Yes</a></td>
+<td class="yes"><a href="https://github.com/gorilla-devs/GDLauncher-Carbon">Yes</a></td>
 <td class="yes"><a href="https://github.com/HMCL-dev/HMCL">Yes</a></td>
 <td class="almost tooltip"><a href="https://github.com/Hex-Dragon/PCL2">Stable versions only</a><span class="tooltiptext">Source code repo is only updated after each stable release</span></td>
 <td class="no">No</td>
@@ -389,7 +389,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td>LGPL-2.1</td>
 <td>GPL-3.0</td>
 <td>GPL-3.0</td>
-<td>GPL-3.0</td>
+<td class="tooltip"><a href="https://github.com/gorilla-devs/GDLauncher-Carbon/blob/develop/LICENSE">Custom</a><span class="tooltiptext">The legacy version was GPL-3.0</span></td>
 <td>GPL-3.0</td>
 <td><a href="https://github.com/Hex-Dragon/PCL2/blob/main/LICENCE">Custom</a></td>
 <td>N/A</td>
@@ -852,7 +852,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -866,7 +866,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -880,7 +880,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -936,8 +936,8 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -951,7 +951,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="almost tooltip">Yes<span class="tooltiptext">Automatically downloads Adoptium JDK at startup, regardless of whether you have Java installed</span></td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -965,7 +965,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -985,7 +985,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="almost tooltip">Yes<span class="tooltiptext">Requires connection code</span></td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="yes">Yes</td>
+<td class="almost tooltip">Yes<span class="tooltiptext">Requires connection code</span></td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
@@ -1033,7 +1033,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1047,7 +1047,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1061,7 +1061,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1089,7 +1089,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1132,7 +1132,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1146,7 +1146,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes tooltip">Yes<span class="tooltiptext">Use website opening to bypass blocked mods</span></td>
 <td class="yes tooltip">Yes<span class="tooltiptext">Use website opening to bypass blocked mods</span></td>
-<td class="no">No</td>
+<td class="yes tooltip">Yes<span class="tooltiptext">Bypass granted by CurseForge</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1218,7 +1218,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1232,7 +1232,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="almost tooltip">Install only<span class="tooltiptext">Disable mods will not warn about dependency</span></td>
 <td class="almost tooltip">Install only<span class="tooltiptext">Disable mods will not warn about dependency</span></td>
-<td class="no">No</td>
+<td class="almost tooltip">Install only<span class="tooltiptext">Disable mods will not warn about dependency</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1290,7 +1290,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1304,7 +1304,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes tooltip">Yes<span class="tooltiptext">URL / Select</span></td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1375,12 +1375,12 @@ This table only resembles the then-current functionality as of Nov 2024.
 <tr>
 <td class="legend" colspan="2">Ads</td>
 <td class="yes">No</td>
-<td class="yes">No</td>
 <td class="no">Yes</td>
 <td class="no">Yes</td>
+<td class="no">Yes</td>
 <td class="yes">No</td>
 <td class="yes">No</td>
-<td class="yes">No</td>
+<td class="no">Yes</td>
 <td class="yes">No</td>
 <td class="yes">No</td>
 <td class="yes">No</td>
@@ -1394,7 +1394,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
-<td class="yes">Yes</td>
+<td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
@@ -1422,7 +1422,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1534,7 +1534,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="mixed tooltip">Preset<span class="tooltiptext">Have 4 presets, no custom theme support</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1585,7 +1585,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1597,9 +1597,9 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="mixed tooltip">Import only<span class="tooltiptext">Can only import from CurseForge App</span></td>
 <td class="yes">Yes</td>
 <td class="mixed">Import only</td>
-<td class="yes">Yes</td>
 <td class="yes tooltip">Yes<span class="tooltiptext">ZIP / URL</span></td>
-<td class="no">No</td>
+<td class="yes tooltip">Yes<span class="tooltiptext">ZIP / URL</span></td>
+<td class="yes tooltip">Yes<span class="tooltiptext">ZIP / URL</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1648,6 +1648,20 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
+<td class="legend tooltip">ATLauncher<span class="tooltiptext">ZIP</span></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes">Yes</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
 <td class="legend" colspan="2">Command Line Interface</td>
 <td class="yes"><a href="https://minecraft.fandom.com/wiki/Minecraft_Launcher#Command_line_usage">Yes</a></td>
 <td class="no">No</td>
@@ -1669,7 +1683,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1697,7 +1711,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1813,6 +1827,7 @@ Here is the GitHub star history graph for some of the launchers above:
 
 Notes:
 - PCL2 and BakaXL are not fully open-sourced, so their star counts are not representative.
+- GDLauncher's star count is for the legacy version, the Carbon version is too new to get a representative count.
 - MultiMC has stopped development after 2023, hence the difference in trend.
 - Modrinth's repo contains both the code for the app and the entire website.
 
