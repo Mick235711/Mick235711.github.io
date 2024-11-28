@@ -322,16 +322,16 @@ This table only resembles the then-current functionality as of Nov 2024.
 <tbody>
 <tr>
 <td colspan="2"></td>
-<td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/official-launcher.webp" /></td>
-<td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/modrinth.avif" /></td>
-<td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/curseforge.png" /></td>
-<td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/ftb.png" /></td>
-<td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/prism-launcher.png" /></td>
-<td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/atlauncher.svg" /></td>
-<td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/gdlauncher.png" /></td>
-<td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/hmcl.ico" /></td>
-<td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/pcl2.png" /></td>
-<td><img class="logo" src="/upload/minecraft-launcher-comparison/logos/bakaxl.png" /></td>
+<td><a href="https://www.minecraft.net/en-us/download"><img class="logo" src="/upload/minecraft-launcher-comparison/logos/official-launcher.webp" /></a></td>
+<td><a href="https://modrinth.com/app"><img class="logo" src="/upload/minecraft-launcher-comparison/logos/modrinth.avif" /></a></td>
+<td><a href="https://www.curseforge.com/download/app"><img class="logo" src="/upload/minecraft-launcher-comparison/logos/curseforge.png" /></a></td>
+<td><a href="https://www.feed-the-beast.com/ftb-app"><img class="logo" src="/upload/minecraft-launcher-comparison/logos/ftb.png" /></a></td>
+<td><a href="https://prismlauncher.org"><img class="logo" src="/upload/minecraft-launcher-comparison/logos/prism-launcher.png" /></a></td>
+<td><a href="https://atlauncher.com/"><img class="logo" src="/upload/minecraft-launcher-comparison/logos/atlauncher.svg" /></a></td>
+<td><a href="https://gdlauncher.com/"><img class="logo" src="/upload/minecraft-launcher-comparison/logos/gdlauncher.png" /></a></td>
+<td><a href="https://hmcl.huangyuhui.net/"><img class="logo" src="/upload/minecraft-launcher-comparison/logos/hmcl.ico" /></a></td>
+<td><a href="https://afdian.com/a/LTCat"><img class="logo" src="/upload/minecraft-launcher-comparison/logos/pcl2.png" /></a></td>
+<td><a href="https://www.bakaxl.com/"><img class="logo" src="/upload/minecraft-launcher-comparison/logos/bakaxl.png" /></a></td>
 </tr>
 
 <tr>
@@ -1499,7 +1499,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip" colspan="2">Screenshot Management</td>
+<td class="legend" colspan="2">Screenshot Management</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1763,6 +1763,8 @@ This table only resembles the then-current functionality as of Nov 2024.
 </table>
 
 Note: launcher other than Prism are WIP
+
+Note: This table does not consider multiplayer/server-related functionalities (skin, server opening, ...) due to me being unfamiliar with servers. An equally comprehensive comparison table [here](https://github.com/TayouVR/MinecraftLauncherComparison) can be used for that.
 
 # Screenshots
 Several screenshots, mostly from official websites, to give a sense on what the UI for each launcher looks like.
