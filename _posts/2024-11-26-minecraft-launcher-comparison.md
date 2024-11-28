@@ -368,7 +368,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend" colspan="2">Open source?</td>
+<td class="legend" colspan="2">Open Source</td>
 <td class="no">No</td>
 <td class="yes"><a href="https://github.com/modrinth/code/blob/main/apps/app/README.md">Yes</a></td>
 <td class="no">No</td>
@@ -396,7 +396,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip" colspan="2">Development builds?<span class="tooltiptext">Including nightly, beta, ...</span></td>
+<td class="legend tooltip" colspan="2">Development Builds<span class="tooltiptext">Including nightly, beta, ...</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -846,7 +846,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tr>
 <td class="legend">Snapshots</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -860,7 +860,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tr>
 <td class="legend tooltip">Betas<span class="tooltiptext">Dec 2010 (b1.0) - Sep 2011 (b1.8.1)</span></td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -874,7 +874,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tr>
 <td class="legend tooltip">Alphas<span class="tooltiptext">May 2009 (rd-132211) - Dec 2010 (a1.2.6)</span></td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -917,7 +917,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <tr>
 <td class="legend" rowspan="3">Java</td>
 <td class="legend">Bundled</td>
-<td class="no">No</td>
+<td class="yes tooltip">Yes<span class="tooltiptext">Bundled with Microsoft-built OpenJDK</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1386,6 +1386,20 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
+<td class="legend" colspan="2">Multi-Language Support</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+</tr>
+
+<tr>
 <td class="legend" colspan="2">In-Game Overlay</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1401,7 +1415,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tr>
 <td class="legend" colspan="2">Instance Separation</td>
-<td class="no">No</td>
+<td class="notreally tooltip">Manual<span class="tooltiptext">Possible by manually selecting different directories</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1435,6 +1449,20 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend tooltip" colspan="2">Directory Opener<span class="tooltiptext">Easy/one-click access to mods, shareds, ... folders</span></td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes">Yes</td>
+<td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1578,7 +1606,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tr>
 <td class="legend" colspan="2">Java Param / Memory</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
