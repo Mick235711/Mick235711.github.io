@@ -658,8 +658,8 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes"><a href="https://formulae.brew.sh/cask/atlauncher">Yes</a></td>
 <td class="yes"><a href="https://formulae.brew.sh/cask/gdlauncher">Yes</a></td>
 <td class="no">No</td>
-<td class="no">No</td>
-<td class="no">No</td>
+<td class="line">N/A</td>
+<td class="line">N/A</td>
 </tr>
 
 <tr>
@@ -673,8 +673,8 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes"><a href="https://flathub.org/apps/com.atlauncher.ATLauncher">Yes</a></td>
 <td class="mixed"><a href="https://flathub.org/apps/io.gdevs.GDLauncher">Unofficial</a></td>
 <td class="no">No</td>
-<td class="no" rowspan="3">No</td>
-<td class="no" rowspan="3">No</td>
+<td class="line" rowspan="3">N/A</td>
+<td class="line" rowspan="3">N/A</td>
 </tr>
 
 <tr>
@@ -712,8 +712,8 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
-<td class="no" rowspan="10">No</td>
-<td class="no" rowspan="10">No</td>
+<td class="line" rowspan="10">N/A</td>
+<td class="line" rowspan="10">N/A</td>
 </tr>
 
 <tr>
@@ -849,7 +849,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -863,7 +863,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -877,7 +877,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -906,7 +906,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
-<td class="no">Yes</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -934,7 +934,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -948,7 +948,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
-<td class="no">No</td>
+<td class="almost tooltip">Yes<span class="tooltiptext">Automatically downloads Adoptopium JDK at startup, regardless of whether you have Java installed</span></td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -962,7 +962,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -982,7 +982,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="yes">Yes</td>
+<td class="almost tooltip">Yes<span class="tooltiptext">Requires connection code</span></td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
@@ -1030,7 +1030,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1058,7 +1058,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="almost tooltip">Yes<span class="tooltiptext">Crash/hang when unsupported version selected</span></td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1143,7 +1143,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="yes tooltip">Yes<span class="tooltiptext">Use website opening to bypass blocked mods</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1212,10 +1212,10 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tr>
 <td class="legend" colspan="2">Mod Version Auto-Match</td>
-<td>N/A</td>
+<td class="line">N/A</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1226,7 +1226,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tr>
 <td class="legend" colspan="2">Mod Dependency</td>
-<td>N/A</td>
+<td class="line">N/A</td>
 <td class="almost tooltip">Install only<span class="tooltiptext">Disable mods will not warn about dependency</span></td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
@@ -1301,7 +1301,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="yes tooltip">Yes<span class="tooltiptext">URL / Select</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1315,7 +1315,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no tooltip">No<span class="tooltiptext">Slowpoke had <a href="https://prismlauncher.org/news/ftb-removal/">requested</a> removal of FTB modpack downloading feature. Only imports from FTB App is available</span></td>
 <td class="yes tooltip">Yes<span class="tooltiptext">FTB modpack downloading was restored in Nov 2024</span></td>
 <td class="no">No</td>
@@ -1355,10 +1355,10 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tr>
 <td class="legend" colspan="2">Mod(pack) Auto Update</td>
-<td>N/A</td>
+<td class="line">N/A</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1376,8 +1376,8 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="legend" colspan="2">Ads</td>
 <td class="yes">No</td>
 <td class="yes">No</td>
-<td class="yes">No</td>
-<td class="yes">No</td>
+<td class="no">Yes</td>
+<td class="no">Yes</td>
 <td class="yes">No</td>
 <td class="yes">No</td>
 <td class="yes">No</td>
@@ -1419,7 +1419,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="notreally tooltip">Manual<span class="tooltiptext">Possible by manually selecting different directories</span></td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1433,7 +1433,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes tooltip">Yes<span class="tooltiptext">Via setting categories</span></td>
 <td class="no">No</td>
-<td class="no">No</td>
+<td class="yes tooltip">Yes<span class="tooltiptext">Via setting categories</span></td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1461,7 +1461,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1490,6 +1490,20 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
+<td class="yes">Yes</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend" colspan="2">Proxy</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="almost">Beta</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1554,7 +1568,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="mixed tooltip">Import only<span class="tooltiptext">Can only import from CurseForge App</span></td>
 <td class="yes">Yes</td>
-<td class="no">No</td>
+<td class="mixed">Import only</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1624,7 +1638,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="almost tooltip">Yes<span class="tooltiptext">No memory limit support, possible by passing -Xmx/-Xms</span></td>
 <td class="yes">Yes</td>
 <td class="almost tooltip">Yes<span class="tooltiptext">Built-in memory limit support but no parameter support, possible through official launcher</span></td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1652,7 +1666,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1679,7 +1693,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="legend tooltip" colspan="2">Window Settings<span class="tooltiptext">process priority, window title, ...</span></td>
 <td class="no">No</td>
 <td class="mixed tooltip">Partial<span class="tooltiptext">Supports fullscreen and width/height spec</span></td>
-<td class="no">No</td>
+<td class="mixed tooltip">Partial<span class="tooltiptext">Supports fullscreen and width/height spec</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
