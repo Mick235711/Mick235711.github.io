@@ -1462,7 +1462,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
-<td class="no">No</td>
+<td class="yes tooltip">Yes<span class="tooltiptext">Can create shortcut for instances on desktop</span></td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1745,10 +1745,10 @@ This table only resembles the then-current functionality as of Nov 2024.
 <tr>
 <td class="legend tooltip" colspan="2">Window Settings<span class="tooltiptext">process priority, window title, ...</span></td>
 <td class="no">No</td>
-<td class="mixed tooltip">Partial<span class="tooltiptext">Supports fullscreen and width/height spec</span></td>
-<td class="mixed tooltip">Partial<span class="tooltiptext">Supports fullscreen and width/height spec</span></td>
+<td class="mixed tooltip">Partial<span class="tooltiptext">Supports fullscreen and width / height spec</span></td>
+<td class="mixed tooltip">Partial<span class="tooltiptext">Supports fullscreen and width / height spec</span></td>
 <td class="no">No</td>
-<td class="no">No</td>
+<td class="mixed tooltip">Partial<span class="tooltiptext">Supports fullscreen and width / height spec</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
