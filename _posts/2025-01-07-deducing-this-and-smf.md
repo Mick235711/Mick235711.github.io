@@ -159,3 +159,59 @@ A& operator=(A&&) = default;
 ```
 
 ## `= default`
+
+Compared to SMFs which was a thing since the inception of C++, `= default` is a relatively "new" (with 14 years of age already!) thing. Essentially, it requests the compiler to "do as if this thing had been implicitly generated". You can explicitly request the default function body by using `= default` *as* the function body:
+```cpp
+struct A {}; // SMFs implicitly generated
+struct B
+{
+    B() = default; // implemented as-if it is implicitly generated
+    B& operator=(B&&) & = default; // implemented as-if it is implicitly generated
+};
+```
+Besides the textual benefit of writing out implicit functions explicitly, `= default` also allows you to make small modifications to the implicit signatures of SMFs, as demonstrated by the use of *ref-qualifier*s above. However, the possible modifications are [restricted](https://eel.is/c++draft/dcl.fct.def.default#2) by the standard explicitly. Only the following difference are permitted for `= default` functions compared to the implicitly generated signatures:
+- They may have different `noexcept` specifications.
+- For non-constructors, *ref-qualifier*s can be different.
+- If the implicit signature have a non-object parameter of type `const A&`, the explicit signature can have a non-object parameter of type `A&`.
+- The explicit signature can be written in Deducing This, **provided** that the type of the object parameter (the first one, prepended by `this`) must also be a reference to `A`.
+
+```cpp
+struct A
+{
+    A() noexcept = default; // fine, Rule 1
+    A& operator=(const A&) noexcept & = default; // fine, Rule 1 + Rule 2
+    A(A&) = default; // fine, Rule 3
+    int operator=(const A&) = default; // error, not a permitted difference
+    A(int x = 2) = default; // error, not a permitted difference
+};
+```
+
+In this sense, functions that can be `= default`ed can be said to be a more strictly restricted version of SMF signatures that are valid... or can they?
+
+Actually, these two sets are disjoint! Besides SMFs, there are other functions that can be `= default`ed: comparison operators.
+
+The full story for comparison is too long to be described in this post, but interested readers can consult [here](https://mick235711.github.io/2024/04/30/operator-overloading-guide/#comparison-crash-course-operator-and-operator-and-other-five) for a detailed description. For this post, it is sufficient to note that
+- A defaulted `<=>` or `=` (primary comparisons) means memberwise application of the operator.
+- A defaulted other operator (secondary comparisons) means rewriting into one of primary comparison operators. For example, `a < b` will default to rewriting into `(a <=> b) < 0`.
+
+The [criteria](https://eel.is/c++draft/class.compare.default) for a defaulted comparison operator, regardless of which operator is being declared, is as follows:
+- It is not a template.
+- It is either a non-static member function or a friend (non-member) function.
+- Must have two (incl. explicit/implicit object parameter) parameters (this is restricted by the operator overload syntax) of the same type. The type must be `A` or `const A&`.
+- Must return `bool` if the operator is not `<=>`. If declaring `<=>`, the return type must either be `auto` (exactly), a comparison category type, or a type that is convertible from all the `<=>` result of subobjects.
+
+```cpp
+struct A
+{
+    int x;
+    bool operator==(const A&) const = default; // fine, const A& + const A&
+    bool operator<(const A&) = default; // error, first argument (implicit) is A&
+    friend bool operator>(A, A) = default; // fine
+
+    auto operator<=>(const A&) const = default; // fine
+    friend std::any operator<=>(A, A) = default; // fine
+    int operator<=>(const A&) const = default; // error, return type of x <=> x not convertible to int
+};
+```
+
+*Note*: the fact that operators other than `<=>` cannot use `auto` in lieu of `bool` or `auto&` in lieu of `A&` is inconsistent, and there is [a proposal](https://wg21.link/P2952) to fix that.
