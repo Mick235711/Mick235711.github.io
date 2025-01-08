@@ -30,4 +30,132 @@ Before we explore the interaction between Deducing This and SMFs, we must first 
 
 ## Special Member Functions
 
+Traditionally, special member functions refer to the functions that will be automatically declared by the compiler for a class, including:
+- Default constructors
+- Copy constructors
+- Move constructors
+- Copy assignment operators
+- Move assignment operators
+- Prospective destructors
+
+*Note*: The reason that all the constructors and operators are in plural form, and destructors is prepended by "prospective", is because of C++20 Concepts. With `requires` clauses, you can have several "prospective" destructors for a class, but only one will be available at any given time to act as the "real" destructor.
+
+These (except the default constructors) are also the functions affected by ["Rule of Five"](https://mick235711.github.io/2024/04/30/operator-overloading-guide/#the-basics-the-rule-of-three-the-rule-of-five-and-the-rule-of-zero), which describes the customs and idioms related to defining those functions for a class (refer to the linked page for more information).
+
+Special Member Functions is a term [defined by the standard](https://eel.is/c++draft/special#1), so the definition of them seems to be crystal clear, right?
+
+Not so fast! What is the *exact signature* required for a constructor to be considered a SMF? (For example, is the [copy-and-swap](https://mick235711.github.io/2024/04/30/operator-overloading-guide/#copy-and-swap-idiom-when-and-how) assignment operator `X& operator=(X)` considered copy assignment or move assignment?) What about default arguments? What about *template*s? Nothing is *that* simple in C++!
+
+Let's look at each special member function in detail.
+
+### Default Constructors and Destructors
+
+This is the easiest case. A constructor is a default constructor if and only if:
+- Each parameter that is not a pack have a default argument.
+
+That's it! ([Standard](https://eel.is/c++draft/class.default.ctor#1)) What this means essentially is that as long as the constructor *can* be called with no arguments (`A()`), it is a default constructor.
+```cpp
+struct A
+{
+    A(); // default constructor
+    A(int x = 2, int y = 3); // also a default constructor
+    template<typename T = int> A(T x = 2); // also a default constructor
+    template<typename... Ts> A(Ts... args); // also a default constructor
+    template<typename... Ts> A(); // also a default constructor
+
+    A(int a, int b = 2); // not a default constructor
+    template<typename T> A(); // also not
+};
+```
+(Note that the access specifier, `noexcept`, `explicit`, `requires`, or `constexpr`/`consteval` specifier will not affect whether a constructor is a SMF, same below.)
+
+Of course, the *implicitly generated* default constructor (will be generated if no constructor is declared) always have the form:
+```cpp
+A() = default;
+```
+(the `constexpr` and `noexcept`-ness will be deduced by the member/base's default constructors; same below)
+
+A destructor for the class is a member declared with the `~A()` syntax (with optional preceding specifier and `noexcept`/`requires`). It cannot be declared in any other form, so this is the only requirement. If no destructor and move operations is defined for a class, one will be implicitly generated with the form:
+```cpp
+~A() = default;
+```
+
+### Copy/Move Constructors
+
+Copy/Move constructors are called when an object is constructed by copying/moving another object. The standard [specified](https://eel.is/c++draft/class.copy.ctor) that a constructor for class `A` will be identified as a copy/move constructor if and only if:
+- It is not a template.
+- Its first parameter is `[cv] A&` (for copy) / `[cv] A&&` (for move).
+- All non-first parameters have default arguments.
+
+*Note*: `[cv]` refers to any combinations of `const` and `volatile`, same below.
+
+Again, this essentially means that the compiler will treat a constructor as SMF based on its callability with one argument, instead of its declared number of arguments.
+```cpp
+struct A
+{
+    A(const A&); // copy constructor
+    A(A&); // also (used by auto_ptr<T> to indicate stole semantics)
+    A(const volatile A&, int x = 2); // also
+
+    A(A&&); // move constructor
+    A(const A&&) // also (although very weird)
+    A(volatile A&&, double x = 2.0); // also
+
+    template<typename T = int>
+    A(const A&); // not a copy constructor
+    A(A&&, int x); // not a move constructor
+};
+```
+
+If no copy constructor is defined for a class, a copy constructor will be implicitly generated with the form
+```cpp
+A(const A&) = default; // normal
+A(A&) = default; // only if a subobject (member or base) have a copy constructor with argument [volatile] A&
+```
+
+If no copy/move operations and destructors are defined for a class, a move constructor will be implicitly generated with the form
+```cpp
+A(A&&) = default;
+```
+
+*Note*: a critical difference here is the criteria of implicit generation. If a move operation is declared, the copy constructor will still be generated; it will just be declared as `= delete`. However, if a copy/move operation or a destructor is declared, the move constructor will not be generated at all, falling silently back to copying.
+
+### Copy/Move Assignment
+
+Note that `operator=` can only be declared as a member function, so we don't need to deal with [operator overload form shenanigans](https://mick235711.github.io/2024/04/30/operator-overloading-guide/#basics-of-operator-overloading) here.
+
+Copy/Move assignment are called when an object is assigned by lvalue/rvalue of the same type. The standard [specified](https://eel.is/c++draft/class.copy.assign) that a declared `operator=` member function for class `A` will be identified as a copy/move assignment if and only if:
+- It is not a template.
+- Its first **non-object** parameter is `A` or `[cv] A&` (for copy) / `[cv] A&&` (for move).
+
+*Note*: operator overloads, except for `operator()` and `operator[]`, cannot have default arguments, so that item does not apply here.
+
+```cpp
+struct A
+{
+    A& operator=(const A&); // copy assignment
+    A& operator=(A&); // also (used by auto_ptr<T> to indicate stole semantics)
+    int operator=(const volatile A&) const &; // also
+
+    A& operator=(A&&) &; // move assignment
+    double operator=(const A&&) const &&; // also (although very weird)
+
+    template<typename T = int>
+    A& operator=(const A&); // not a copy assignment
+};
+```
+
+*Note*: return types, `const`, `volatile`, and *ref-qualifier*s also does not affect the validity of a copy/move assignment operator.
+
+If no copy assignment operator is defined for a class, a copy assignment operator will be implicitly generated with the form
+```cpp
+A& operator=(const A&) = default; // normal
+A& operator=(A&) = default; // only if a subobject (member or base) have a copy assignment operator with non-object argument [volatile] A&
+```
+
+If no copy/move operations and destructors are defined for a class, a move assignment operator will be implicitly generated with the form
+```cpp
+A& operator=(A&&) = default;
+```
+
 ## `= default`
