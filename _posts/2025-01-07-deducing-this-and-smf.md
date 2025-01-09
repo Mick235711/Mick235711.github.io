@@ -6,6 +6,233 @@ categories:
 - Operator Overloading
 - Implementation Divergence
 ---
+<style>
+:root {
+    --legendwidth: 120px;
+    --launcherwidth: 90px;
+}
+
+figure.screenshot, figure.star-count {
+    display: block;
+    text-align: center;
+}
+figure.screenshot img {
+    vertical-align: top;
+}
+figure.screenshot figcaption {
+    font-size: medium;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+/*@media (prefers-color-scheme: dark) {
+    th {
+        background-color: #222;
+        color: white;
+    }
+    .dropped, .ext, .yes, .no, .notreally, .mixed, .almost, .kdeapp, .gnomeapp, .mktshare1, .mktshare5, .mktshare20, .mktshare30, .mktshare40, .mktshare100, .otherclients, .mau0, .mau1, .mau2, .mau3, .mau4, .mau5, .mau6 {
+        color: black;
+    }
+    table tr.product td {
+        border-color: #333;
+    }
+}*/
+
+table.comparison {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1em;
+    text-align: center;
+    border: none;
+    table-layout: fixed;
+    font-size: small;
+    width: calc(2 * var(--legendwidth) + 10 * var(--launcherwidth));
+}
+
+table.comparison tr td table {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    border: none;
+    table-layout: fixed;
+    font-size: small;
+    height: inherit;
+}
+
+thead {
+    border: none;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0px;
+    z-index: 10;
+}
+
+thead tr td {
+    background-color: white;
+    font-weight: bold;
+}
+
+.legend {
+    background-color: white;
+    z-index: 999;
+}
+
+/*@media (prefers-color-scheme: dark) {
+    thead tr td, .legend {
+        background-color: #222;
+        color: white;
+    }
+}*/
+
+@media (min-width: 578px) {
+    table.comparison tr>td:first-child[colspan="2"], table.comparison tr>td:first-child:not([colspan]) + td, .legend {
+        position: -webkit-sticky;
+        position: sticky;
+        left: 0;
+    }
+}
+
+td {
+    border: none;
+    padding: 0px;
+    vertical-align: top;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+td img {
+    padding: 15px 0px;
+}
+
+table.split {
+    border: none;
+    table-layout: fixed;
+    width: calc(var(--launcherwidth));
+    height: 100%;
+}
+
+table.split tr td {
+    border: none !important;
+    width: 50%;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+/*table.comparison tr td:first-child[colspan="2"], table.comparison tr td:first-child:not([colspan]) + td {
+    border-left: 1px dotted lightgrey;
+}
+
+table.comparison tr td:last-child {
+    border-right: 1px dotted lightgrey;
+}*/
+
+.semititle {
+    text-decoration: underline;
+    font-weight: bold;
+    vertical-align: bottom;
+}
+
+table.comparison tr td, table.comparison tr td table tr td {
+    line-height: normal;
+    vertical-align: middle;
+    font-size: small;
+}
+
+table.comparison tr td:not(:has(table)), table.comparison tr td table tr td {
+    padding: 5px 0 5px 0;
+}
+
+.center, table.comparison tr td {
+    text-align: center;
+}
+
+.tooltip {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-color: darkred;
+}
+
+.tooltip .tooltiptext {
+    width: max-content;
+    max-width: 200px;
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 5px;
+    position: absolute;
+    z-index: 1000;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    font-weight: normal;
+}
+
+.yes {
+    background-color: #CEE6BB;
+}
+
+.almost {
+    background-color: #E7F2DD;
+}
+
+.mixed {
+    background-color: #E7DEB1;
+}
+
+.notreally {
+    background-color: #F5E0D6;
+}
+
+.no {
+    background-color: #EBC1AD;
+    color: #384743;
+}
+
+img.logo {
+    object-fit: cover;
+    width: 80%;
+    max-height: 100%;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td.yes,
+td.almost,
+td.no,
+td.mixed,
+td.notreally,
+td.line,
+td.grey, td.blue, td.greyblue, td.extracolour1, td.extracolour2, td.purple, td.purple2, td.purple3 {
+    border-top: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
+    /* FIXME: sticky cannot use border-collapse: collapse */
+}
+
+.grey { background-color: lightgrey; }
+.blue { background-color: lightblue; }
+.greyblue { background-color: #B0C6CD; }
+.extracolour2 {background-color: darkkhaki; }
+.extracolour1 {background-color: tan; }
+.purple { background-color: plum; }
+.purple2 { background-color: thistle; }
+.purple3 { background-color: violet; }
+
+/*@media (prefers-color-scheme: dark) {
+    td.grey, td.blue, td.greyblue, td.extracolour1, td.extracolour2, td.purple, td.purple2, td.purple3 {
+        color: black;
+    }
+}*/
+</style>
 
 [Deducing This](https://wg21.link/P0847) is a new way of writing C++ member functions, which was introduced in C++23. This feature allows you to explicitly write the normally-implicit object argument (aka `this`) in the argument list, just like Python's `self` argument:
 ```cpp
@@ -231,3 +458,54 @@ This omission was later identified, and resolved by the adoption of [CWG 2586](h
 However, *standard* is just a document, what does the *implementation*s say about the matter?
 
 ## Implementation Divergence
+
+Let's see! (All results are obtained from the trunk versions of compilers as of January 2025)
+
+*Note*: since DT cannot be used on constructors or destructors, the only valid forms are on copy/move assignment operators and comparison operators.
+
+<table class="comparison">
+
+<colgroup>
+<col style="text-align: left; white-space: nowrap; padding-right: 5px; width: var(--legendwidth);">
+<col style="border-left: double; width: var(--launcherwidth);">
+<col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
+<col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
+<col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
+<col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
+<col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
+<col style="border-left: 1px solid lightgrey; border-right: solid; width: var(--launcherwidth);">
+</colgroup>
+
+<thead>
+<tr>
+<td class="legend">Form</td>
+<td class="line">Standard</td>
+<td class="line">GCC</td>
+<td class="line">Clang</td>
+<td class="line">MSVC</td>
+<td class="line">EDG</td>
+<td class="line">Link</td>
+<td class="line">Comments</td>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td></td>
+<td class="semititle line" colspan="7">Copy/Move Assignment</td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this A&, const A&);</code></td>
+<td class="yes">✅</td>
+<td class="yes">✅</td>
+<td class="yes">✅</td>
+<td class="no tooltip">❌<span class="tooltiptext">Welp, it seems that MSVC does not implement CWG 2586 at all...</span></td>
+<td class="yes">✅</td>
+<td><a href="https://godbolt.org/z/o51EserWq">Godbolt</a></td>
+<td>Normal Copy Assignment</td>
+</tr>
+</tbody>
+</table>
+
+Hmmm...
