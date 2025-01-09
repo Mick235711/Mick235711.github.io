@@ -774,6 +774,88 @@ Let's see! (All results are obtained from the trunk versions of compilers as of 
 <td class="yes">❌</td>
 <td class="line"><a href="https://godbolt.org/z/K49T9nK4q">Godbolt</a></td>
 </tr>
+
+<tr>
+<td></td>
+<td class="semititle line" colspan="7">Comparison</td>
+</tr>
+
+<tr>
+<td class="legend"><code>auto operator<=>(this A, A) = default;</code></td>
+<td class="yes">✅</td>
+<td class="yes">✅</td>
+<td class="yes">✅</td>
+<td class="no tooltip">❌<span class="tooltiptext">Refuse to recognize this as a comparison</span></td>
+<td class="no tooltip">❌<span class="tooltiptext">Refuse to default comparison written in DT</span></td>
+<td class="line"><a href="https://godbolt.org/z/z45hcEMY7">Godbolt</a></td>
+<td class="line">Normal Spaceship With <code>A</code></td>
+</tr>
+
+<tr>
+<td class="legend"><code>auto operator<=>(this const A&, const A&) = default;</code></td>
+<td class="yes">✅</td>
+<td class="yes">✅</td>
+<td class="yes">✅</td>
+<td class="no">❌</td>
+<td class="no">❌</td>
+<td class="line"><a href="https://godbolt.org/z/Mnfr1zW7f">Godbolt</a></td>
+<td class="line">Normal Spaceship With <code>const A&</code></td>
+</tr>
+
+<tr>
+<td class="legend"><code>auto operator<=>(this const A&, A) = default;</code></td>
+<td class="yes tooltip">❌<span class="tooltiptext">Two parameter must be of same type</span></td>
+<td class="yes">❌</td>
+<td class="yes">❌</td>
+<td class="no">❌</td>
+<td class="no">❌</td>
+<td class="line"><a href="https://godbolt.org/z/he97vfb71">Godbolt</a></td>
+<td class="line">Asymmetric Spaceship</td>
+</tr>
+
+<tr>
+<td class="legend"><code>auto operator<=>(this A&, A&) = default;</code></td>
+<td class="yes tooltip">❌<span class="tooltiptext">Two parameter must be of either A or const A&</span></td>
+<td class="yes">❌</td>
+<td class="yes">❌</td>
+<td class="no">❌</td>
+<td class="no">❌</td>
+<td class="line"><a href="https://godbolt.org/z/9jcYhax4z">Godbolt</a></td>
+<td class="line">Wrong Param Type Spaceship</td>
+</tr>
+
+<tr>
+<td class="legend"><code>int operator<=>(this A, A) = default;</code></td>
+<td class="yes tooltip">❌<span class="tooltiptext">Must return auto or a category type</span></td>
+<td class="no">✅</td>
+<td class="yes">❌</td>
+<td class="no">❌</td>
+<td class="no">❌</td>
+<td class="line"><a href="https://godbolt.org/z/b6aGWP7zK">Godbolt</a></td>
+<td class="line">Wrong Return Type Spaceship</td>
+</tr>
+
+<tr>
+<td class="legend"><code>int operator==(this A, A) = default;</code></td>
+<td class="yes tooltip">❌<span class="tooltiptext">Must return bool</span></td>
+<td class="yes">❌</td>
+<td class="yes">❌</td>
+<td class="no">❌</td>
+<td class="no">❌</td>
+<td class="line"><a href="https://godbolt.org/z/66E7vfGM1">Godbolt</a></td>
+<td class="line">Wrong Return Type Equality</td>
+</tr>
+
+<tr>
+<td class="legend"><code>auto operator<=>(this auto, A) = default;</code></td>
+<td class="yes tooltip">❌<span class="tooltiptext">Must not be a template</span></td>
+<td class="yes">❌</td>
+<td class="yes">❌</td>
+<td class="yes">❌</td>
+<td class="yes">❌</td>
+<td class="line"><a href="https://godbolt.org/z/v66s7jdvr">Godbolt</a></td>
+<td class="line">Templated Spaceship</td>
+</tr>
 </tbody>
 </table>
 
