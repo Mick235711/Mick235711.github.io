@@ -8,8 +8,8 @@ categories:
 ---
 <style>
 :root {
-    --legendwidth: 120px;
-    --launcherwidth: 90px;
+    --legendwidth: 250px;
+    --launcherwidth: 70px;
 }
 
 figure.screenshot, figure.star-count {
@@ -49,7 +49,7 @@ table.comparison {
     border: none;
     table-layout: fixed;
     font-size: small;
-    width: calc(2 * var(--legendwidth) + 10 * var(--launcherwidth));
+    width: calc(2 * var(--legendwidth) + 6 * var(--launcherwidth));
 }
 
 table.comparison tr td table {
@@ -473,7 +473,7 @@ Let's see! (All results are obtained from the trunk versions of compilers as of 
 <col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
 <col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
 <col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
-<col style="border-left: 1px solid lightgrey; border-right: solid; width: var(--launcherwidth);">
+<col style="border-left: 1px solid lightgrey; border-right: solid; width: var(--legendwidth);">
 </colgroup>
 
 <thead>
@@ -492,7 +492,7 @@ Let's see! (All results are obtained from the trunk versions of compilers as of 
 <tbody>
 <tr>
 <td></td>
-<td class="semititle line" colspan="7">Copy/Move Assignment</td>
+<td class="semititle line" colspan="7">Copy Assignment</td>
 </tr>
 
 <tr>
@@ -502,10 +502,126 @@ Let's see! (All results are obtained from the trunk versions of compilers as of 
 <td class="yes">✅</td>
 <td class="no tooltip">❌<span class="tooltiptext">Welp, it seems that MSVC does not implement CWG 2586 at all...</span></td>
 <td class="yes">✅</td>
-<td><a href="https://godbolt.org/z/o51EserWq">Godbolt</a></td>
-<td>Normal Copy Assignment</td>
+<td class="line"><a href="https://godbolt.org/z/o51EserWq">Godbolt</a></td>
+<td class="line">Normal Copy Assignment</td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this A&, A&);</code></td>
+<td class="yes">✅</td>
+<td class="yes">✅</td>
+<td class="yes">✅</td>
+<td class="no tooltip">❌<span class="tooltiptext">Same as above, erroneously generate an implicit copy assignment operator and do resolution based on that</span></td>
+<td class="yes">✅</td>
+<td class="line"><a href="https://godbolt.org/z/hEh8z8GnE">Godbolt</a></td>
+<td class="line">Stealing Copy Assignment</td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this A&, A);</code></td>
+<td class="yes">✅</td>
+<td class="yes">✅</td>
+<td class="yes">✅</td>
+<td class="no tooltip">❌<span class="tooltiptext">Same as above, ambiguous between the implicitly generated one and CAS</span></td>
+<td class="yes">✅</td>
+<td class="line"><a href="https://godbolt.org/z/ra1r4jY9b">Godbolt</a></td>
+<td class="line">CAS Copy Assignment</td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this const A&, const A&);</code></td>
+<td class="yes tooltip" style="z-index: 1000;">✅<span class="tooltiptext">There is a note in CWG 2586 that pointed out that it is weird for this to be considered a copy assignment; however as of now it is the status quo in the standard.</span></td>
+<td class="no tooltip">❌<span class="tooltiptext">Silently calls the implicitly generated one</span></td>
+<td class="yes">✅</td>
+<td class="no tooltip">❌<span class="tooltiptext">Silently calls the implicitly generated one</span></td>
+<td class="mixed">?</td>
+<td class="line"><a href="https://godbolt.org/z/WhYGooPE3">Godbolt</a></td>
+<td class="line">Copy Assignment With <code>const A&</code> Object Param</td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this A, const A&);</code></td>
+<td class="yes">✅</td>
+<td class="no tooltip">❌<span class="tooltiptext">Ambiguous with the implicitly generated one</span></td>
+<td class="yes">✅</td>
+<td class="no tooltip">❌<span class="tooltiptext">Ambiguous with the implicitly generated one</span></td>
+<td class="mixed">?</td>
+<td class="line"><a href="https://godbolt.org/z/1bTbzdsPs">Godbolt</a></td>
+<td class="line">Copy Assignment With <code>A</code> Object Param</td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this int, const A&);</code></td>
+<td class="yes">✅</td>
+<td class="no tooltip">❌<span class="tooltiptext">Silently calls the implicitly generated one</span></td>
+<td class="yes">✅</td>
+<td class="no tooltip">❌<span class="tooltiptext">Silently calls the implicitly generated one</span></td>
+<td class="no tooltip">❌<span class="tooltiptext">Somehow generated an invalid redeclaration error</span></td>
+<td class="line"><a href="https://godbolt.org/z/Mz7TeaGrx">Godbolt</a></td>
+<td class="line">Copy Assignment With Unrelated Object Param</td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this A&, const A&) = default;</code></td>
+<td class="yes">✅</td>
+<td class="yes">✅</td>
+<td class="yes">✅</td>
+<td class="no tooltip">❌<span class="tooltiptext">Currently it seems that MSVC just rejects defaulting functions with DT</span></td>
+<td class="no tooltip">❌<span class="tooltiptext">EDG complains about signature only</span></td>
+<td class="line"><a href="https://godbolt.org/z/aEvKhMejY">Godbolt</a></td>
+<td class="line" rowspan="6">Above With <code>= default</code></td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this A&, A&) = default;</code></td>
+<td class="yes">✅</td>
+<td class="yes">✅</td>
+<td class="yes">✅</td>
+<td class="no">❌</td>
+<td class="no">❌</td>
+<td class="line"><a href="https://godbolt.org/z/hjxMMzn8s">Godbolt</a></td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this A&, A) = default;</code></td>
+<td class="yes tooltip" style="z-index: 1002;">❌<span class="tooltiptext">Not an allowed signature for defaulting</span></td>
+<td class="yes">❌</td>
+<td class="yes">❌</td>
+<td class="no tooltip">❌<span class="tooltiptext">Reject only because it cannot handle defaulting DT at all</span></td>
+<td class="yes">❌</td>
+<td class="line"><a href="https://godbolt.org/z/bY635q4cx">Godbolt</a></td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this const A&, const A&) = default;</code></td>
+<td class="yes tooltip" style="z-index: 1001;">✅<span class="tooltiptext">The last rule for defaulting above specifies that any kind of reference to A is acceptable</span></td>
+<td class="no tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="no tooltip">❌<span class="tooltiptext">Default as deleted</span></td>
+<td class="no tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="no tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="line"><a href="https://godbolt.org/z/8anavTsze">Godbolt</a></td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this A, const A&) = default;</code></td>
+<td class="yes tooltip" style="z-index: 1000;">❌<span class="tooltiptext">Not a reference to A, which <a href="https://eel.is/c++draft/dcl.fct.def.default#2.5">should</a> be ill-formed</span></td>
+<td class="yes tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="almost tooltip">❌<span class="tooltiptext">Default as deleted</span></td>
+<td class="yes tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="yes tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="line"><a href="https://godbolt.org/z/frrT8vhqj">Godbolt</a></td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this int, const A&) = default;</code></td>
+<td class="yes">❌</td>
+<td class="yes tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="almost tooltip">❌<span class="tooltiptext">Default as deleted</span></td>
+<td class="yes tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="yes tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="line"><a href="https://godbolt.org/z/WMKrW91ch">Godbolt</a></td>
 </tr>
 </tbody>
 </table>
 
-Hmmm...
+Hmmm... Guess let's not use DT on SMFs for now if you want portability...
