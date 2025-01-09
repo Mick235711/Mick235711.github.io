@@ -215,3 +215,19 @@ struct A
 ```
 
 *Note*: the fact that operators other than `<=>` cannot use `auto` in lieu of `bool` or `auto&` in lieu of `A&` is inconsistent, and there is [a proposal](https://wg21.link/P2952) to fix that.
+
+# Deducing This
+
+Now onto the main part of this post: what does all of this have to do with Deducing This? Of course, since it is a new (or dare I say *better*?) way of writing member functions, we should use it to write *special* member functions!
+
+## What Does The Standard Say?
+
+Surprisingly little at first! The author of DT seems to not consider the interaction with SMFs and comparison functions at all in the initial proposal, and thus the C++23 standard initially does not have any regulations regarding whether SMFs and comparison operators's validity when written in DT form.
+
+This omission was later identified, and resolved by the adoption of [CWG 2586](https://wg21.link/CWG2586). Two key modification are made as a result of this issue:
+- The last rule regarding Deducing This is added to the `= default` criteria above; and
+- The "two parameters" in the comparison operator rule is clarified to mean two parameters **including the explicit/implicit object parameter**. In other words, `bool operator==(const C&) const` and `bool operator==(this const C&, const C&)` both have two parameters of type `const C&`.
+
+However, *standard* is just a document, what does the *implementation*s say about the matter?
+
+## Implementation Divergence
