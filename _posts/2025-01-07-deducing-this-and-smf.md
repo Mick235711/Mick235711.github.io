@@ -604,22 +604,133 @@ Let's see! (All results are obtained from the trunk versions of compilers as of 
 
 <tr>
 <td class="legend"><code>A& operator=(this A, const A&) = default;</code></td>
-<td class="yes tooltip" style="z-index: 1000;">❌<span class="tooltiptext">Not a reference to A, which <a href="https://eel.is/c++draft/dcl.fct.def.default#2.5">should</a> be ill-formed</span></td>
-<td class="yes tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
-<td class="almost tooltip">❌<span class="tooltiptext">Default as deleted</span></td>
-<td class="yes tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
-<td class="yes tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="yes tooltip" style="z-index: 1000;">❌<span class="tooltiptext">Not a reference to A, which <a href="https://eel.is/c++draft/dcl.fct.def.default#2.5">should</a> be default as deleted</span></td>
+<td class="almost tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="yes tooltip">❌<span class="tooltiptext">Default as deleted</span></td>
+<td class="almost tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="almost tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
 <td class="line"><a href="https://godbolt.org/z/frrT8vhqj">Godbolt</a></td>
 </tr>
 
 <tr>
 <td class="legend"><code>A& operator=(this int, const A&) = default;</code></td>
 <td class="yes">❌</td>
-<td class="yes tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
-<td class="almost tooltip">❌<span class="tooltiptext">Default as deleted</span></td>
-<td class="yes tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
-<td class="yes tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="almost tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="yes tooltip">❌<span class="tooltiptext">Default as deleted</span></td>
+<td class="almost tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="almost tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
 <td class="line"><a href="https://godbolt.org/z/WMKrW91ch">Godbolt</a></td>
+</tr>
+
+<tr>
+<td></td>
+<td class="semititle line" colspan="7">Move Assignment</td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this A&, A&&);</code></td>
+<td class="yes">✅</td>
+<td class="yes">✅</td>
+<td class="yes">✅</td>
+<td class="no tooltip">❌<span class="tooltiptext">Erroneously generate an implicit move assignment operator and do resolution based on that</span></td>
+<td class="yes">✅</td>
+<td class="line"><a href="https://godbolt.org/z/89TojWb7f">Godbolt</a></td>
+<td class="line">Normal Move Assignment</td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this A&, const A&&);</code></td>
+<td class="yes">✅</td>
+<td class="yes">✅</td>
+<td class="yes">✅</td>
+<td class="no">❌</td>
+<td class="yes">✅</td>
+<td class="line"><a href="https://godbolt.org/z/qh9G38xET">Godbolt</a></td>
+<td class="line">Weird Move Assignment</td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this const A&, A&&);</code></td>
+<td class="yes tooltip" style="z-index: 1000;">✅<span class="tooltiptext">There is a note in CWG 2586 that pointed out that it is weird for this to be considered a move assignment; however as of now it is the status quo in the standard.</span></td>
+<td class="no tooltip">❌<span class="tooltiptext">Silently calls the implicitly generated one</span></td>
+<td class="no tooltip">❌<span class="tooltiptext">Ambiguous with the implicitly generated one</span></td>
+<td class="no tooltip">❌<span class="tooltiptext">Silently calls the implicitly generated one</span></td>
+<td class="yes">✅</td>
+<td class="line"><a href="https://godbolt.org/z/z71hfK9WT">Godbolt</a></td>
+<td class="line">Move Assignment With <code>const A&</code> Object Param</td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this A&&, A&&);</code></td>
+<td class="yes">✅</td>
+<td class="no tooltip">❌<span class="tooltiptext">Ambiguous with the implicitly generated one</span></td>
+<td class="yes">✅</td>
+<td class="no tooltip">❌<span class="tooltiptext">Ambiguous with the implicitly generated one</span></td>
+<td class="yes">✅</td>
+<td class="line"><a href="https://godbolt.org/z/a31jsj7WG">Godbolt</a></td>
+<td class="line">Move Assignment With <code>A&&</code> Object Param</td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this int, const A&);</code></td>
+<td class="yes">✅</td>
+<td class="no tooltip">❌<span class="tooltiptext">Silently calls the implicitly generated one</span></td>
+<td class="no tooltip">❌<span class="tooltiptext">Conflicts with copy assignment</span></td>
+<td class="no tooltip">❌<span class="tooltiptext">Silently calls the implicitly generated one</span></td>
+<td class="no tooltip">❌<span class="tooltiptext">Conflicts with copy assignment</span></td>
+<td class="line"><a href="https://godbolt.org/z/vz3vfP9rY">Godbolt</a></td>
+<td class="line">Move Assignment With Unrelated Object Param</td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this A&, A&&) = default;</code></td>
+<td class="yes">✅</td>
+<td class="yes">✅</td>
+<td class="yes">✅</td>
+<td class="no tooltip">❌<span class="tooltiptext">Currently it seems that MSVC just rejects defaulting functions with DT</span></td>
+<td class="no tooltip">❌<span class="tooltiptext">EDG complains about signature only</span></td>
+<td class="line"><a href="https://godbolt.org/z/fa13cqanz">Godbolt</a></td>
+<td class="line" rowspan="5">Above With <code>= default</code></td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this A&, const A&&) = default;</code></td>
+<td class="yes tooltip" style="z-index: 1002;">❌<span class="tooltiptext">Not a permitted deviation; only stripping const is allowed; <a href="https://eel.is/c++draft/dcl.fct.def.default#2.5">should</a> be default as deleted</span></td>
+<td class="yes tooltip">❌<span class="tooltiptext">Default as deleted</span></td>
+<td class="yes tooltip">❌<span class="tooltiptext">Default as deleted</span></td>
+<td class="almost tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="almost tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="line"><a href="https://godbolt.org/z/nPqnha7Pd">Godbolt</a></td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this const A&, A&&) = default;</code></td>
+<td class="yes tooltip" style="z-index: 1001;">✅<span class="tooltiptext">The last rule for defaulting above specifies that any kind of reference to A is acceptable</span></td>
+<td class="no tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="no tooltip">❌<span class="tooltiptext">Default as deleted</span></td>
+<td class="no tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="no tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="line"><a href="https://godbolt.org/z/rfxqPPa9n">Godbolt</a></td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this A&&, A&&) = default;</code></td>
+<td class="yes">✅</td>
+<td class="almost tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="yes tooltip">❌<span class="tooltiptext">Default as deleted</span></td>
+<td class="almost tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="almost tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="line"><a href="https://godbolt.org/z/zv9hKeb57">Godbolt</a></td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this int, A&&) = default;</code></td>
+<td class="yes">❌</td>
+<td class="almost tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="yes tooltip">❌<span class="tooltiptext">Default as deleted</span></td>
+<td class="almost tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="almost tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
+<td class="line"><a href="https://godbolt.org/z/cja4WcsWY">Godbolt</a></td>
 </tr>
 </tbody>
 </table>
