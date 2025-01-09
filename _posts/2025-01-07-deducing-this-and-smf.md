@@ -67,7 +67,7 @@ thead {
     position: sticky;
     position: -webkit-sticky;
     top: 0px;
-    z-index: 10;
+    z-index: 10000;
 }
 
 thead tr td {
@@ -562,6 +562,17 @@ Let's see! (All results are obtained from the trunk versions of compilers as of 
 </tr>
 
 <tr>
+<td class="legend"><code>A& operator=(this auto&&, const A&);</code></td>
+<td class="yes tooltip">❌<span class="tooltiptext">Must not be a template</span></td>
+<td class="yes">❌</td>
+<td class="yes">❌</td>
+<td class="yes">❌</td>
+<td class="yes">❌</td>
+<td class="line"><a href="https://godbolt.org/z/9881PM6T8">Godbolt</a></td>
+<td class="line">Copy Assignment With Templated Object Param</td>
+</tr>
+
+<tr>
 <td class="legend"><code>A& operator=(this A&, const A&) = default;</code></td>
 <td class="yes">✅</td>
 <td class="yes">✅</td>
@@ -569,7 +580,7 @@ Let's see! (All results are obtained from the trunk versions of compilers as of 
 <td class="no tooltip">❌<span class="tooltiptext">Currently it seems that MSVC just rejects defaulting functions with DT</span></td>
 <td class="no tooltip">❌<span class="tooltiptext">EDG complains about signature only</span></td>
 <td class="line"><a href="https://godbolt.org/z/aEvKhMejY">Godbolt</a></td>
-<td class="line" rowspan="6">Above With <code>= default</code></td>
+<td class="line" rowspan="7">Above With <code>= default</code></td>
 </tr>
 
 <tr>
@@ -620,6 +631,16 @@ Let's see! (All results are obtained from the trunk versions of compilers as of 
 <td class="almost tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
 <td class="almost tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
 <td class="line"><a href="https://godbolt.org/z/WMKrW91ch">Godbolt</a></td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this auto&&, const A&) = default;</code></td>
+<td class="yes tooltip">❌<span class="tooltiptext">Must not be a template</span></td>
+<td class="yes">❌</td>
+<td class="yes">❌</td>
+<td class="yes">❌</td>
+<td class="yes">❌</td>
+<td class="line"><a href="https://godbolt.org/z/EK9175Yv8">Godbolt</a></td>
 </tr>
 
 <tr>
@@ -683,6 +704,17 @@ Let's see! (All results are obtained from the trunk versions of compilers as of 
 </tr>
 
 <tr>
+<td class="legend"><code>A& operator=(this auto&&, A&&);</code></td>
+<td class="yes tooltip">❌<span class="tooltiptext">Must not be a template</span></td>
+<td class="yes">❌</td>
+<td class="yes">❌</td>
+<td class="yes">❌</td>
+<td class="yes">❌</td>
+<td class="line"><a href="https://godbolt.org/z/eon5f8x9v">Godbolt</a></td>
+<td class="line">Move Assignment With Templated Object Param</td>
+</tr>
+
+<tr>
 <td class="legend"><code>A& operator=(this A&, A&&) = default;</code></td>
 <td class="yes">✅</td>
 <td class="yes">✅</td>
@@ -690,7 +722,7 @@ Let's see! (All results are obtained from the trunk versions of compilers as of 
 <td class="no tooltip">❌<span class="tooltiptext">Currently it seems that MSVC just rejects defaulting functions with DT</span></td>
 <td class="no tooltip">❌<span class="tooltiptext">EDG complains about signature only</span></td>
 <td class="line"><a href="https://godbolt.org/z/fa13cqanz">Godbolt</a></td>
-<td class="line" rowspan="5">Above With <code>= default</code></td>
+<td class="line" rowspan="6">Above With <code>= default</code></td>
 </tr>
 
 <tr>
@@ -731,6 +763,16 @@ Let's see! (All results are obtained from the trunk versions of compilers as of 
 <td class="almost tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
 <td class="almost tooltip">❌<span class="tooltiptext">Ill-formed</span></td>
 <td class="line"><a href="https://godbolt.org/z/cja4WcsWY">Godbolt</a></td>
+</tr>
+
+<tr>
+<td class="legend"><code>A& operator=(this auto&&, A&&) = default;</code></td>
+<td class="yes tooltip">❌<span class="tooltiptext">Must not be a template</span></td>
+<td class="yes">❌</td>
+<td class="yes">❌</td>
+<td class="yes">❌</td>
+<td class="yes">❌</td>
+<td class="line"><a href="https://godbolt.org/z/K49T9nK4q">Godbolt</a></td>
 </tr>
 </tbody>
 </table>
