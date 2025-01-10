@@ -1020,7 +1020,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip" style="z-index: 1000;">Pirated<span class="tooltiptext">i.e. offline without valid account</span></td>
+<td class="legend tooltip" style="z-index: 1001;">Pirated<span class="tooltiptext">i.e. offline without valid account</span></td>
 <td class="yes">No</td>
 <td class="yes">No</td>
 <td class="yes">No</td>
@@ -1034,7 +1034,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip" colspan="2">Quick Play<span class="tooltiptext">Only available for 1.20+</span></td>
+<td class="legend tooltip" colspan="2" style="z-index: 1000;">Quick Play<span class="tooltiptext">Only available for 1.20+</span></td>
 <td class="yes">Yes</td>
 <td class="no">?</td>
 <td class="no">?</td>
@@ -1254,7 +1254,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tr>
 <td class="legend" colspan="2">Mod Version Auto-Match</td>
-<td class="line">N/A</td>
+<td class="line" rowspan="2">N/A</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
@@ -1268,7 +1268,6 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tr>
 <td class="legend" colspan="2">Mod Dependency</td>
-<td class="line">N/A</td>
 <td class="almost tooltip">Install only<span class="tooltiptext">Disable mods will not warn about dependency</span></td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
@@ -1398,7 +1397,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <tr>
 <td class="legend" rowspan="2">Auto Update</td>
 <td class="legend">Mod(pack)</td>
-<td class="line">N/A</td>
+<td class="line" rowspan="2">N/A</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
@@ -1412,7 +1411,6 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tr>
 <td class="legend">Resource/Shader</td>
-<td class="line">N/A</td>
 <td class="no">?</td>
 <td class="no">?</td>
 <td class="no">?</td>
