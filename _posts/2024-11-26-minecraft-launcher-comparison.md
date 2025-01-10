@@ -466,7 +466,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip" style="z-index: 1000;">32-bit<span class="tooltiptext">Latest Minecraft version that supports 32-bit OS is 1.20.4</span></td>
+<td class="legend tooltip" style="z-index: 1001;">32-bit<span class="tooltiptext">Latest Minecraft version that supports 32-bit OS is 1.20.4</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -480,7 +480,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip">ARM 64-bit<span class="tooltiptext">Officially supported only after 1.19</span></td>
+<td class="legend tooltip" style="z-index: 1000;">ARM 64-bit<span class="tooltiptext">Officially supported only after 1.19</span></td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -515,7 +515,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip">ARM 64-bit<span class="tooltiptext">Officially supported only after 1.19</span></td>
+<td class="legend tooltip" style="z-index: 1000;">ARM 64-bit<span class="tooltiptext">Officially supported only after 1.19</span></td>
 <td class="almost">Rosetta 2</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
@@ -577,7 +577,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip" colspan="2">Portable<span class="tooltiptext">i.e. no setup and no dependency executable</span></td>
+<td class="legend tooltip" colspan="2" style="z-index: 1000;">Portable<span class="tooltiptext">i.e. no setup and no dependency executable</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -859,7 +859,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip">Betas<span class="tooltiptext">Dec 2010 (b1.0) - Sep 2011 (b1.8.1)</span></td>
+<td class="legend tooltip" style="z-index: 1002;">Betas<span class="tooltiptext">Dec 2010 (b1.0) - Sep 2011 (b1.8.1)</span></td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
@@ -873,7 +873,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip">Alphas<span class="tooltiptext">May 2009 (rd-132211) - Dec 2010 (a1.2.6)</span></td>
+<td class="legend tooltip" style="z-index: 1001;">Alphas<span class="tooltiptext">May 2009 (rd-132211) - Dec 2010 (a1.2.6)</span></td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
@@ -887,7 +887,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip">Experiments<span class="tooltiptext">e.g. 1.14-16 combat experiment, 1.18-19 experiment snapshot</span></td>
+<td class="legend tooltip" style="z-index: 1000;">Experiments<span class="tooltiptext">e.g. 1.14-16 combat experiment, 1.18-19 experiment snapshot</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -958,7 +958,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip">Auto Match<span class="tooltiptext">In general, it is recommended to use Java 8 for 1.16-, Java 17 for 1.17-1.20.4, and Java 21 for 1.20.5+</span></td>
+<td class="legend tooltip" style="z-index: 1000;">Auto Match<span class="tooltiptext">In general, it is recommended to use Java 8 for 1.16-, Java 17 for 1.17-1.20.4, and Java 21 for 1.20.5+</span></td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
@@ -1040,7 +1040,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip">NeoForge<span class="tooltiptext">Fork of Forge, only available for 1.20.1+</span></td>
+<td class="legend tooltip" style="z-index: 1005;">NeoForge<span class="tooltiptext">Fork of Forge, only available for 1.20.1+</span></td>
 <td class="no">No</td>
 <td class="almost tooltip">Yes<span class="tooltiptext">Crash/hang when unsupported version selected</span></td>
 <td class="yes">Yes</td>
@@ -1054,7 +1054,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip">Fabric<span class="tooltiptext">Only available for 1.14+</span></td>
+<td class="legend tooltip" style="z-index: 1004;">Fabric<span class="tooltiptext">Only available for 1.14+</span></td>
 <td class="no">No</td>
 <td class="almost tooltip">Yes<span class="tooltiptext">Crash/hang when unsupported version selected</span></td>
 <td class="yes">Yes</td>
@@ -1068,7 +1068,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip">Legacy Fabric<span class="tooltiptext">Fork of Fabric that supports version prior to 1.14</span></td>
+<td class="legend tooltip" style="z-index: 1003;">Legacy Fabric<span class="tooltiptext">Fork of Fabric that supports version prior to 1.14</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1082,7 +1082,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip">Quilt<span class="tooltiptext">Only available for 1.14+</span></td>
+<td class="legend tooltip" style="z-index: 1002;">Quilt<span class="tooltiptext">Only available for 1.14+</span></td>
 <td class="no">No</td>
 <td class="almost tooltip">Yes<span class="tooltiptext">Crash/hang when unsupported version selected</span></td>
 <td class="yes">Yes</td>
@@ -1096,7 +1096,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip">LiteLoader<span class="tooltiptext">Discontinued. Only available for 1.6.2-1.12.2</span></td>
+<td class="legend tooltip" style="z-index: 1001;">LiteLoader<span class="tooltiptext">Discontinued. Only available for 1.6.2-1.12.2</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1110,7 +1110,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip">OptiFine<span class="tooltiptext">Not a mod loader, but essential for some shaders</span></td>
+<td class="legend tooltip" style="z-index: 1000;">OptiFine<span class="tooltiptext">Not a mod loader, but essential for some shaders</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1471,7 +1471,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip" colspan="2">Directory Opener<span class="tooltiptext">Easy/one-click access to mods, shareds, ... folders</span></td>
+<td class="legend tooltip" colspan="2" style="z-index: 1001;">Directory Opener<span class="tooltiptext">Easy/one-click access to mods, shareds, ... folders</span></td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
@@ -1485,7 +1485,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip" colspan="2">World Management<span class="tooltiptext">e.g. Rename without launch the game, MCEdit, ...</span></td>
+<td class="legend tooltip" colspan="2" style="z-index: 1000;">World Management<span class="tooltiptext">e.g. Rename without launch the game, MCEdit, ...</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1743,7 +1743,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip" colspan="2">Window Settings<span class="tooltiptext">process priority, window title, ...</span></td>
+<td class="legend tooltip" colspan="2" style="z-index: 1000;">Window Settings<span class="tooltiptext">process priority, window title, ...</span></td>
 <td class="no">No</td>
 <td class="mixed tooltip">Partial<span class="tooltiptext">Supports fullscreen and width / height spec</span></td>
 <td class="mixed tooltip">Partial<span class="tooltiptext">Supports fullscreen and width / height spec</span></td>
@@ -1770,6 +1770,28 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 </tr>
 </tbody>
+
+<tr>
+<td colspan="2"></td>
+<td class="semititle line" colspan="10">Summary</td>
+</tr>
+
+<tr>
+<td class="legend tooltip" colspan="2" style="z-index: 1000;">Total Score<span class="tooltiptext">Yes = 1, Almost = 0.8, Mixed = 0.5, Not really = 0.2, No = 0; Maximum Score Possible: 94</span></td>
+<td class="no">28.5</td>
+<td class="mixed">42.2</td>
+<td class="no">29.5</td>
+<td class="mixed">38.2</td>
+<td class="yes">69.2</td>
+<td class="yes">57.9</td>
+<td class="mixed">35.9</td>
+<td class="yes">54.1</td>
+<td class="mixed">36.9</td>
+<td class="line"><table class="split"><tr>
+<td class="mixed">33.5</td>
+<td class="mixed">36.5</td>
+</tr></table></td>
+</tr>
 
 </table>
 
