@@ -718,7 +718,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tr>
 <td class="legend tooltip">Arch<span class="tooltiptext">incl. Manjaro</span></td>
-<td class="almost tooltip"><a href="https://aur.archlinux.org/packages/minecraft-launcher">AUR</a><span class="tooltiptext">Officially recommended</span></td>
+<td class="almost tooltip" style="z-index: 1000;"><a href="https://aur.archlinux.org/packages/minecraft-launcher">AUR</a><span class="tooltiptext">Officially recommended</span></td>
 <td class="mixed"><a href="https://aur.archlinux.org/packages/modrinth-app">AUR</a></td>
 <td class="mixed"><a href="https://aur.archlinux.org/packages/curseforge">AUR</a></td>
 <td class="mixed"><a href="https://aur.archlinux.org/packages/ftb-app">AUR</a></td>
@@ -915,6 +915,20 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
+<td class="legend" colspan="2">Version Release Notes</td>
+<td class="yes">Yes</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+</tr>
+
+<tr>
 <td class="legend" rowspan="4">Java</td>
 <td class="legend">Bundled</td>
 <td class="yes tooltip">Yes<span class="tooltiptext">Bundled with Microsoft-built OpenJDK</span></td>
@@ -1006,7 +1020,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip">Pirated<span class="tooltiptext">i.e. offline without valid account</span></td>
+<td class="legend tooltip" style="z-index: 1000;">Pirated<span class="tooltiptext">i.e. offline without valid account</span></td>
 <td class="yes">No</td>
 <td class="yes">No</td>
 <td class="yes">No</td>
@@ -1017,6 +1031,34 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">Yes</td>
 <td class="mixed tooltip">In China<span class="tooltiptext">Outside mainland China, the launcher will require a valid account before allowing offline play</span></td>
 <td class="mixed tooltip">In China<span class="tooltiptext">Outside mainland China, the launcher will require a valid account before allowing offline play</span></td>
+</tr>
+
+<tr>
+<td class="legend tooltip" colspan="2">Quick Play<span class="tooltiptext">Only available for 1.20+</span></td>
+<td class="yes">Yes</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="yes">Yes</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+</tr>
+
+<tr>
+<td class="legend" colspan="2">Skin Management</td>
+<td class="yes">Yes</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="yes">Yes</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
 </tr>
 
 <tr>
@@ -1354,7 +1396,8 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 
 <tr>
-<td class="legend" colspan="2">Mod(pack) Auto Update</td>
+<td class="legend" rowspan="2">Auto Update</td>
+<td class="legend">Mod(pack)</td>
 <td class="line">N/A</td>
 <td class="yes">Yes</td>
 <td class="yes">Yes</td>
@@ -1365,6 +1408,20 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="mixed">Mod only</td>
 <td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend">Resource/Shader</td>
+<td class="line">N/A</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="yes tooltip">Yes<span class="tooltiptext"><a href="https://github.com/PrismLauncher/PrismLauncher/pull/1588">Coming in v10.0</a></span></td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
 </tr>
 
 <tr>
@@ -1524,6 +1581,20 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
+</tr>
+
+<tr>
+<td class="legend" colspan="2">User-Agent</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="yes">Yes</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
 </tr>
 
 <tr>
@@ -1715,6 +1786,20 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
+<td class="legend tooltip" colspan="2" style="z-index: 1000;">API<span class="tooltiptext">Pastebin, Modrinth/CurseForge API key, ...</span></td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="yes">Yes</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+<td class="no">?</td>
+</tr>
+
+<tr>
 <td class="legend" colspan="2">Log Console</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
@@ -1777,12 +1862,12 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip" colspan="2" style="z-index: 1000;">Total Score<span class="tooltiptext">Yes = 1, Almost = 0.8, Mixed = 0.5, Not really = 0.2, No = 0; Maximum Score Possible: 94</span></td>
-<td class="no">28.5</td>
+<td class="legend tooltip" colspan="2" style="z-index: 1000;">Total Score<span class="tooltiptext">Yes = 1, Almost = 0.8, Mixed = 0.5, Not really = 0.2, No = 0; Maximum Score: 100</span></td>
+<td class="no">31.5</td>
 <td class="mixed">42.2</td>
 <td class="no">29.5</td>
 <td class="mixed">38.2</td>
-<td class="yes">69.2</td>
+<td class="yes">74.2</td>
 <td class="yes">57.9</td>
 <td class="mixed">35.9</td>
 <td class="yes">54.1</td>
@@ -1796,7 +1881,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </table>
 
 Notes:
-- This table does not consider multiplayer/server-related functionalities (skin, server opening, ...) due to me being unfamiliar with servers. An equally comprehensive comparison table [here](https://github.com/TayouVR/MinecraftLauncherComparison) can be used for that.
+- This table does not consider multiplayer/server-related functionalities (server opening/management, hosting, ...) due to me being unfamiliar with servers. An equally comprehensive comparison table [here](https://github.com/TayouVR/MinecraftLauncherComparison) can be used for that.
 - The BakaXL column contains only the information for v3 for now (except the announced mutli-platform support). After v4 released I will update this column.
 
 # Screenshots
