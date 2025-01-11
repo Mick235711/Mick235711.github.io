@@ -397,7 +397,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tr>
 <td class="legend tooltip" colspan="2">Development Builds<span class="tooltiptext">Including nightly, beta, ...</span></td>
-<td class="no">No</td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="yes"><a href="https://github.com/FTBTeam/FTB-App/tags">Yes</a></td>
@@ -717,7 +717,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip">Arch<span class="tooltiptext">incl. Manjaro</span></td>
+<td class="legend tooltip" style="z-index: 1001;">Arch<span class="tooltiptext">incl. Manjaro</span></td>
 <td class="almost tooltip" style="z-index: 1000;"><a href="https://aur.archlinux.org/packages/minecraft-launcher">AUR</a><span class="tooltiptext">Officially recommended</span></td>
 <td class="mixed"><a href="https://aur.archlinux.org/packages/modrinth-app">AUR</a></td>
 <td class="mixed"><a href="https://aur.archlinux.org/packages/curseforge">AUR</a></td>
@@ -917,15 +917,15 @@ This table only resembles the then-current functionality as of Nov 2024.
 <tr>
 <td class="legend" colspan="2">Version Release Notes</td>
 <td class="yes">Yes</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
 </tr>
 
 <tr>
@@ -1036,29 +1036,29 @@ This table only resembles the then-current functionality as of Nov 2024.
 <tr>
 <td class="legend tooltip" colspan="2" style="z-index: 1000;">Quick Play<span class="tooltiptext">Only available for 1.20+</span></td>
 <td class="yes">Yes</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
+<td class="no">No</td>
+<td class="notreally tooltip">Somewhat<span class="tooltiptext">Support a beta "quick launch" mode that skips the official launcher, but cannot directly join worlds</span></td>
+<td class="no">No</td>
 <td class="yes">Yes</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
+<td class="yes">Yes</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
 </tr>
 
 <tr>
 <td class="legend" colspan="2">Skin Management</td>
 <td class="yes">Yes</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
 <td class="yes">Yes</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
+<td class="yes">Yes</td>
 </tr>
 
 <tr>
@@ -1411,15 +1411,15 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tr>
 <td class="legend">Resource/Shader</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
+<td class="no tooltip">No<span class="tooltiptext">Updater ignores non-mods</span></td>
+<td class="yes">Yes</td>
+<td class="line">N/A</td>
 <td class="yes tooltip">Yes<span class="tooltiptext"><a href="https://github.com/PrismLauncher/PrismLauncher/pull/1588">Coming in v10.0</a></span></td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
+<td class="no">No</td>
+<td class="line">N/A</td>
+<td class="no">No</td>
+<td class="line">N/A</td>
+<td class="line">N/A</td>
 </tr>
 
 <tr>
@@ -1582,17 +1582,17 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend" colspan="2">User-Agent</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
+<td class="legend" colspan="2">Customized Font</td>
+<td class="mixed">Size only</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
 <td class="yes">Yes</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
+<td class="no">No</td>
+<td class="yes">Yes</td>
+<td class="no"><a href="https://github.com/Hex-Dragon/PCL2/issues/366">No</a></td>
+<td class="no">No</td>
 </tr>
 
 <tr>
@@ -1624,7 +1624,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend tooltip" colspan="2">Utilities<span class="tooltiptext">Network Checker, Skin Updater, ...</span></td>
+<td class="legend tooltip" colspan="2">Utilities<span class="tooltiptext">Network Checker, ...</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1785,16 +1785,16 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tr>
 <td class="legend tooltip" colspan="2" style="z-index: 1000;">API<span class="tooltiptext">Pastebin, Modrinth/CurseForge API key, ...</span></td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="yes tooltip">Yes<span class="tooltiptext">MineTogether</span></td>
 <td class="yes">Yes</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
-<td class="no">?</td>
+<td class="yes">Yes</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
+<td class="no">No</td>
 </tr>
 
 <tr>
@@ -1861,18 +1861,18 @@ This table only resembles the then-current functionality as of Nov 2024.
 
 <tr>
 <td class="legend tooltip" colspan="2" style="z-index: 1000;">Total Score<span class="tooltiptext">Yes = 1, Almost = 0.8, Mixed = 0.5, Not really = 0.2, No = 0; Maximum Score: 100</span></td>
-<td class="no">31.5</td>
+<td class="no">32.7</td>
 <td class="mixed">42.2</td>
-<td class="no">29.5</td>
-<td class="mixed">38.2</td>
-<td class="yes">74.2</td>
-<td class="yes">57.9</td>
+<td class="no">30.7</td>
+<td class="mixed">39.2</td>
+<td class="yes">73.2</td>
+<td class="yes">60.9</td>
 <td class="mixed">35.9</td>
-<td class="yes">54.1</td>
-<td class="mixed">36.9</td>
+<td class="yes">55.1</td>
+<td class="mixed">37.9</td>
 <td class="line"><table class="split"><tr>
-<td class="mixed">33.5</td>
-<td class="mixed">36.5</td>
+<td class="no">34.5</td>
+<td class="mixed">37.5</td>
 </tr></table></td>
 </tr>
 
