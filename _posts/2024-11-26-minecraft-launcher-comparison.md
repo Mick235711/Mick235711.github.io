@@ -1461,7 +1461,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes tooltip">Yes<span class="tooltiptext">via Overwolf</span></td>
 <td class="yes tooltip">Yes<span class="tooltiptext">via Overwolf</span></td>
-<td class="no">No</td>
+<td class="mixed tooltip">Linux only<span class="tooltiptext">via MangoHUD</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1865,7 +1865,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="mixed">42.2</td>
 <td class="no">30.7</td>
 <td class="mixed">39.2</td>
-<td class="yes">73.2</td>
+<td class="yes">73.7</td>
 <td class="yes">60.9</td>
 <td class="mixed">35.9</td>
 <td class="yes">55.1</td>
