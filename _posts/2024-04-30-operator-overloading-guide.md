@@ -483,7 +483,173 @@ The rest of the guide will follow this classification (not in order, click the a
 
 ## The Good Four
 ### Simple Assignment: `operator=`
-#### The Basics: The Rule of Three, The Rule of Five, and The Rule of Zero
+TLDR
+```cpp
+// canonical forms
+T& operator=(this T&, const T&); // best
+T& operator=(const T&) &; // also okay
+T& operator=(this T&, T&&) noexcept; // best
+T& operator=(T&&) & noexcept; // also okay
+
+// forms that are useful in specific circumstances
+T& operator=(this T&, T) noexcept;
+T& operator=(T) & noexcept;
+template<typename U>
+T& operator=(this T&, /* const U& or const T<U>& or ... */);
+```
+#### The Basics
+Ah, `=`, the most commonly overloaded operator, and also the operator with one of the most complex stories, guidelines, and mechanisms behind it. It is so special, yet so commonplace, presented in nearly every single class that many people do not even realize its complexity. This operator is tied so deeply into value semantics, one of the core characteristics of C++, such that understanding `=` is probably all they need to know about operator overloading for 90% of the people. In fact, `operator=` is the *only* operator that the compiler will automatically synthesize for you, even without you writing anything! Their importance can be seen in this special treatment.
+
+One thing to be clear here: even though `operator=` is a binary operator and has to be overloaded in the member form, there are absolutely no restrictions on its argument type and return type; you can write `Y X::operator=(Z) const volatile &&` and the compiler will not say anything. However, *if* you write some specific forms of `operator=` overloads, then the compiler will treat them specially. Those special forms are: (assuming we are overloading `operator=` inside class `X`)
+- If the argument type is `X` or `cv X&` (where *cv* is any combination of `const` and `volatile`), then this overload is a **copy assignment operator**.
+- If the argument type is `cv X&&`, then this overload is a **move assignment operator**.
+
+Note that there are no requirements on the return type, and a class can have more than one copy/move assignment operator since multiple forms are possible, and they can be overloaded.
+
+The importance of these two operators is shown in their names: whenever a copy assignment happens, one copy assignment operator will be invoked; whenever a move assignment happens, one move assignment operator will be invoked. You may think this is obvious nonsense, but beware: not all use of `=` triggers `operator=`!
+```cpp
+A a;
+A a2 = a; // NOT a copy assignment
+a2 = a; // a copy assignment
+A a3 = std::move(a); // NOT a move assignment
+a3 = std::move(a); // a move assignment
+const A ca;
+a3 = std::move(ca); // (usually) NOT a move assignment
+```
+The reason for this distinction is the liberal allowance of `=`’s appearance in [copy initialization](https://en.cppreference.com/w/cpp/language/copy_initialization); the syntax `T some_obj = other` and `T some_obj = {other}` (and array versions of these) both invoke a *constructor*, not an `operator=`. Similarly, `T some_obj = {a, b, c}` is a [*copy-list-initialization*](https://en.cppreference.com/w/cpp/language/list_initialization), and also do not invoke an `operator=`. Such distinction is unfortunate; fortunately, these are all the special rules with regards to `=`, and all other uses of `=` actually *do* invoke a suitable `operator=` following the ordinary overload resolution rules. From the above example, we can see that `operator=` is invoked whenever you want to copy/move the contents of one object into another preexisting object, hence the name of those forms. Since a copy assignment operator, by definition, *copies* the contents of another object into this one, it does not modify the other object and *does* modify the `this` object. Thus, its parameter type should be `const T&`, and its object parameter type should be `T&`, thus leading to the two canonical forms shown above. (See the [above sections](#deducing-this-a-retrospective-and-a-mistake-unfixed) for why we use `&` as the *ref-qualifier* instead of omitting it, as seen in most tutorials you may have seen before.)
+
+This topic leads to another trap regarding `operator=`: `std::move` does not actually move anything, which highlights how poor a name that function has. In fact, the only thing `std::move` does is a cast to rvalue, which on the surface seems to have nothing to do with move at all! In fact, the term “move assignment operator” is, in reality, just a custom; we are assuming *rvalue means short-liveness*, and thus an `operator=` that only accepts rvalue operators can assume that its parameter will not be used later (either because of its lifetime is actually short, or because as a custom the caller use rvalues to signal they will not use the parameter anymore), and thus can steal the value of the parameter instead of copying it. Such an assumption often leads to much better performance compared to copying:
+```cpp
+// Example vector implementation
+template<typename T>
+class vector
+{
+private:
+    T* data;
+    size_t size, capacity; // actually, the most common implementation is 3 pointers
+
+public:
+    /* ... */
+    vector& operator=(this vector& self, vector&& other) noexcept
+    {
+        /* ... destroy self's data array ... */
+        self.data = other.data;
+        self.size = other.size;
+        self.capacity = other.capacity;
+    }
+};
+```
+Here, apart from the destruction of `self`’s pointer, all the move assignment operator has to do is copy some pointer and integer values, thus achieving O(1) effectiveness, which is inherently not possible for copying.
+
+With this knowledge, we can understand why the above `a3 = std::move(ca)` is not a move assignment operation. `std::move` cast the right-hand expression to be of type `const A&&`, which *is* an rvalue but is also `const`, which prohibits the canonical move assignment operator to be called. The reason that the canonical version used non-`const` rvalue references is that it needs to steal the value from `other`, thus needing to modify it. In such cases, the call will be silently degrading to a copy assignment by the overload resolution rules (`const A&&` cannot be bound to `A&&`, but can be bound to `const A&`, as `const`-ness cannot be silently stripped), thus often resulting in worse performance. (This is also a good argument *against* `const` all the things.)
+
+However, astute readers will throw a question at me after reading the above paragraph: using rvalues to mean short-liveness is just a *custom*, not a *rule*! The language has no enforcement on this custom, which means that the signature of the move assignment is a lie! Indeed, *value category is not lifetime*. It is true that temporary values are often rvalues, but often is not always, and the reverse is also not true:
+```cpp
+void fun(std::string s)
+{
+    std::string s1 = "Hello", s2;
+    s2 = std::move(s1); // (1) Actually long-lived rvalues
+    std::println("{}", s1); // OOPS, read from moved-from objects
+
+    s2 = s; // (2) Actually short-lived lvalues
+    // OOPS, a copy, even though s will be discarded after the next line anyway
+    std::println("{}", s2);
+}
+```
+The (1) case is unfortunate in that an rvalue actually referenced a long-lived object (`s1`) that is used after the move assignment, resulting in reading from a moved-from object that gets an unspecified (but valid) value. Such a read is potentially dangerous if the logic after still expects `s1` to retain its original value. The (2) case is also unfortunate, in that even though `s` is not used after the assignment and will end its lifetime very soon, since it is a lvalue, the assignment must perform a copy, even though a move would suffice. Both cases exposed that rvalue actually has nothing to do with short-liveness. Thus, the signature of the move assignment will indeed cause inconvenience in some cases.
+
+A full solution to those two cases requires connecting lifetime with value categories more firmly in C++. For example, for (1), the solution will be to introduce destructive moves, where moved-from objects cannot be used at all, thus preventing the danger. For (2), the solution would be to treat the definite last use of variables as rvalues automatically, thus eliminating this potential inefficiency. In fact, the language is already slowly moving in this direction in a small but crucial case: the `return` statement.
+```cpp
+std::string fun()
+{
+    std::string s;
+    return s; // If no NRVO occurs, then a guaranteed move construction here; no copy!
+}
+```
+Even though `s` is definitely a lvalue here, the language requires that such a direct `return` statement for local variables *must* treat its argument as an rvalue [since C++23](https://wg21.link/P2266), since this is *definitely* the last use of the local variable. This is called “implicit move” and has been an optimization well-known to the compilers since C++11. However, such treatment has not expanded to other definite last uses (yet?), and even if it does, cases where the variable is not the last use but its value is not needed anymore (such as dead stores) will still not be optimized, demonstrating the weakness in the rvalue abstraction.
+
+The (1) case is more difficult and dangerous since it caused unexpected behavior instead of just a performance reduction. For this reason, the language introduced `std::move` to explicitly signal the creation of rvalues, and to inform the writer that the variable’s value better not be used after this statement. This custom is not enforced, nor is it perfect, but that’s what we are now, and the status quo is unlikely to change anymore. Just beware of this weak equality between rvalue and short-liveness and move on with life, then.
+
+#### Automatic Generation Rules: The Rule of Three, The Rule of Five, and The Rule of Zero
+Back on topic. I said earlier that `operator=` is the only operator that will be generated by the compiler even if you don’t write anything. A natural question arises: when will the compiler generate them, and what does the generated version do?
+
+The second question is easier to answer:
+- If the class in question is a normal class, the generated version of `operator=` will do the same operation *memberwise*.
+- If the class in question is a union, the generated version of `operator=` will do a copy of the object representation (in other words, copy all the bytes of the object, as if by `std::memmove`).
+
+There are two nuances worth pointing out with this seemingly simple description. First, the definition of *member* is not just *data* members but *subobjects*. The difference between those two terms is that the latter also includes the direct bases of a class since, in the C++ object representation, the base subobjects come first before any data members. (Astute readers may ask about what will happen for virtual indirect bases that are inherited multiple times, as they are guaranteed to only appear once in the object representation, but their construction requires coordination from even indirect subclasses. The answer is simple: whether their subobjects are assigned one time or multiple times in the implementation of the implicitly-defined assignment operators is unspecified. *Sigh*) The term “subobjects” also refers to each element of an array member and not the array itself, which guarantees the correct generation of default copy/move assignment for array members since built-in array types do not have an assignment operator at all. 
+
+Another nuance with regards to unions is what is not said in the second bulletin: The *only* thing the automatically generated `operator=`s for a union will do is copy the bytes; notably, no calls to the data members’ `operator=` will happen! This is obviously a problem since non-trivial data members are non-trivial *because* their `operator=` does different things than just copying the bytes. For instance, `std::vector`’s copy assignment operator needs to allocate a new buffer in case the current buffer is not large enough, copy over the elements, and adjust the size/capacity pointer/member. If only the bytes are copied over, two `std::vector`s will refer to the same memory, which will result in a guaranteed double-deletion. It is for this reason that we say C++ unions are unsafe, and you need some auxiliary structure to keep track of the active member and overload the `operator=`s to call the appropriate underlying `operator=` is a necessity unless you only have trivial members. (Or, better yet, use a safe wrapper that handles these chores for you, such as `std::variant`.)
+
+The questions of *when* will the compiler generate `operator=`s for you are a lot more complicated to answer. Obviously, if you are not writing a copy/move assignment operator, the compiler will generate one for you, right? Wrong! The rule for when the copy and move assignment operators are generated are encoded in the so-called Rule of Three and Rule of Five, where the former applies to C++98/03, and the latter applies to C++11 and later:
+- **Rule of Three**: If you declare any of a copy constructor, copy assignment operator, or destructor, you should declare all three
+- **Rule of Five**: If you declare any of a copy constructor, move constructor, copy assignment operator, move assignment operator, or destructor, you should declare all five
+
+Now, the rules aren’t that simple: Declaring a copy constructor won’t affect the generation of a copy assignment operator (and vice versa), and declaring a destructor won’t affect the generation of a copy constructor or a copy assignment operator. However, for all other relationships (basically, those interacting with move operations, which C++11 can fix right away), the Rule of Five *does* apply, and the above irregularities are actually deprecated behavior. Therefore, personally, I recommend just treating the rule as-if by Rule of Five: if you declare any one of the five special member functions, **all** five will not be automatically generated. It is not the truth, but close enough to be a guideline to follow.
+
+The reasoning behind Rule of Five and C++11’s forceful enforcement of it is due to an acronym commonly thrown around by C++ enthusiasts: RAII or Resource Acquisition Is Initialization. Now, this acronym is actually wrong; the behavior/principle that people actually *mean* when they say RAII is *Resource Release Is Destruction*, but RRID is not a good acronym, so we came up with RAII. The driving principle behind this idea is to treat C++ destructors as resource releasers:
+```cpp
+struct LockGuard
+{
+    std::mutex m;
+    ~LockGuard() { m.unlock(); }
+};
+
+{
+    std::mutex m; m.lock();
+    LockGuard lk{m};
+    /* ... no matter what happens here, even under an exception, the mutex is always unlocked */
+}
+```
+Such resource management classes (or “RAII classes”) are the cornerstone of modern C++ resource management, and countless examples of these kinds of classes have found their way into the standard (`std::lock_guard`, smart pointer, `std::jthread`, IOStreams, …) and third-party libraries. They serve the same function as `finally` clauses in other languages serve: to ensure resource release always happens, no matter which exit path the code takes.
+
+One crucial question to be answered for RAII classes is how their copying behavior is. A lot of choices exist, and each of them has its own benefits, drawbacks, and use cases such that no one is the preferred approach. For instance, you can do:
+- **Unique Ownership**: The easiest way out. Just forbid copying and only allow moving (in some rare cases, you can even disallow moving if there is no suitable empty state). For memory resources, this is `std::unique_ptr`.
+- **Deep-Copying**: If the underlying resource is not unique, just copy the resource on every copy of the management class. For memory resources, this is `std::indirect` or `std::polymorphic` ([C++26](https://wg21.link/P3019)).
+- **Reference Counting**: One of the more complex approaches. Keep a carefully protected shared counter of the number of copies for each resource, and only release if the copy goes down to zero. This often requires intrusive bookkeeping or heap allocation while also requiring careful protection of concurrent modifications to the counter (through atomics or locks), and thus is much more heavyweight and more flexible than the above approaches. For memory resources, this is `std::shared_ptr` or `boost::intrusive_ptr`.
+- **Shared Ownership**: If we can do a safe shared counter, why not share the entire resource? This requires coordination from the resource itself, such as the presence of concurrent queues or locks to safely handle concurrent requests and also some way of handling multiple releases. This essentially combines management classes into the resource itself. The management class can be a simple observer/view that has trivial copying.
+
+All of these require different `operator=` behavior. For unique ownership, normally you want to not generate `operator=`; for the rest, you want the generation of `operator=` but with vastly different behavior. For instance, shared ownership management classes can do with the default memberwise behavior, but for reference counting, that would be a disaster. It is precisely because of the lack of a preferred approach that Rule of Five exists: If you are writing a destructor, you are probably writing a RAII class, and in that case, you should write out the behavior of copy/move operations directly and explicitly; automatic generation is usually wrong. Reversely, if you are customizing copy/move operations, you are probably managing some kind of resources, and you should write a destructor to be an RAII class.
+
+Rule of Five is great and does prevent a lot of mistakes; however, writing classes under this rule is really annoying:
+```cpp
+class Widget
+{
+private:
+    SomeResource resource;
+
+public:
+    // I'm managing resources; let's make this a RAII class
+    ~Widget() { resource.release(); }
+
+    // OOPS, that disable move operations; I want the shared ownership behavior, where defaulted copy/move suffice
+    Widget(Widget&&) noexcept = default;
+    Widget& operator=(Widget&&) & noexcept = default;
+
+    // OOPS, those now disable copy operations
+    Widget(const Widget&) = default;
+    Widget& operator=(const Widget&) & = default;
+};
+```
+Although it is correct to force you to always write out the intention explicitly, people are still lazy. In that case, I have a better rule to follow when overloading `operator=` as a special member function:
+- **Rule of Zero**: If you declare any of a copy constructor, move constructor, copy assignment operator, move assignment operator, or destructor, you should declare all five; **however, normal classes shouldn’t define any of them; leave these to a (preferably standard) class specifically dealing with ownships**.
+
+```cpp
+class Widget
+{
+private:
+    std::unique_ptr<SomeResource, decltype([](auto& r) { r.release(); })> resource;
+
+public:
+    // No need for a destructor!
+    // Therefore, no need to manually restore move!
+};
+```
+Once you factor out the handling of ownership into its own class, you’ll suddenly find that the automatically generated version Just Works. What a relief! Even better, as listed above, many common ownership handling classes have a standard version that handles everything for you, so ideally, you don’t ever need to write those five special members at all! This is why it is called the Rule of *Zero*. (Note: even though things like `unique_ptr` handles memory resources, they all supported some form of custom deleters that allows you to handle arbitrary release behaviors; of course, it’s better to use more specific classes that have a better interface, such as preferring `std::fstream` over `std::unique_ptr<FILE>`)
+
+None of us lives in an ideal world, but at least you should factor out your ownership logic into its own (preferably generic) class and enjoy Rule of Zero for the rest.
+
+#### When Compiler Fails: Defaulted as deleted, and why it matters
 
 #### Copy-and-Swap Idiom: When and How
 
@@ -494,7 +660,13 @@ The rest of the guide will follow this classification (not in order, click the a
 
 ##### A Nightmare Operator: Deal with `optional<T&>`
 
+#### `operator=` That Is Not Copy/Move Assignment: Irrelevant or Optimization?
+
 #### Templated `operator=`
+
+#### Virtual `operator=`: Genius or Trap?
+
+#### `const operator=`: When Is A Contradiction Useful?
 
 ### `swap`: An Operator Disguised
 #### The Basics: Importance of A `noexcept swap`
