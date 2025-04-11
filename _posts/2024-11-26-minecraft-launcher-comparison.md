@@ -301,13 +301,20 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td rowspan="2">FTB App</td>
 <td rowspan="2">Prism Launcher</td>
 <td rowspan="2">ATLauncher</td>
-<td rowspan="2" class="tooltip">GDLauncher<span class="tooltiptext">This table focuses on the <a href="https://gdlauncher.com/docs/gdlauncher-vs-gdlauncher-carbon/">Carbon version</a></span></td>
+<td rowspan="2" class="tooltip">GDLauncher<span class="tooltiptext" style="z-index: 1001;">This table focuses on the <a href="https://gdlauncher.com/docs/gdlauncher-vs-gdlauncher-carbon/">Carbon version</a></span></td>
 <td rowspan="2">HMCL</td>
-<td rowspan="2">PCL2</td>
+<td>PCL2</td>
 <td>BakaXL</td>
 </tr>
-
 <tr>
+<td>
+<table class="split">
+<tr>
+<td style="font-size: smaller;">Regular</td>
+<td class="tooltip" style="font-size: smaller; border-right: 1px solid !important; z-index: 1000;">CE<span class="tooltiptext"><a href="https://github.com/PCL-Community/PCL2-CE">Community Edition</a></span></td>
+</tr>
+</table>
+</td>
 <td>
 <table class="split">
 <tr>
@@ -349,7 +356,10 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td>Community</td>
 <td>GorillaDevs</td>
 <td class="tooltip">Individual<span class="tooltiptext">Made by huangyuhui</span></td>
+<td><table class="split"><tr>
 <td class="tooltip">Individual<span class="tooltiptext">Made by LTCat (龙腾猫跃)</span></td>
+<td>Community</td>
+</tr></table></td>
 <td class="tooltip">Individual<span class="tooltiptext">Made by TT702</span></td>
 </tr>
 
@@ -363,7 +373,10 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td>2016</td>
 <td>2018</td>
 <td>2015</td>
+<td><table class="split"><tr>
 <td>2018</td>
+<td>2024</td>
+</tr></table></td>
 <td>2015</td>
 </tr>
 
@@ -377,7 +390,10 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes"><a href="https://github.com/ATLauncher/ATLauncher">Yes</a></td>
 <td class="yes"><a href="https://github.com/gorilla-devs/GDLauncher-Carbon">Yes</a></td>
 <td class="yes"><a href="https://github.com/HMCL-dev/HMCL">Yes</a></td>
+<td class="line"><table class="split"><tr>
 <td class="almost tooltip"><a href="https://github.com/Hex-Dragon/PCL2">Stable versions only</a><span class="tooltiptext">Source code repo is only updated after each stable release</span></td>
+<td class="yes"><a href="https://github.com/PCL-Community/PCL2-CE">Yes</a></td>
+</tr></table></td>
 <td class="no">No</td>
 </tr>
 
@@ -391,7 +407,10 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td>GPL-3.0</td>
 <td class="tooltip"><a href="https://github.com/gorilla-devs/GDLauncher-Carbon/blob/develop/LICENSE">Custom</a><span class="tooltiptext">The legacy version was GPL-3.0</span></td>
 <td>GPL-3.0</td>
+<td><table class="split"><tr>
 <td><a href="https://github.com/Hex-Dragon/PCL2/blob/main/LICENCE">Custom</a></td>
+<td><a href="https://github.com/PCL-Community/PCL2-CE/blob/dev/LICENCE">Custom</a></td>
+</tr></table></td>
 <td>N/A</td>
 </tr>
 
@@ -405,7 +424,10 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes"><a href="https://atl.pw/launcher-nightly">Yes</a></td>
 <td class="yes"><a href="https://github.com/gorilla-devs/GDLauncher/releases">Yes</a></td>
 <td class="yes"><a href="https://hmcl.huangyuhui.net/download/">Yes</a></td>
+<td class="line"><table class="split" style="height: 44px;"><tr>
 <td class="mixed"><a href="https://afdian.com/p/0164034c016c11ebafcb52540025c377">Paywalled</a></td>
+<td class="yes"><a href="https://github.com/PCL-Community/PCL2-CE/releases">Yes</a></td>
+</tr></table></td>
 <td class="line"><table class="split" style="height: 44px;"><tr>
 <td class="yes tooltip"><a href="http://jk-insider.bakaxl.com:8888/job/BakaXL%20Insider%20Parrot/lastSuccessfulBuild/">Yes</a><span class="tooltiptext">Already in LTS, no new feature planned</span></td>
 <td class="no tooltip">No<span class="tooltiptext">Insider preview available for <a href="https://afdian.com/a/TT702">paid members</a></span></td>
@@ -475,7 +497,10 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="almost tooltip">Should work<span class="tooltiptext">JAR file provided</span></td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
+<td class="line"><table class="split"><tr>
 <td class="almost tooltip">Yes<span class="tooltiptext">32-bit support works, but <a href="https://github.com/Hex-Dragon/PCL2/issues/3649">no maintenance work is planned</a>. Bugfix reports will be ignored</span></td>
+<td class="no">No</td>
+</tr></table></td>
 <td class="yes">Yes</td>
 </tr>
 
@@ -489,7 +514,10 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="almost tooltip">Should work<span class="tooltiptext">JAR file provided</span></td>
 <td class="no">No</td>
 <td class="yes tooltip">Yes<span class="tooltiptext">HMCL extended Minecraft ARM support to 1.8</span></td>
+<td class="line"><table class="split"><tr>
 <td class="no"><a href="https://github.com/Hex-Dragon/PCL2/issues/1960">No</a></td>
+<td class="yes">Yes</td>
+</tr></table></td>
 <td class="line"><table class="split"><tr>
 <td class="no">No</td>
 <td class="yes">Yes</td>
@@ -536,7 +564,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">DEB+RPM</td>
 <td class="mixed">AppImage only</td>
 <td class="yes">JAR</td>
-<td class="line"><table class="split" style="height: 44px;"><tr>
+<td class="line"><table class="split"><tr>
 <td class="no">No</td>
 <td class="yes">Yes</td>
 </tr></table></td>
@@ -643,7 +671,10 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="mixed">Unofficial</td>
 <td class="mixed">Unofficial</td>
 <td class="mixed">Unofficial</td>
+<td class="line"><table class="split"><tr>
 <td class="mixed">Unofficial</td>
+<td class="no">No</td>
+</tr></table></td>
 <td class="no">No</td>
 </tr>
 
@@ -1205,7 +1236,10 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
+<td class="line"><table class="split"><tr>
 <td class="no">No</td>
+<td class="yes">Yes</td>
+</tr></table></td>
 <td class="no">No</td>
 </tr>
 
@@ -1219,7 +1253,10 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
+<td class="line"><table class="split"><tr>
 <td class="no">No</td>
+<td class="yes">Yes</td>
+</tr></table></td>
 <td class="no">No</td>
 </tr>
 
@@ -1234,7 +1271,10 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
+<td class="line"><table class="split"><tr>
 <td class="no">No</td>
+<td class="yes">Yes</td>
+</tr></table></td>
 <td class="no">No</td>
 </tr>
 
@@ -1248,7 +1288,10 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
+<td class="line"><table class="split"><tr>
 <td class="no">No</td>
+<td class="yes">Yes</td>
+</tr></table></td>
 <td class="no">No</td>
 </tr>
 
@@ -1418,7 +1461,10 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="line">N/A</td>
 <td class="no">No</td>
-<td class="line">N/A</td>
+<td class="line"><table class="split"><tr>
+<td>N/A</td>
+<td class="no">No</td>
+</tr></table></td>
 <td class="line">N/A</td>
 </tr>
 
@@ -1549,7 +1595,10 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
+<td class="line"><table class="split"><tr>
 <td class="no">No</td>
+<td class="yes">Yes</td>
+</tr></table></td>
 <td class="yes">Yes</td>
 </tr>
 
@@ -1563,7 +1612,10 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
+<td class="line"><table class="split"><tr>
 <td class="no">No</td>
+<td class="yes">Yes</td>
+</tr></table></td>
 <td class="no">No</td>
 </tr>
 
@@ -1591,7 +1643,10 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
+<td class="line"><table class="split"><tr>
 <td class="no"><a href="https://github.com/Hex-Dragon/PCL2/issues/366">No</a></td>
+<td class="yes">Yes</td>
+</tr></table></td>
 <td class="no">No</td>
 </tr>
 
@@ -1605,7 +1660,10 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="mixed tooltip">Preset<span class="tooltiptext">Have 4 presets, no custom theme support</span></td>
 <td class="yes">Yes</td>
+<td><table class="split"><tr>
 <td class="mixed">Paywalled</td>
+<td class="yes">Yes</td>
+</tr></table></td>
 <td class="yes">Yes</td>
 </tr>
 
@@ -1869,7 +1927,10 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">60.9</td>
 <td class="mixed">35.9</td>
 <td class="yes">55.1</td>
+<td class="line"><table class="split"><tr>
 <td class="mixed">37.9</td>
+<td class="mixed">45.8</td>
+</tr></table></td>
 <td class="line"><table class="split"><tr>
 <td class="no">34.5</td>
 <td class="mixed">37.5</td>
@@ -1938,8 +1999,8 @@ Several screenshots, mostly from official websites, to give a sense on what the 
 # Star History Charts
 Here is the GitHub star history graph for some of the launchers above:
 <figure class="image star-count">
-<a href="https://star-history.com/#modrinth/code&FTBTeam/FTB-App&MultiMC/Launcher&PrismLauncher/PrismLauncher&ATLauncher/ATLauncher&gorilla-devs/GDLauncher&HMCL-dev/HMCL&Hex-Dragon/PCL2&BakaXL-Launcher/BakaXL&Date">
-<img src="https://api.star-history.com/svg?repos=modrinth/code,FTBTeam/FTB-App,MultiMC/Launcher,PrismLauncher/PrismLauncher,ATLauncher/ATLauncher,gorilla-devs/GDLauncher,HMCL-dev/HMCL,Hex-Dragon/PCL2,BakaXL-Launcher/BakaXL&type=Date" alt="Star History Chart">
+<a href="https://star-history.com/#modrinth/code&FTBTeam/FTB-App&MultiMC/Launcher&PrismLauncher/PrismLauncher&ATLauncher/ATLauncher&gorilla-devs/GDLauncher&HMCL-dev/HMCL&Hex-Dragon/PCL2&PCL-Community/PCL2-CE&BakaXL-Launcher/BakaXL&Date">
+<img src="https://api.star-history.com/svg?repos=modrinth/code,FTBTeam/FTB-App,MultiMC/Launcher,PrismLauncher/PrismLauncher,ATLauncher/ATLauncher,gorilla-devs/GDLauncher,HMCL-dev/HMCL,Hex-Dragon/PCL2,PCL-Community/PCL2-CE,BakaXL-Launcher/BakaXL&type=Date" alt="Star History Chart">
 </a>
 </figure>
 
