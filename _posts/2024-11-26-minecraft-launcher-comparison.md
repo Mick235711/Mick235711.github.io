@@ -1059,7 +1059,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">No</td>
 <td class="yes">No</td>
 <td class="yes">No</td>
-<td class="no">Yes</td>
+<td class="mixed tooltip">In China<span class="tooltiptext">Outside mainland China, the launcher will require a valid account before allowing offline play</span></td>
 <td class="mixed tooltip">In China<span class="tooltiptext">Outside mainland China, the launcher will require a valid account before allowing offline play</span></td>
 <td class="mixed tooltip">In China<span class="tooltiptext">Outside mainland China, the launcher will require a valid account before allowing offline play</span></td>
 </tr>
@@ -1926,7 +1926,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">73.7</td>
 <td class="yes">60.9</td>
 <td class="mixed">35.9</td>
-<td class="yes">55.1</td>
+<td class="yes">55.6</td>
 <td class="line"><table class="split"><tr>
 <td class="mixed">37.9</td>
 <td class="mixed">45.8</td>
