@@ -44,7 +44,7 @@ social: # jekyll-seo-tag > social overrides
     - https://github.com/Mick235711
 
 # Pagination
-paginate: 5
+paginate: 15
 paginate_path: blog/page:num
 
 # Header nav
