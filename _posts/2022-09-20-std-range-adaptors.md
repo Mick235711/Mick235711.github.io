@@ -727,6 +727,25 @@ For example: `r | views::transform(f) | views::filter(g)` will call `f` twice fo
 - borrowed: never
 - constant: when `r` is constant
 
+### `views::to_input(r: [T]) -> [T]`
+Downgrade any range to an input, non-common range.
+
+Useful to avoid expensive operations that many range algorithm/adaptor perform to preserve higher properties. For example:
+- `views::join`'s iterator comparison need to do two base iterator comparisons (one for outer and one for inner) for common range, but only one is needed for non-common range.
+- `views::chunk` have more expensive algorithm when passed with a forward range: iterating through chunk border will incur a whole pass of all the elements for forward ranges.
+
+(Note that `views::to_input` will produce `r`'s type whenever possible)
+
+- constraint: `r` is an input range
+- reference: `T`
+- value type: same as `r`'s value type
+- category: input (this is the point of this adaptor)
+- common: never
+- sized: when `r` is sized
+- const-iterable: when `r` is const-iterable
+- borrowed: when `r` is borrowed
+- constant: when `r` is constant
+
 ## Other Standard Views
 ### `std::optional<T>: [T&]`
 In C++26, `std::optional<T>`, who represents an object that may or may not store a `T`, is upgraded to model `view`. The underlying intention is for `optional` to behave as a container of 0 or 1 elements.
@@ -769,13 +788,13 @@ nullable(q) // []
 - borrowed: when `N` is a pointer, a `reference_wrapper` or a reference
 - constant: when `T` is `const`-qualified
 
-### `views::upto(n: N) -> [N]`
+### `views::indices(n: N) -> [N]`
 
-(Current design as of [P3060R1](https://wg21.link/P3060R1).)
+(Current design as of [P3060R2](https://wg21.link/P3060R2).)
 
 A convenient alias/alternative for `views::iota(0uz, ranges::size(r))`. Basically, produce a range of `0`, `1`, ..., `n - 1`.
 ```python
->>> upto(5)
+>>> indices(5)
 [0, 1, 2, 3, 4]
 ```
 
@@ -791,7 +810,7 @@ A convenient alias/alternative for `views::iota(0uz, ranges::size(r))`. Basicall
 
 ### `any_view<V[, Opts[, R[, RR[, Diff]]]]>: [R ? R : V&]`
 
-(Current design as of [P3411R0](https://wg21.link/P3411R0).)
+(Current design as of [P3411R2](https://wg21.link/P3411R2).)
 
 A type-erased view that allows customizing the traversal category and other properties. Useful for hiding the concrete result type of a range pipeline, such as:
 ```cpp
@@ -814,10 +833,10 @@ enum class any_view_options
     contiguous = 31,
     sized = 32,
     borrowed = 64,
-    move_only = 128
+    copyable = 128
 } Opts;
 ```
-Users are expected to bit-or these options to construct the desired composition of properties. Note that this view does not support `constexpr` to allow SBO, and `RRef` specifies the desired `range_rvalue_reference_t` (defaults to `Ref - & + &&`).
+Users are expected to bit-or these options to construct the desired composition of properties. Note that `RRef` specifies the desired `range_rvalue_reference_t` (defaults to `Ref - & + &&`).
 
 - reference: `R` (defaults to `V&` if not specified)
 - value type: `V`
@@ -829,28 +848,6 @@ Users are expected to bit-or these options to construct the desired composition 
 - constant: depends on `V`, `R` and `RRef`
 
 ## Real Adaptors
-### `views::to_input(r: [T]) -> [T]`
-
-(Current design as of [P3137R2](https://wg21.link/P3137R2).)
-
-Downgrade any range to an input, non-common range.
-
-Useful to avoid expensive operations that many range algorithm/adaptor perform to preserve higher properties. For example:
-- `views::join`'s iterator comparison need to do two base iterator comparisons (one for outer and one for inner) for common range, but only one is needed for non-common range.
-- `views::chunk` have more expensive algorithm when passed with a forward range: iterating through chunk border will incur a whole pass of all the elements for forward ranges.
-
-(Note that `views::to_input` will produce `r`'s type whenever possible)
-
-- constraint: `r` is an input range
-- reference: `T`
-- value type: same as `r`'s value type
-- category: input (this is the point of this adaptor)
-- common: never
-- sized: when `r` is sized
-- const-iterable: when `r` is const-iterable
-- borrowed: when `r` is borrowed
-- constant: when `r` is constant
-
 ### `views::transform_join(r: [T], f: T -> [U]) -> [U]`
 
 (Current design as of [P3211R0](https://wg21.link/P3211R0).)
@@ -896,17 +893,17 @@ Note that `views::slice` will produce `r`'s type whenever possible (for example,
 - borrowed: when `r` is borrowed
 - constant: when `r` is constant
 
-### `views::take_exactly(r: [T], n: N) -> [T]`
+### `views::unchecked_take(r: [T], n: N) -> [T]`
 
-(Current design as of [P3230R0](https://wg21.link/P3230R0).)
+(Current design as of [P3230R2](https://wg21.link/P3230R2).)
 
 A variation of `views::take` that assumes there are at least `n` elements in `r`.
 In other words, more efficient in common cases but is UB if you try to take more than length elements.
 ```python
->>> take_exactly([1, 2, 3, 4], 2)
+>>> unchecked_take([1, 2, 3, 4], 2)
 [1, 2]
 ```
-Note that `views::take_exactly` will produce `r`'s type whenever possible (for example, `empty_view` passed in will return an `empty_view`). Also note that `views::take_exactly` may downgrade infinite ranges to finite ones (`views::iota(0) | views::take_exactly(5)` is just `views::iota(0, 5)`, while `views::take` cannot preserve type when `iota_view` is not sized).
+Note that `views::unchecked_take` will produce `r`'s type whenever possible (for example, `span` passed in will return an `span`). Also note that `views::unchecked_take` may downgrade infinite ranges to finite ones (`views::iota(0) | views::unchecked_take(5)` is just `views::iota(0, 5)`, while `views::take` cannot preserve type when `iota_view` is not sized).
 - constraint: `n >= 0 && n <= ranges::distance(r)` and `N` is convertible to `r`'s difference type
 - reference: `T`
 - value type: same as `r`'s value type
@@ -917,17 +914,17 @@ Note that `views::take_exactly` will produce `r`'s type whenever possible (for e
 - borrowed: when `r` is borrowed
 - constant: when `r` is constant
 
-### `views::drop_exactly(r: [T], n: N) -> [T]`
+### `views::unchecked_drop(r: [T], n: N) -> [T]`
 
-(Current design as of [P3230R0](https://wg21.link/P3230R0).)
+(Current design as of [P3230R2](https://wg21.link/P3230R2).)
 
 A variation of `views::drop` that assumes there are at least `n` elements in `r`.
 In other words, more efficient in common cases but is UB if you try to drop more than length elements.
 ```python
->>> drop_exactly([1, 2, 3, 4], 2)
+>>> unchecked_drop([1, 2, 3, 4], 2)
 [3, 4]
 ```
-Note that `views::drop_exactly` will produce `r`'s type whenever possible (for example, `empty_view` passed in will return an `empty_view`). Also note that `views::drop_exactly` may process infinite ranges better (`views::iota(0) | views::drop_exactly(5)` is just `views::iota(5)`, while `views::drop` cannot preserve type when `iota_view` is not sized).
+Note that `views::unchecked_drop` will produce `r`'s type whenever possible (for example, `span` passed in will return an `span`). Also note that `views::unchecked_drop` may process infinite ranges better (`views::iota(0) | views::unchecked_drop(5)` is just `views::iota(5)`, while `views::drop` cannot preserve type when `iota_view` is not sized).
 - constraint: `n >= 0 && n <= ranges::distance(r)` and `N` is convertible to `r`'s difference type
 - reference: `T`
 - value type: same as `r`'s value type
@@ -962,7 +959,7 @@ Produce a new range that includes all the element of `r` until `p` (inclusive). 
 ## Other Standard Views
 ### `std::filesystem::path_view : [const path_view_component&]`
 
-(Current design as of [P1030R7](https://wg21.link/P1030R7).)
+(Current design as of [P1030R8](https://wg21.link/P1030R8).)
 
 `path_view` represents a trivially copyable view of explicitly unencoded or encoded character sequences in the format of a native or generic filesystem path. When iterated, it yields a `path_view_component` that represents a part of a path not separated by path separators.
 ```python
