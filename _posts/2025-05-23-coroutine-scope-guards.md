@@ -149,12 +149,6 @@ Exiting block
 ```
 Great! We now have a way to bundle the initialization and cleanup code neatly in a function together.
 
-# Error Handling
-Of course, the above bare bones implementation ignores a lot of errors that might occur:
-- What will happen if the initialization code throws an exception or `co_return`s early?
-- What will happen if the cleanup code throws an exception?
-- What will happen if the code `co_yield`s zero times or more than one times?
-
 # Recursive Awaitable
 The `get()`/`operator*` is still a pain to write; can we do better with `co_await`ing the `context`?
 
@@ -283,6 +277,23 @@ Closed file: /tmp/test.txt
 */
 ```
 Here, `fp` is already our stored resource type, neat! (Notice that the file is only closed after `use2()` finishes, not at the end of the `fp` scope; but this is acceptable for most usages.)
+
+# Error Handling
+Of course, the above bare bones implementation ignores a lot of errors that might occur:
+- What will happen if the initialization code throws an exception or `co_return`s early?
+- What will happen if the cleanup code throws an exception?
+- What will happen if the code `co_yield`s zero times or more than one times?
+
+### Premature Return
+Our current code does not handle premature return at all; calling `co_return` without doing any yielding will instantly crash the code.
+
+### Exception Handling
+When exception occurs in the initialization part, it is fine; `throw;` inside the `uncaught_exception()` function will propagate that exception to the caller, who can handle it normally. The interesting case is when the cleanup portion throws an exception:
+- For the normal RAII case, exception is throw in `context`'s destructor (because that's where the inner coroutine is resumed), which will normally results in `std::terminate`. To fix this you need to add `noexcept(false)` to the destructor, and then you can handle the exception as if it is thrown at the end of the resource block.
+- For the recursive await case, you can just handle the exception as if it is thrown at the closing brace of the outer function. This does mean that you need to handle it at the caller of the outer function.
+
+### Multiple Yields
+Our current code also does not handle multiple `co_yield`s; everything after the second `co_yield` will be ignored as the coroutine handle will be destroyed after the second suspension (which is treated as final suspension, regardless of whether it really is final suspension).
 
 # Performance
 Well, there is no escape. This is C++, we care about performance. (If you don't, shouldn't you be down the road where there is a language that have this functionality built-in?)
