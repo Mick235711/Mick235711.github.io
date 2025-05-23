@@ -158,3 +158,132 @@ Of course, the above bare bones implementation ignores a lot of errors that migh
 # Recursive Awaitable
 The `get()`/`operator*` is still a pain to write; can we do better with `co_await`ing the `context`?
 
+On face value, it may seem impossible, since we essentially need to *reverse* what `co_await` usually do. Usually, we use `co_await` to *await* the finish of some async operations in the *inner* function; but here, we want to execute the inner function first, and then await for the *outer* function to finish, and finally run the rest of the inner function. It is like doing a `co_await` from the inner function to the outside.
+
+Fortunately, C++20 Coroutines provides enough customization point to implement this reverse behavior. However, it is just factually impossible to execute the cleanup code at the end of the current block, as there is nothing to RAII on (the result of `co_await` expression will be the resource itself for convenience). Thus, we need to execute the cleanup code (rest of the inner function) at the final suspension point of the outer function.
+
+Let's start by writing an awaiter:
+```cpp
+awaiter context::operator co_await(this context&& self) noexcept
+{
+    self.resume_ = false;
+    return awaiter{self.coroutine_};
+}
+
+template<class Resource>
+class context<Resource>::awaiter
+{
+public:
+    friend class context;
+
+    static bool await_ready() noexcept { return true; }
+    static void await_suspend(std::coroutine_handle<>) noexcept {}
+    const Resource& await_resume(this awaiter& self) noexcept
+    {
+        return *self.coroutine_.promise().value_;
+    }
+
+private:
+    std::coroutine_handle<promise_type> coroutine_ = nullptr;
+
+    explicit awaiter(std::coroutine_handle<promise_type> coro)
+        : coroutine_{coro}
+    {}
+};
+```
+Nothing fancy here, just a normal awaiter storing the inner coroutine handle, and `await_resume()` returns the stored value inside the inner coroutine handle's promise type. This value will then be used as the result of the `co_await` expression, eliminating the need for `operator*`/`get()`. We don't need to do anything during suspension, so just let `await_ready()` return `true` to skip the suspension phase is ideal.
+
+To use `co_await`, we still need an outer task type, which need to coordinate with the awaiter to store the inner coroutine handle:
+```cpp
+class context_task
+{
+public:
+    class promise_type
+    {
+    private:
+        struct final_awaiter
+        {
+            static bool await_ready() noexcept { return false; }
+            template <class Promise>
+            static std::coroutine_handle<> await_suspend(std::coroutine_handle<Promise> coro) noexcept
+            {
+                // Symmetric transfer into the stored inner coroutine
+                auto cont = coro.promise().continuation_;
+                if (cont) return cont;
+                return std::noop_coroutine();
+            }
+            static void await_resume() noexcept {}
+        };
+
+    public:
+        context_task get_return_object(this promise_type& self) noexcept
+        {
+            return context_task{std::coroutine_handle<promise_type>::from_promise(self)};
+        }
+        static std::suspend_never initial_suspend() noexcept { return {}; }
+        static final_awaiter final_suspend() noexcept { return {}; }
+        static void return_void() noexcept {}
+        static void unhandled_exception() { throw; }
+
+        template<typename Resource>
+        context<Resource>&& await_transform(this promise_type& self, context<Resource>&& ctx) noexcept
+        {
+            self.continuation_ = ctx.coroutine_;
+            return std::move(ctx);
+        }
+
+    private:
+        std::coroutine_handle<> continuation_ = nullptr;
+    };
+
+    context_task(const context_task&) = delete;
+    context_task(context_task&& other) noexcept
+        : coroutine_{std::exchange(other.coroutine_, {})}
+    {}
+    context_task& operator=(this context_task& self, context_task other) noexcept
+    {
+        std::ranges::swap(self.coroutine_, other.coroutine_);
+        return self;
+    }
+
+    ~context_task()
+    {
+        if (coroutine_) coroutine_.destroy();
+    }
+
+private:
+    std::coroutine_handle<promise_type> coroutine_ = nullptr;
+
+    explicit context_task(std::coroutine_handle<promise_type> coro)
+        : coroutine_{coro}
+    {}
+};
+```
+Several things are notable for this outer task type. Apart from the normal move operation, destructor, and coroutine handle business that we see in every coroutine types, we also wrote a custom `final_awaiter` to execute cleanup at the final suspension point, whose `await_suspend` method will utilize [symmetric transfer](https://lewissbaker.github.io/2020/05/11/understanding_symmetric_transfer) to cheaply transfer to the inner coroutine to execute the cleanup code. This inner coroutine's handle is stored during the `await_transform` call inside the `operator co_await` machinery.
+
+With this new task type, we can use the context manager without needing to `get()` anything:
+```cpp
+my::context_task use2()
+{
+    std::println("Entering block 2");
+    {
+        auto fp = co_await open_file("/tmp/test.txt");
+        std::println("Get file fd: {}", fileno(fp));
+    }
+    std::println("Exiting block 2");
+}
+
+/*
+Output:
+Entering block 2
+Opened file: /tmp/test.txt
+Get file fd: 3
+Exiting block 2
+Closed file: /tmp/test.txt
+*/
+```
+Here, `fp` is already our stored resource type, neat! (Notice that the file is only closed after `use2()` finishes, not at the end of the `fp` scope; but this is acceptable for most usages.)
+
+# Performance
+Well, there is no escape. This is C++, we care about performance. (If you don't, shouldn't you be down the road where there is a language that have this functionality built-in?)
+
