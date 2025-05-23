@@ -295,6 +295,15 @@ When exception occurs in the initialization part, it is fine; `throw;` inside th
 ### Multiple Yields
 Our current code also does not handle multiple `co_yield`s; everything after the second `co_yield` will be ignored as the coroutine handle will be destroyed after the second suspension (which is treated as final suspension, regardless of whether it really is final suspension).
 
+Handling of premature return and multiple yields is thus left as an exercise to the readers.
+
 # Performance
 Well, there is no escape. This is C++, we care about performance. (If you don't, shouldn't you be down the road where there is a language that have this functionality built-in?)
+
+Let's put up Quick Bench and [see the results](https://quick-bench.com/q/De5P-3ahvHyzGV0JRl5V3oWImAQ):
+<img src="/upload/coroutine-scope-guard/quick-bench.png" alt="Quick Bench Results">
+
+Well... not good. This is tested under Clang 17 + libstdc++ (-O3). Given that Clang optimize coroutines much better than GCC does, I'd say this is the best result we can get.
+
+As perhaps expected, recursive await is a ~50% slowdown compared to normal RAII, and the latter is 23x slower than a simple scope guard. Well, you wouldn't use scope guards in a critical hot loop, anyway, right? Maybe it is fine, maybe not. This is just intended as a toy experiment, nothing more.
 
