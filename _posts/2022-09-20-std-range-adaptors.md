@@ -712,6 +712,23 @@ range elements sequenced in between respectively in the order of arguments.
 - borrowed: never (can be made conditionally borrowed, but the space cost is too high)
 - constant: when all of `r1`, `r2`, ... are constant
 
+### `views::indices(n: N) -> [N]`
+A convenient alias/alternative for `views::iota(0uz, ranges::size(r))`. Basically, produce a range of `0`, `1`, ..., `n - 1`.
+```python
+>>> indices(5)
+[0, 1, 2, 3, 4]
+```
+
+- constraint: `N` must be an integral type
+- reference: `N` (prvalue range!)
+- value type: `N`
+- category: random access
+- common: always
+- sized: always
+- const-iterable: always
+- borrowed: always (iterator owns the current value)
+- constant: always
+
 ## Real Adaptors
 ### `views::cache_latest(r: [T]) -> [T&]`
 Cache the last element of any range to avoid extra work.
@@ -788,29 +805,9 @@ nullable(q) // []
 - borrowed: when `N` is a pointer, a `reference_wrapper` or a reference
 - constant: when `T` is `const`-qualified
 
-### `views::indices(n: N) -> [N]`
-
-(Current design as of [P3060R2](https://wg21.link/P3060R2).)
-
-A convenient alias/alternative for `views::iota(0uz, ranges::size(r))`. Basically, produce a range of `0`, `1`, ..., `n - 1`.
-```python
->>> indices(5)
-[0, 1, 2, 3, 4]
-```
-
-- constraint: `N` must be an integral type
-- reference: `N` (prvalue range!)
-- value type: `N`
-- category: random access
-- common: always
-- sized: always
-- const-iterable: always
-- borrowed: always (iterator owns the current value)
-- constant: always
-
 ### `any_view<V[, Opts[, R[, RR[, Diff]]]]>: [R ? R : V&]`
 
-(Current design as of [P3411R2](https://wg21.link/P3411R2).)
+(Current design as of [P3411R3](https://wg21.link/P3411R3).)
 
 A type-erased view that allows customizing the traversal category and other properties. Useful for hiding the concrete result type of a range pipeline, such as:
 ```cpp
@@ -847,14 +844,32 @@ Users are expected to bit-or these options to construct the desired composition 
 - borrowed: depends on `Opts`
 - constant: depends on `V`, `R` and `RRef`
 
+### `views::null_term(r: *[T]) -> [T]`
+
+(Current design as of [P3705R2](https://wg21.link/P3705R2).)
+
+A view that produces a null-terminated range from an starting iterator. For instance, for `const char* long_string`, `views::null_term(long_string)` effectively represents a `zstring_view` of this NTBS without the overhead of computing the length.
+
+(Note that this view is just an alias of `subrange(r, std::null_sentinel)`, where `null_sentinel` is a simple sentinel providing `operator==` that forwards to `*rng == T()`.)
+
+- constraint: `r` is an iterator with a default initializable value type.
+- reference: `T`
+- value type: same as `r`'s value type
+- category: same as `r` (preserve contiguous)
+- common: never
+- sized: never
+- const-iterable: when `r` is const-iterable
+- borrowed: never
+- constant: when `r` is constant
+
 ## Real Adaptors
-### `views::transform_join(r: [T], f: T -> [U]) -> [U]`
+### `views::flat_map(r: [T], f: T -> [U]) -> [U]`
 
-(Current design as of [P3211R0](https://wg21.link/P3211R0).)
+(Current design as of [P3211R1](https://wg21.link/P3211R1).)
 
-Transform the input sequence to a range-of-range, and then join all the ranges. Commonly called FlatMap in other languages. Following [P2328](https://wg21.link/P2328), this adaptor can be implemented directly as `views::join(views::transform(r, f))`, therefore `views::transform_join` is just an alias for that.
+Transform the input sequence to a range-of-range, and then join all the ranges. Following [P2328](https://wg21.link/P2328), this adaptor can be implemented directly as `views::transform(r, f) | views::cache_latest | views::join`, but this adaptor is not just an alias for that because a standalone view can cache the transform result and avoid repeated calls without reducing the entire range back to input (which `cache_latest` would do).
 ```python
->>> transform_join([0, 1, 2], x => [x, x, x])
+>>> flat_map([0, 1, 2], x => [x, x, x])
 [0, 0, 0, 1, 1, 1, 2, 2, 2]
 ```
 - constraint: `r` and `[U]` are both input ranges, `F` is move-constructible, an object type, and is invocable by `T`
@@ -871,7 +886,7 @@ Transform the input sequence to a range-of-range, and then join all the ranges. 
 
 ### `views::slice(r: [T], m: N, n: N) -> [T]`
 
-(Current design as of [P3216R0](https://wg21.link/P3216R0).)
+(Current design as of [P3216R1](https://wg21.link/P3216R1).)
 
 Produce a new range consists of the `m`-th to `n`-th (as usual, left inclusive, right exclusive) elements of `r`. If `r` has less than `n` elements, contains all the elements after the `m`-th. If `r` has less than `m` elements, produce an empty range.
 ```python
@@ -882,7 +897,7 @@ Produce a new range consists of the `m`-th to `n`-th (as usual, left inclusive, 
 >>> slice([1, 2, 3, 4, 5], 10, 12)
 []
 ```
-Note that `views::slice` will produce `r`'s type whenever possible (for example, `empty_view` passed in will return an `empty_view`). This is due to the fact that `views::slice(r, m, n)` is just an alias for `views::take(views::drop(r, m), n - m)`.
+Note that `views::slice` will produce `r`'s type whenever possible (for example, `empty_view` passed in will return an `empty_view`), even if `views::slice(r, m, n)` is not just an alias for `views::take(views::drop(r, m), n - m)`. (The reason for a dedicated view boils down to performance and support for `reserve_hint()`.)
 - constraint: `n >= m && m >= 0` and `N` is convertible to `r`'s difference type
 - reference: `T`
 - value type: same as `r`'s value type
@@ -935,15 +950,15 @@ Note that `views::unchecked_drop` will produce `r`'s type whenever possible (for
 - borrowed: when `r` is borrowed
 - constant: when `r` is constant
 
-### `views::delimit(r: [T] | It, p: U) -> [T]`
+### `views::take_before(r: [T] | It, p: U) -> [T]`
 
-(Current design as of [P3220R0](https://wg21.link/P3220R0).)
+(Current design as of [P3220R1](https://wg21.link/P3220R1).)
 
-Produce a new range that includes all the element of `r` until `p` (inclusive). Similar to `views::take_while` but using a value instead of a predicate for ending detection. Very useful in cases like importing NTBS ranges with `views::delimit(str, '\0')`.
+Produce a new range that includes all the element of `r` until `p` (inclusive). Similar to `views::take_while` but using a value instead of a predicate for ending detection. Very useful in cases like importing NTBS ranges with `views::take_before(str, '\0')`.
 ```python
->>> delimit([1, 2, 3, 4, 5], 3)
+>>> take_before([1, 2, 3, 4, 5], 3)
 [1, 2, 3]
->>> delimit([1, 2, 3, 4, 5], 6)
+>>> take_before([1, 2, 3, 4, 5], 6)
 [1, 2, 3, 4, 5]
 ```
 - constraint: `r` is an input range, and `U` is an object type and move constructible and `t == u` is well-formed for both `T` and `r`'s value type. If `r` does not model `range` (i.e. `It`), then it must be an input iterator.
@@ -953,8 +968,56 @@ Produce a new range that includes all the element of `r` until `p` (inclusive). 
 - common: never (`begin()` must return an iterator-to-`r`, so `end()` cannot reuse that iterator type)
 - sized: never
 - const-iterable: when `r` is const-iterable and `U` is equality comparable with the reference and lvalue of value type of `as_const(r)`
+- borrowed: when `T` is a scalar type
+- constant: when `r` is constant
+
+### `views::input_filter(r: [T], f: T -> bool) -> [T]`
+
+(Current design as of [P3725R1](https://wg21.link/P3725R1).)
+
+An input-only version of `views::filter` that prevents the mutate-and-then-iterate problem. Note that unlike most other input-only views, this view supports const iteration.
+```python
+>>> input_filter([1, 2, 3, 4], e => e % 2 == 0)
+[2, 4]
+```
+- constraint: `F` is copy-constructible, an object type, and is invocable by `T` and `value_type&`, and return a value that is contextually convertible to `bool`
+- reference: `T`
+- value type: same as `r`'s value type
+- category: input
+- common: when `r` is common
+- sized: never
+- const-iterable: always
 - borrowed: never
 - constant: when `r` is constant
+
+### `views::set_{difference,intersection,union,symmetric_difference}(r1: [T], r2: [U]) -> [T] | [U]`
+
+(Current design as of [P3741R0](https://wg21.link/P3741R0).)
+
+These four views performs common set operations between two ranges:
+- `views::set_difference(A, B)` returns elements in `A` that is not in `B`
+- `views::set_intersection(A, B)` returns elements in `A` that is also in `B`
+- `views::set_union(A, B)` returns elements that are either in `A` or in `B` or both
+- `views::set_symmetric_difference(A, B)` returns elements that are either in `A` or in `B`, but not both
+```python
+>>> set_difference([1, 2, 3, 4], [1, 2, 5, 6])
+[3, 4]
+>>> set_intersection([1, 2, 3, 4], [1, 2, 5, 6])
+[1, 2]
+>>> set_union([1, 2, 3, 4], [1, 2, 5, 6])
+[1, 2, 3, 4, 5, 6]
+>>> set_symmetric_difference([1, 2, 3, 4], [1, 2, 5, 6])
+[3, 4, 5, 6]
+```
+- constraint: `r1` and `r2` are both input ranges, their iterator have an indirect strict weak order (basically just have comparison between `T` an `U` and their value types). For `union` and `symmetric_difference`, also requires that `r1` and `r2` can be concatenated using `views::concat`
+- reference: for `difference` and `intersection`, `T`; for `union` and `symmetric_difference`, `common_reference_t<T, U>`
+- value type: for `difference` and `intersection`, same as `r1`'s value type; for `union` and `symmetric_difference`, `common_type_t<range_value_t<R1>, range_value_t<R2>>`
+- category: at most forward
+- common: never
+- sized: never
+- const-iterable: for `set_union`, always; for other three, never
+- borrowed: when both `r1` and `r2` are borrowed
+- constant: when both `r1` and `r2` are constant
 
 ## Other Standard Views
 ### `std::filesystem::path_view : [const path_view_component&]`
@@ -973,5 +1036,20 @@ Produce a new range that includes all the element of `r` until `p` (inclusive). 
 - sized: never
 - const-iterable: always
 - borrowed: never
+- constant: always
+
+### `std::basic_zstring_view<charT[, traits[, Alloc]]>: [charT&]`
+
+(Current design as of [P3655R2](https://wg21.link/P3655R2).)
+
+A lightweight view of a constant contiguous sequence of `charT`s (i.e. a string) with guaranteed null (`\0`) termination. Can view C strings (null-terminated `const charT*`), `std::basic_string`, and many more.
+- constraint: `charT` must be char-like (non-array trivial standard-layout type), and `traits` must be a character trait
+- reference: `charT&`
+- value type: `charT`
+- category: contiguous
+- common: always
+- sized: always
+- const-iterable: always
+- borrowed: always
 - constant: always
 
