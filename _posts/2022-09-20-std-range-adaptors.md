@@ -1019,6 +1019,27 @@ These four views performs common set operations between two ranges:
 - borrowed: when both `r1` and `r2` are borrowed
 - constant: when both `r1` and `r2` are constant
 
+### `views::cycle(r: [T]) -> [T]`
+
+(Current design as of [P3806R0](https://wg21.link/P3806R0).)
+
+Produce a new range that repeatedly cycle through all the element of `r`.
+```python
+>>> cycle([1, 2, 3])
+[1, 2, 3, 1, 2, 3, 1, 2, 3, ...]
+>>> cycle([])
+[]
+```
+- constraint: `r` is a forward range
+- reference: `T`
+- value type: same as `r`'s value type
+- category: if `r` is random access and sized, then random access; otherwise, at most forward
+- common: never (`end()` returns `default_sentinel`)
+- sized: never (infinite range)
+- const-iterable: when `r` is const-iterable and `const R` is a forward range
+- borrowed: never
+- constant: when `r` is constant
+
 ## Other Standard Views
 ### `std::filesystem::path_view : [const path_view_component&]`
 
