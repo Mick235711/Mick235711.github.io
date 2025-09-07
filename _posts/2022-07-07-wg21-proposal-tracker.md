@@ -76,8 +76,6 @@ History:
 
 This paper proposes the `views::scan` range adaptor family, which takes a range and a function that takes the current element and the current state as parameters. Basically, `views::scan` is a lazy view version of `std::inclusive_scan`, or `views::transform` with a stateful function.
 
-This paper also proposed `views::prescan` and `views::partial_sum` as convenient aliases.
-
 History:
 - 2025-01-12: [P3351R2](https://wg21.link/P3351R2) shipped in the [2025-01 pre-Hagenberg Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2025/#mailing2025-01).
 - 2024-09-24: [P3351R1](https://wg21.link/P3351R1) shipped in the [2024-10 pre-Wrocław Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2024/#mailing2024-10).
@@ -95,3 +93,14 @@ History:
 - 2025-01-12: [P3423R1](https://wg21.link/P3423R1) shipped in the [2025-01 pre-Hagenberg Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2025/#mailing2025-01).
 - 2024-11-22: [P3423R0](https://wg21.link/P3423R0) seen by EWGI in Wrocław (2024-11), approved for EWG. (Stage 1 -> Stage 2)
 - 2024-10-14: [P3423R0](https://wg21.link/P3423R0) shipped in the [2024-10 pre-Wrocław Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2024/#mailing2024-10).
+
+#### P3831: Contract Labels Should Use Annotation Syntax
+- Audience: SG21
+- Target: [P3400R1](https://wg21.link/P3400R1)
+- Revisions: [R0](https://wg21.link/P3831R0)
+- Current Status: Stage 1
+
+Contract labels ([P3400R1](https://wg21.link/P3400R1)) are one of the most important extensions proposed to C++26 Contracts, providing the ability to control the behavior of specific contract assertions. This proposal argues that instead of inventing a new syntax for parameterizing contract assertions, the labels should utilize the existing feature in the standard that permits this parameterization with defined semantics, namely annotations ([P3394R4](https://wg21.link/P3394R4)).
+
+History:
+- 2025-09-07: [P3831R0](https://wg21.link/P3831R0) shipped in the [2025-09 Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2025/#mailing2025-09).
