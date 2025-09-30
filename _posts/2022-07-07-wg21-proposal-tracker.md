@@ -70,20 +70,21 @@ History:
 
 #### P3351: `views::scan`
 - Audience: SG9
-- Target: C++26
-- Revisions: [R0](https://wg21.link/P3351R0), [R1](https://wg21.link/P3351R1), [R2](https://wg21.link/P3351R2)
+- Target: C++29
+- Revisions: [R0](https://wg21.link/P3351R0), [R1](https://wg21.link/P3351R1), [R2](https://wg21.link/P3351R2), [R3](https://wg21.link/P3351R3)
 - Current Status: Stage 1
 
-This paper proposes the `views::scan` range adaptor family, which takes a range and a function that takes the current element and the current state as parameters. Basically, `views::scan` is a lazy view version of `std::inclusive_scan`, or `views::transform` with a stateful function.
+This paper proposes the `views::scan` range adaptor, which takes a range and a function that takes the current element and the current state as parameters. Basically, `views::scan` is a lazy view version of `std::inclusive_scan`, or `views::transform` with a stateful function.
 
 History:
+- 2025-09-30: [P3351R3](https://wg21.link/P3351R3) shipped in the [2025-10 pre-Kona Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2025/#mailing2025-10).
 - 2025-01-12: [P3351R2](https://wg21.link/P3351R2) shipped in the [2025-01 pre-Hagenberg Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2025/#mailing2025-01).
 - 2024-09-24: [P3351R1](https://wg21.link/P3351R1) shipped in the [2024-10 pre-Wrocław Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2024/#mailing2024-10).
 - 2024-07-08: [P3351R0](https://wg21.link/P3351R0) shipped in the [2024-07 post-St. Louis Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2024/#mailing2024-07).
 
 #### P3423: Extending User-Generated Diagnostic Messages
 - Audience: EWG
-- Target: C++26
+- Target: C++29
 - Revisions: [R0](https://wg21.link/P3423R0), [R1](https://wg21.link/P3423R1)
 - Current Status: Stage 2
 
