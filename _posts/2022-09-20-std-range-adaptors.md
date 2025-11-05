@@ -807,7 +807,7 @@ nullable(q) // []
 
 ### `any_view<V[, Opts[, R[, RR[, Diff]]]]>: [R ? R : V&]`
 
-(Current design as of [P3411R3](https://wg21.link/P3411R3).)
+(Current design as of [P3411R4](https://wg21.link/P3411R4).)
 
 A type-erased view that allows customizing the traversal category and other properties. Useful for hiding the concrete result type of a range pipeline, such as:
 ```cpp
@@ -848,7 +848,7 @@ Users are expected to bit-or these options to construct the desired composition 
 
 (Current design as of [P3705R2](https://wg21.link/P3705R2).)
 
-A view that produces a null-terminated range from an starting iterator. For instance, for `const char* long_string`, `views::null_term(long_string)` effectively represents a `zstring_view` of this NTBS without the overhead of computing the length.
+A view that produces a null-terminated range from an starting iterator. For instance, for `const char* long_string`, `views::null_term(long_string)` effectively represents a `cstring_view` of this NTBS without the overhead of computing the length.
 
 (Note that this view is just an alias of `subrange(r, std::null_sentinel)`, where `null_sentinel` is a simple sentinel providing `operator==` that forwards to `*rng == T()`.)
 
@@ -1040,6 +1040,27 @@ Produce a new range that repeatedly cycle through all the element of `r`.
 - borrowed: never
 - constant: when `r` is constant
 
+### `views::scan(r: [T], f: (Acc/T | U, T) -> U[, init: Acc]) -> [U]`
+
+(Current design as of [P3351R3](https://wg21.link/P3351R3).)
+
+Produce a new range that takes a range and a function that takes the current element and the current state as parameters. Basically, `views::transform` with a stateful function. Optionally takes an initial seed to be used as the initial accumulator.
+```python
+>>> scan([1, 2, 3, 4, 5], (a, b) => a + b)
+[1, 3, 6, 10, 15]
+>>> scan([1, 2, 3, 4, 5], (a, b) => a + b, 10)
+[11, 13, 16, 20, 25]
+```
+- constraint: `F` is move-constructible, an object type, and is invocable by either `(Acc, T)` (if provided initial seed) or `(T, T)` (if not), while also invocable by `(U, T)` where `U` is the return type of `F` invoking on these parameter types.
+- reference: `U`
+- value type: `remove_cvref_t<U>`
+- category: input (due to stashing iterator concerns it cannot be forward)
+- common: never (iterator need to store accumulator)
+- sized: when `r` is sized
+- const-iterable: when `r` is const-iterable and `f` is const-invocable
+- borrowed: never
+- constant: when `U` is a value of non-class type (like prvalue range of `int`) or a const reference (l/rvalue both applies)
+
 ## Other Standard Views
 ### `std::filesystem::path_view : [const path_view_component&]`
 
@@ -1059,9 +1080,9 @@ Produce a new range that repeatedly cycle through all the element of `r`.
 - borrowed: never
 - constant: always
 
-### `std::basic_zstring_view<charT[, traits[, Alloc]]>: [charT&]`
+### `std::basic_cstring_view<charT[, traits[, Alloc]]>: [charT&]`
 
-(Current design as of [P3655R2](https://wg21.link/P3655R2).)
+(Current design as of [P3655R3](https://wg21.link/P3655R3).)
 
 A lightweight view of a constant contiguous sequence of `charT`s (i.e. a string) with guaranteed null (`\0`) termination. Can view C strings (null-terminated `const charT*`), `std::basic_string`, and many more.
 - constraint: `charT` must be char-like (non-array trivial standard-layout type), and `traits` must be a character trait

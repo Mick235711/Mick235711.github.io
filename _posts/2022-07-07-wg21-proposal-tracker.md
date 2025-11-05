@@ -69,28 +69,30 @@ History:
 - 2022-06-23: [P2613R0](https://wg21.link/P2613R0) shipped in the [2022-06 Mailing](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/#mailing2022-06) (as a late paper).
 
 #### P3351: `views::scan`
-- Audience: SG9
+- Audience: LEWG
 - Target: C++29
 - Revisions: [R0](https://wg21.link/P3351R0), [R1](https://wg21.link/P3351R1), [R2](https://wg21.link/P3351R2), [R3](https://wg21.link/P3351R3)
-- Current Status: Stage 1
+- Current Status: Stage 2
 
 This paper proposes the `views::scan` range adaptor, which takes a range and a function that takes the current element and the current state as parameters. Basically, `views::scan` is a lazy view version of `std::inclusive_scan`, or `views::transform` with a stateful function.
 
 History:
+- 2025-11-04: R3 seen by SG9 in Kona (2025-11), approved for LEWG. (Stage 1 -> Stage 2)
 - 2025-09-30: [P3351R3](https://wg21.link/P3351R3) shipped in the [2025-10 pre-Kona Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2025/#mailing2025-10).
 - 2025-01-12: [P3351R2](https://wg21.link/P3351R2) shipped in the [2025-01 pre-Hagenberg Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2025/#mailing2025-01).
 - 2024-09-24: [P3351R1](https://wg21.link/P3351R1) shipped in the [2024-10 pre-Wrocław Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2024/#mailing2024-10).
 - 2024-07-08: [P3351R0](https://wg21.link/P3351R0) shipped in the [2024-07 post-St. Louis Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2024/#mailing2024-07).
 
 #### P3423: Extending User-Generated Diagnostic Messages
-- Audience: EWG
+- Audience: CWG
 - Target: C++29
 - Revisions: [R0](https://wg21.link/P3423R0), [R1](https://wg21.link/P3423R1)
-- Current Status: Stage 2
+- Current Status: Stage 3
 
 During Varna (2023-06), [P2741R3](https://wg21.link/P2741R3) had been adopted into the C++26 working draft, which gave `static_assert` the ability to accept a user-generated string-like object as the message parameter. This extension allowed the user of `static_assert` to provide a more precise error message in compile time, thus significantly increasing the user-friendliness of libraries. This proposal, therefore, proposes to unify the language by allowing other constructs in the language that currently accept a message parameter, namely `[[nodiscard]]`, `[[deprecated]]`, and `= delete`, to also allow a user-generated string-like object as the provided message.
 
 History:
+- 2025-11-04: R1 seen by EWG in Kona (2025-11), approved for CWG. (Stage 2 -> Stage 3)
 - 2025-01-12: [P3423R1](https://wg21.link/P3423R1) shipped in the [2025-01 pre-Hagenberg Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2025/#mailing2025-01).
 - 2024-11-22: [P3423R0](https://wg21.link/P3423R0) seen by EWGI in Wrocław (2024-11), approved for EWG. (Stage 1 -> Stage 2)
 - 2024-10-14: [P3423R0](https://wg21.link/P3423R0) shipped in the [2024-10 pre-Wrocław Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2024/#mailing2024-10).
