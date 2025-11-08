@@ -744,14 +744,14 @@ For example: `r | views::transform(f) | views::filter(g)` will call `f` twice fo
 - borrowed: never
 - constant: when `r` is constant
 
-### `views::to_input(r: [T]) -> [T]`
+### `views::as_input(r: [T]) -> [T]`
 Downgrade any range to an input, non-common range.
 
 Useful to avoid expensive operations that many range algorithm/adaptor perform to preserve higher properties. For example:
 - `views::join`'s iterator comparison need to do two base iterator comparisons (one for outer and one for inner) for common range, but only one is needed for non-common range.
 - `views::chunk` have more expensive algorithm when passed with a forward range: iterating through chunk border will incur a whole pass of all the elements for forward ranges.
 
-(Note that `views::to_input` will produce `r`'s type whenever possible)
+(Note that `views::as_input` will produce `r`'s type whenever possible)
 
 - constraint: `r` is an input range
 - reference: `T`
