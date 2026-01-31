@@ -1314,7 +1314,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="almost tooltip">Install only<span class="tooltiptext">Disable mods will not warn about dependency</span></td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
-<td class="almost tooltip">Install only<span class="tooltiptext">Disable mods will not warn about dependency</span></td>
+<td class="yes tooltip">Yes<span class="tooltiptext"><a href="https://github.com/PrismLauncher/PrismLauncher/pull/3738">Coming in v11</a></span></td>
 <td class="almost tooltip">Install only<span class="tooltiptext">Disable mods will not warn about dependency</span></td>
 <td class="almost tooltip">Install only<span class="tooltiptext">Disable mods will not warn about dependency</span></td>
 <td class="almost tooltip">Install only<span class="tooltiptext">Disable mods will not warn about dependency</span></td>
@@ -1329,7 +1329,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
-<td class="yes tooltip">Yes<span class="tooltiptext"><a href="https://github.com/PrismLauncher/PrismLauncher/pull/1905">Coming in v10.0.0</a></span></td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1343,7 +1343,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="yes">Yes</td>
 <td class="no">No</td>
-<td class="yes tooltip">Yes<span class="tooltiptext"><a href="https://github.com/PrismLauncher/PrismLauncher/pull/1905">Coming in v10.0.0</a></span></td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1400,7 +1400,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
-<td class="no tooltip">No<span class="tooltiptext">Slowpoke had <a href="https://prismlauncher.org/news/ftb-removal/">requested</a> removal of FTB modpack downloading feature. Only imports from FTB App is available</span></td>
+<td class="yes tooltip">Yes<span class="tooltiptext"><a href="https://github.com/PrismLauncher/PrismLauncher/pull/3559">Coming in v11</a></span></td>
 <td class="yes tooltip">Yes<span class="tooltiptext">FTB modpack downloading was restored in Nov 2024</span></td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1457,7 +1457,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no tooltip">No<span class="tooltiptext">Updater ignores non-mods</span></td>
 <td class="yes">Yes</td>
 <td class="line">N/A</td>
-<td class="yes tooltip">Yes<span class="tooltiptext"><a href="https://github.com/PrismLauncher/PrismLauncher/pull/1588">Coming in v10.0.0</a></span></td>
+<td class="yes">Yes</td>
 <td class="no">No</td>
 <td class="line">N/A</td>
 <td class="no">No</td>
@@ -1735,7 +1735,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="yes">Yes</td>
-<td class="mixed tooltip">Import only<span class="tooltiptext">Can only import from FTB App</span></td>
+<td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
 <td class="no">No</td>
@@ -1923,7 +1923,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="mixed">42.2</td>
 <td class="no">30.7</td>
 <td class="mixed">39.2</td>
-<td class="yes">75.7</td>
+<td class="yes">76.4</td>
 <td class="yes">60.9</td>
 <td class="mixed">35.9</td>
 <td class="yes">55.6</td>
