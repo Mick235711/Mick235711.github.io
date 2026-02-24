@@ -807,7 +807,7 @@ nullable(q) // []
 
 ### `any_view<V[, Opts[, R[, RR[, Diff]]]]>: [R ? R : V&]`
 
-(Current design as of [P3411R4](https://wg21.link/P3411R4).)
+(Current design as of [P3411R5](https://wg21.link/P3411R5).)
 
 A type-erased view that allows customizing the traversal category and other properties. Useful for hiding the concrete result type of a range pipeline, such as:
 ```cpp
@@ -828,9 +828,10 @@ enum class any_view_options
     bidirectional = 7,
     random_access = 15,
     contiguous = 31,
-    sized = 32,
-    borrowed = 64,
-    copyable = 128
+    approximately_sized = 32,
+    sized = 96,
+    borrowed = 128,
+    copyable = 256
 } Opts;
 ```
 Users are expected to bit-or these options to construct the desired composition of properties. Note that `RRef` specifies the desired `range_rvalue_reference_t` (defaults to `Ref - & + &&`).
