@@ -77,7 +77,7 @@ History:
 This paper proposes the `views::scan` range adaptor, which takes a range and a function that takes the current element and the current state as parameters. Basically, `views::scan` is a lazy view version of `std::inclusive_scan`, or `views::transform` with a stateful function.
 
 History:
-- 2026-04-26: [P3351R4](https://wg21.link/P3351R4) shipped in the [2026-05 pre-Brno Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2026/#mailing2026-05).
+- 2026-04-27: [P3351R4](https://wg21.link/P3351R4) shipped in the [2026-05 pre-Brno Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2026/#mailing2026-05).
 - 2025-11-04: R3 seen by SG9 in Kona (2025-11), approved for LEWG. (Stage 1 -> Stage 2)
 - 2025-09-30: [P3351R3](https://wg21.link/P3351R3) shipped in the [2025-10 pre-Kona Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2025/#mailing2025-10).
 - 2025-01-12: [P3351R2](https://wg21.link/P3351R2) shipped in the [2025-01 pre-Hagenberg Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2025/#mailing2025-01).
@@ -95,7 +95,7 @@ During Varna (2023-06), [P2741R3](https://wg21.link/P2741R3) had been adopted in
 History:
 - 2025-11-04: R1 seen by EWG in Kona (2025-11), approved for CWG. (Stage 2 -> Stage 3)
 - 2025-01-12: [P3423R1](https://wg21.link/P3423R1) shipped in the [2025-01 pre-Hagenberg Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2025/#mailing2025-01).
-- 2024-11-22: [P3423R0](https://wg21.link/P3423R0) seen by EWGI in Wrocław (2024-11), approved for EWG. (Stage 1 -> Stage 2)
+- 2024-11-22: R0 seen by EWGI in Wrocław (2024-11), approved for EWG. (Stage 1 -> Stage 2)
 - 2024-10-14: [P3423R0](https://wg21.link/P3423R0) shipped in the [2024-10 pre-Wrocław Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2024/#mailing2024-10).
 
 #### P3831: Contract Labels Should Use Annotation Syntax
@@ -121,4 +121,15 @@ It was originally introduced for more performant specialized searching.
 As customary in Ranges algorithms, this proposal also proposes Range-ified versions of the existing standard searchers, along with a concept `std::searchable` for better capturing the semantic requirements of standard searchers.
 
 History:
-- 2026-04-27: [P4205R0](https://wg21.link/P4205R0) shipped in the [2026-05 pre-Brno Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2026/#mailing2026-05).
+- 2026-04-29: [P4205R0](https://wg21.link/P4205R0) shipped in the [2026-05 pre-Brno Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2026/#mailing2026-05).
+
+#### P4211: Adaptors For Closed Ranges
+- Audience: SG9
+- Target: C++29
+- Revisions: [R0](https://wg21.link/P4211R0)
+- Current Status: Stage 1
+
+This proposal introduces a family of adaptors that convert closed ranges into half-open ranges, as expected by most other standard library facilities in C++, thus providing direct support for a range model that has been fundamentally incompatible with the C++ iterator model until now.
+
+History:
+- 2026-05-05: [P4211R0](https://wg21.link/P4211R0) shipped in the [2026-05 pre-Brno Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2026/#mailing2026-05).
