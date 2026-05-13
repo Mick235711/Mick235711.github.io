@@ -807,7 +807,7 @@ nullable(q) // []
 
 ### `any_view<V[, Opts[, R[, RR[, Diff]]]]>: [R ? R : V&]`
 
-(Current design as of [P3411R5](https://wg21.link/P3411R5).)
+(Current design as of [P3411R6](https://wg21.link/P3411R6).)
 
 A type-erased view that allows customizing the traversal category and other properties. Useful for hiding the concrete result type of a range pipeline, such as:
 ```cpp
@@ -1043,7 +1043,7 @@ Produce a new range that repeatedly cycle through all the element of `r`.
 
 ### `views::scan(r: [T], f: (Acc/T | U, T) -> U[, init: Acc]) -> [U]`
 
-(Current design as of [P3351R3](https://wg21.link/P3351R3).)
+(Current design as of [P3351R4](https://wg21.link/P3351R4).)
 
 Produce a new range that takes a range and a function that takes the current element and the current state as parameters. Basically, `views::transform` with a stateful function. Optionally takes an initial seed to be used as the initial accumulator.
 ```python
@@ -1059,7 +1059,7 @@ Produce a new range that takes a range and a function that takes the current ele
 - common: never (iterator need to store accumulator)
 - sized: when `r` is sized
 - const-iterable: when `r` is const-iterable and `f` is const-invocable
-- borrowed: never
+- borrowed: when `F` is tidy (i.e. empty and trivially default constructible and trivially destructible)
 - constant: when `U` is a value of non-class type (like prvalue range of `int`) or a const reference (l/rvalue both applies)
 
 ## Other Standard Views
