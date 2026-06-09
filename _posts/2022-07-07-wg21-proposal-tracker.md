@@ -102,12 +102,13 @@ History:
 - Audience: SG21
 - Target: [P3400R1](https://wg21.link/P3400R1)
 - Revisions: [R0](https://wg21.link/P3831R0)
-- Current Status: Stage 1
+- Current Status: Rejected
 
 Contract labels ([P3400R1](https://wg21.link/P3400R1)) are one of the most important extensions proposed to C++26 Contracts, providing the ability to control the behavior of specific contract assertions. This proposal argues that instead of inventing a new syntax for parameterizing contract assertions, the labels should utilize the existing feature in the standard that permits this parameterization with defined semantics, namely annotations ([P3394R4](https://wg21.link/P3394R4)).
 
 History:
 - 2025-09-07: [P3831R0](https://wg21.link/P3831R0) shipped in the [2025-09 Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2025/#mailing2025-09).
+- 2026-06-09: R0 seen by EWG in Brno (2026-06) and rejected. (Stage 1 -> Stage 2 -> Rejected)
 
 #### P4205: Range-Based Searchers
 - Audience: SG9
