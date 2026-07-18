@@ -139,6 +139,9 @@ which it done wrapping by either return `auto(r)` directly (if `r` is already a 
 or wrap in `owning_view` otherwise. Therefore, all of `views::all(r)`'s range properties are exactly identical to that of `r`'s.
 
 ### `views::filter(r: [T], f: T -> bool) -> [T]`
+
+(Includes DR changes brought by [P3725R3](https://wg21.link/P3725R3) in the C++26 cycle.)
+
 Produce a new range that only preserve elements of `r` that let `f(e)` evaluate to `true`.
 ```python
 >>> filter([1, 2, 3, 4], e => e % 2 == 0)
@@ -150,7 +153,7 @@ Produce a new range that only preserve elements of `r` that let `f(e)` evaluate 
 - category: at most bidirectional
 - common: when `r` is common
 - sized: never
-- const-iterable: never
+- const-iterable: when `r` is input and not forward
 - borrowed: never
 - constant: when `r` is constant
 
@@ -863,10 +866,39 @@ A view that produces a null-terminated range from an starting iterator. For inst
 - borrowed: never
 - constant: when `r` is constant
 
+### `views::set_{difference,intersection,union,symmetric_difference}(r1: [T], r2: [U], ...) -> [T] | [U] | ...`
+
+(Current design as of [P3741R1](https://wg21.link/P3741R1).)
+
+These four views performs common set operations between two ranges:
+- `views::set_difference(A, B)` returns elements in `A` that is not in `B`
+- `views::set_intersection(A, B, ...)` returns elements in `A` that is also in `B` (and all other ranges provided)
+- `views::set_union(A, B, ...)` returns elements that are either in `A` or in `B` or both (or either of the other ranges provided)
+- `views::set_symmetric_difference(A, B)` returns elements that are either in `A` or in `B`, but not both
+```python
+>>> set_difference([1, 2, 3, 4], [1, 2, 5, 6])
+[3, 4]
+>>> set_intersection([1, 2, 3, 4], [1, 2, 5, 6], [1, 2, 7, 8])
+[1, 2]
+>>> set_union([1, 2, 3, 4], [1, 2, 5, 6], [1, 2, 7, 8])
+[1, 2, 3, 4, 5, 6, 7, 8]
+>>> set_symmetric_difference([1, 2, 3, 4], [1, 2, 5, 6])
+[3, 4, 5, 6]
+```
+- constraint: `r1` and `r2` (and any additional ranges) are both input ranges; for every pair of provided ranges, their iterator have an indirect strict weak order (basically just have comparison between `T` an `U` and their value types). For `union` and `symmetric_difference`, also requires that all provided ranges can be concatenated using `views::concat`
+- reference: for `difference` and `intersection`, `T`; for `union` and `symmetric_difference`, `common_reference_t<T, U, ...>`
+- value type: for `difference` and `intersection`, same as `r1`'s value type; for `union` and `symmetric_difference`, `common_type_t<range_value_t<R1>, range_value_t<R2>>`
+- category: at most forward
+- common: never
+- sized: never
+- const-iterable: for `set_union`, always; for other three, never
+- borrowed: never
+- constant: when all provided ranges are constant
+
 ## Real Adaptors
 ### `views::flat_map(r: [T], f: T -> [U]) -> [U]`
 
-(Current design as of [P3211R1](https://wg21.link/P3211R1).)
+(Current design as of [P3211R2](https://wg21.link/P3211R2).)
 
 Transform the input sequence to a range-of-range, and then join all the ranges. Following [P2328](https://wg21.link/P2328), this adaptor can be implemented directly as `views::transform(r, f) | views::cache_latest | views::join`, but this adaptor is not just an alias for that because a standalone view can cache the transform result and avoid repeated calls without reducing the entire range back to input (which `cache_latest` would do).
 ```python
@@ -882,12 +914,12 @@ Transform the input sequence to a range-of-range, and then join all the ranges. 
 - common: when both `r` and `[U]` are forward and common, and `[U]` is a glvalue range
 - sized: never
 - const-iterable: when `r` is const-iterable and `f` is const-invocable, and `[U]` is a glvalue range
-- borrowed: never
+- borrowed: when `r` is borrowed and forward, `[U]` is borrowed, and `F` is tidy  (i.e. empty and trivially default constructible and trivially destructible)
 - constant: when `[U]` is constant
 
 ### `views::slice(r: [T], m: N, n: N) -> [T]`
 
-(Current design as of [P3216R1](https://wg21.link/P3216R1).)
+(Current design as of [P3216R3](https://wg21.link/P3216R3).)
 
 Produce a new range consists of the `m`-th to `n`-th (as usual, left inclusive, right exclusive) elements of `r`. If `r` has less than `n` elements, contains all the elements after the `m`-th. If `r` has less than `m` elements, produce an empty range.
 ```python
@@ -905,13 +937,13 @@ Note that `views::slice` will produce `r`'s type whenever possible (for example,
 - category: same as `r` (preserve contiguous)
 - common: when `r` is sized and random access
 - sized: when `r` is sized
-- const-iterable: when `r` is const-iterable
+- const-iterable: when `r` is const-iterable or input and not forward
 - borrowed: when `r` is borrowed
 - constant: when `r` is constant
 
 ### `views::unchecked_take(r: [T], n: N) -> [T]`
 
-(Current design as of [P3230R2](https://wg21.link/P3230R2).)
+(Current design as of [P3230R3](https://wg21.link/P3230R3).)
 
 A variation of `views::take` that assumes there are at least `n` elements in `r`.
 In other words, more efficient in common cases but is UB if you try to take more than length elements.
@@ -932,7 +964,7 @@ Note that `views::unchecked_take` will produce `r`'s type whenever possible (for
 
 ### `views::unchecked_drop(r: [T], n: N) -> [T]`
 
-(Current design as of [P3230R2](https://wg21.link/P3230R2).)
+(Current design as of [P3230R3](https://wg21.link/P3230R3).)
 
 A variation of `views::drop` that assumes there are at least `n` elements in `r`.
 In other words, more efficient in common cases but is UB if you try to drop more than length elements.
@@ -947,13 +979,13 @@ Note that `views::unchecked_drop` will produce `r`'s type whenever possible (for
 - category: same as `r` (preserve contiguous)
 - common: when `r` is common
 - sized: when `r` is sized
-- const-iterable: when `r` is const-iterable
+- const-iterable: when `r` is const-iterable or input and not forward
 - borrowed: when `r` is borrowed
 - constant: when `r` is constant
 
-### `views::take_before(r: [T] | It, p: U) -> [T]`
+### `views::take_before(r: [T], p: U) -> [T]`
 
-(Current design as of [P3220R1](https://wg21.link/P3220R1).)
+(Current design as of [P3220R3](https://wg21.link/P3220R3).)
 
 Produce a new range that includes all the element of `r` until `p` (inclusive). Similar to `views::take_while` but using a value instead of a predicate for ending detection. Very useful in cases like importing NTBS ranges with `views::take_before(str, '\0')`.
 ```python
@@ -962,7 +994,7 @@ Produce a new range that includes all the element of `r` until `p` (inclusive). 
 >>> take_before([1, 2, 3, 4, 5], 6)
 [1, 2, 3, 4, 5]
 ```
-- constraint: `r` is an input range, and `U` is an object type and move constructible and `t == u` is well-formed for both `T` and `r`'s value type. If `r` does not model `range` (i.e. `It`), then it must be an input iterator.
+- constraint: `r` is an input range, and `U` is an object type and move constructible and `t == u` is well-formed for both `T` and `r`'s value type
 - reference: `T`
 - value type: same as `r`'s value type
 - category: same as `r` (preserve contiguous)
@@ -972,71 +1004,25 @@ Produce a new range that includes all the element of `r` until `p` (inclusive). 
 - borrowed: when `T` is a scalar type
 - constant: when `r` is constant
 
-### `views::input_filter(r: [T], f: T -> bool) -> [T]`
+### `views::cycle(r: [T][, n: N]) -> [T]`
 
-(Current design as of [P3725R1](https://wg21.link/P3725R1).)
+(Current design as of [P3806R1](https://wg21.link/P3806R1).)
 
-An input-only version of `views::filter` that prevents the mutate-and-then-iterate problem. Note that unlike most other input-only views, this view supports const iteration.
-```python
->>> input_filter([1, 2, 3, 4], e => e % 2 == 0)
-[2, 4]
-```
-- constraint: `F` is copy-constructible, an object type, and is invocable by `T` and `value_type&`, and return a value that is contextually convertible to `bool`
-- reference: `T`
-- value type: same as `r`'s value type
-- category: input
-- common: when `r` is common
-- sized: never
-- const-iterable: always
-- borrowed: never
-- constant: when `r` is constant
-
-### `views::set_{difference,intersection,union,symmetric_difference}(r1: [T], r2: [U]) -> [T] | [U]`
-
-(Current design as of [P3741R0](https://wg21.link/P3741R0).)
-
-These four views performs common set operations between two ranges:
-- `views::set_difference(A, B)` returns elements in `A` that is not in `B`
-- `views::set_intersection(A, B)` returns elements in `A` that is also in `B`
-- `views::set_union(A, B)` returns elements that are either in `A` or in `B` or both
-- `views::set_symmetric_difference(A, B)` returns elements that are either in `A` or in `B`, but not both
-```python
->>> set_difference([1, 2, 3, 4], [1, 2, 5, 6])
-[3, 4]
->>> set_intersection([1, 2, 3, 4], [1, 2, 5, 6])
-[1, 2]
->>> set_union([1, 2, 3, 4], [1, 2, 5, 6])
-[1, 2, 3, 4, 5, 6]
->>> set_symmetric_difference([1, 2, 3, 4], [1, 2, 5, 6])
-[3, 4, 5, 6]
-```
-- constraint: `r1` and `r2` are both input ranges, their iterator have an indirect strict weak order (basically just have comparison between `T` an `U` and their value types). For `union` and `symmetric_difference`, also requires that `r1` and `r2` can be concatenated using `views::concat`
-- reference: for `difference` and `intersection`, `T`; for `union` and `symmetric_difference`, `common_reference_t<T, U>`
-- value type: for `difference` and `intersection`, same as `r1`'s value type; for `union` and `symmetric_difference`, `common_type_t<range_value_t<R1>, range_value_t<R2>>`
-- category: at most forward
-- common: never
-- sized: never
-- const-iterable: for `set_union`, always; for other three, never
-- borrowed: when both `r1` and `r2` are borrowed
-- constant: when both `r1` and `r2` are constant
-
-### `views::cycle(r: [T]) -> [T]`
-
-(Current design as of [P3806R0](https://wg21.link/P3806R0).)
-
-Produce a new range that repeatedly cycle through all the element of `r`.
+Produce a new range that repeatedly cycle through all the element of `r`. The adaptor also supports passing in an optional count parameter to cycle for `n` times instead of infinity.
 ```python
 >>> cycle([1, 2, 3])
 [1, 2, 3, 1, 2, 3, 1, 2, 3, ...]
+>>> cycle([1, 2, 3], 2)
+[1, 2, 3, 1, 2, 3]
 >>> cycle([])
 []
 ```
-- constraint: `r` is a forward range
+- constraint: `r` is a forward range; `N` (if provided) is convertible to an implementation-defined signed-integer-like type
 - reference: `T`
 - value type: same as `r`'s value type
-- category: if `r` is random access and sized, then random access; otherwise, at most forward
-- common: never (`end()` returns `default_sentinel`)
-- sized: never (infinite range)
+- category: if `r` is random access and sized, then random access; otherwise, at most bidirectional
+- common: when `n` is provided
+- sized: when `n` is provided and `r` is sized
 - const-iterable: when `r` is const-iterable and `const R` is a forward range
 - borrowed: never
 - constant: when `r` is constant
@@ -1061,6 +1047,48 @@ Produce a new range that takes a range and a function that takes the current ele
 - const-iterable: when `r` is const-iterable and `f` is const-invocable
 - borrowed: when `F` is tidy (i.e. empty and trivially default constructible and trivially destructible)
 - constant: when `U` is a value of non-class type (like prvalue range of `int`) or a const reference (l/rvalue both applies)
+
+### `views::{from,to}_{little,big}_endian(r: [T]) -> [T]`
+
+(Current design as of [P4030R1](https://wg21.link/P4030R1).)
+
+Produce a new range that converts the endian-ness of the input. If the native endian-ness if big endian, then `{from,to}_big_endian` is a no-op; otherwise, `{from,to}_little_endian` is a no-op. When these views are not no-ops, they are a wrapper around `views::transform` with `std::byteswap` as the transformer.
+```python
+>>> to_little_endian([0x12345678])
+[0x78563412]  # if the native endian is big
+```
+- constraint: The value type of `r` models `std::integral`
+- reference: `T`
+- value type: `remove_cvref_t<T>`
+- category: same as `r` (preserve contiguous)
+- common: when `r` is common
+- sized: when `r` is sized
+- const-iterable: when `r` is const-iterable
+- borrowed: never
+- constant: always
+
+### `views::to_utf{8,16,32}[_or_error](r: [T]) -> [Type | expected<Type, utf_transcoding_error>]`
+
+(Current design as of [P2728R14](https://wg21.link/P2728R14).)
+
+Produce a new range that represents the conversion result from `r` to the specified UTF format. Also provides `_or_error` variant that returns `expected<Type, utf_transcoding_error>` to represent the specific error encountered.
+```python
+>>> to_utf32(u8"🙂")
+U"🙂"
+>>> to_utf32(u8"🙂" | take(3))
+U"�"  # Replacement character when facing invalid code units
+>>> to_utf32_or_error(u8"🙂" | take(3))
+[unexpected{truncated_utf8_sequence}]
+```
+- constraint: `T` is one of `cv char{8,16,32}_t`
+- reference: `charN_t` for `to_utfN`, `expected<charN_t, utf_transcoding_error>` for `to_utfN_or_error` (prvalue range!)
+- value type: same as reference
+- category: at most bidirectional
+- common: when `r` is common
+- sized: when `r` is sized, its value type is `char32_t`, and using `to_utf32`
+- const-iterable: when `r` is const-iterable and either `const R` is input and not forward, or `r`'s value type is `char32_t`
+- borrowed: when `r` is borrowed
+- constant: always
 
 ## Other Standard Views
 ### `std::filesystem::path_view : [const path_view_component&]`
