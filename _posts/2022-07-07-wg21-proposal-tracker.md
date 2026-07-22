@@ -87,12 +87,13 @@ History:
 #### P3423: Extending User-Generated Diagnostic Messages
 - Audience: CWG
 - Target: C++29
-- Revisions: [R0](https://wg21.link/P3423R0), [R1](https://wg21.link/P3423R1)
+- Revisions: [R0](https://wg21.link/P3423R0), [R1](https://wg21.link/P3423R1), [R2](https://wg21.link/P3423R2)
 - Current Status: Stage 3
 
 During Varna (2023-06), [P2741R3](https://wg21.link/P2741R3) had been adopted into the C++26 working draft, which gave `static_assert` the ability to accept a user-generated string-like object as the message parameter. This extension allowed the user of `static_assert` to provide a more precise error message in compile time, thus significantly increasing the user-friendliness of libraries. This proposal, therefore, proposes to unify the language by allowing other constructs in the language that currently accept a message parameter, namely `[[nodiscard]]`, `[[deprecated]]`, and `= delete`, to also allow a user-generated string-like object as the provided message.
 
 History:
+- 2026-07-21: [P3423R2](https://wg21.link/P3423R2) shipped in the [2026-08 Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2026/#mailing2026-08).
 - 2025-11-04: R1 seen by EWG in Kona (2025-11), approved for CWG. (Stage 2 -> Stage 3)
 - 2025-01-12: [P3423R1](https://wg21.link/P3423R1) shipped in the [2025-01 pre-Hagenberg Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2025/#mailing2025-01).
 - 2024-11-22: R0 seen by EWGI in Wrocław (2024-11), approved for EWG. (Stage 1 -> Stage 2)
@@ -113,7 +114,7 @@ History:
 #### P4205: Range-Based Searchers
 - Audience: SG9
 - Target: C++29
-- Revisions: [R0](https://wg21.link/P4205R0)
+- Revisions: [R0](https://wg21.link/P4205R0), [R1](https://wg21.link/P4205R1)
 - Current Status: Stage 1
 
 This proposal introduces `std::ranges` versions of the `Searcher` overload of the `std::search` algorithm, which takes a searcher object instead of an iterator pair and (optionally) a predicate.
@@ -122,6 +123,7 @@ It was originally introduced for more performant specialized searching.
 As customary in Ranges algorithms, this proposal also proposes Range-ified versions of the existing standard searchers, along with a concept `std::searchable` for better capturing the semantic requirements of standard searchers.
 
 History:
+- 2026-07-21: [P4205R1](https://wg21.link/P4205R1) shipped in the [2026-08 Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2026/#mailing2026-08).
 - 2026-04-29: [P4205R0](https://wg21.link/P4205R0) shipped in the [2026-05 pre-Brno Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2026/#mailing2026-05).
 
 #### P4211: Adaptors For Closed Ranges
