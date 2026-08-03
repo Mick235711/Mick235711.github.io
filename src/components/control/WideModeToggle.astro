@@ -1,0 +1,93 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<!-- There can't be a filter on parent element, or it will break `fixed`. -->
+<div class="wide-mode-wrapper hidden lg:block">
+    <button
+        id="wide-mode-btn"
+        type="button"
+        class="wide-mode-btn hide btn-card rounded-2xl"
+        aria-label="Enable wide reading mode"
+        aria-pressed="false"
+        title="Enable wide reading mode"
+    >
+        <span class="wide-mode-expand" aria-hidden="true">
+            <Icon name="material-symbols:open-in-full-rounded" class="mx-auto"></Icon>
+        </span>
+        <span class="wide-mode-collapse" aria-hidden="true">
+            <Icon name="material-symbols:close-fullscreen-rounded" class="mx-auto"></Icon>
+        </span>
+    </button>
+</div>
+
+<style lang="stylus">
+.wide-mode-wrapper
+    width: 3.75rem
+    height: 3.75rem
+    position: absolute
+    right: 0
+    top: 0
+    pointer-events: none
+
+.wide-mode-btn
+    width: 3.75rem
+    height: 3.75rem
+    color: var(--primary)
+    font-size: 1.75rem
+    font-weight: bold
+    border: none
+    position: fixed
+    bottom: 5.75rem
+    opacity: 1
+    cursor: pointer
+    transform: translateX(5rem)
+    pointer-events: auto
+    &.hide
+        transform: translateX(5rem) scale(0.9)
+        opacity: 0
+        pointer-events: none
+    &:active
+        transform: translateX(5rem) scale(0.9)
+
+.wide-mode-collapse
+    display: none
+
+.wide-mode-btn[data-active="true"]
+    .wide-mode-expand
+        display: none
+    .wide-mode-collapse
+        display: block
+
+:global(body:not(.is-article)) .wide-mode-wrapper
+    display: none !important
+</style>
+
+<script>
+const WIDE_MODE_STORAGE_KEY = "wide-mode"
+
+function setupWideModeToggle() {
+	const button = document.getElementById("wide-mode-btn")
+	if (!(button instanceof HTMLButtonElement) || button.dataset.ready === "true") return
+
+	button.dataset.ready = "true"
+	const syncButton = () => {
+		const enabled = document.documentElement.classList.contains("wide-mode")
+		const label = enabled ? "Disable wide reading mode" : "Enable wide reading mode"
+		button.dataset.active = String(enabled)
+		button.setAttribute("aria-pressed", String(enabled))
+		button.setAttribute("aria-label", label)
+		button.title = label
+	}
+
+	button.addEventListener("click", () => {
+		const enabled = document.documentElement.classList.toggle("wide-mode")
+		localStorage.setItem(WIDE_MODE_STORAGE_KEY, String(enabled))
+		syncButton()
+	})
+
+	syncButton()
+}
+
+setupWideModeToggle()
+</script>

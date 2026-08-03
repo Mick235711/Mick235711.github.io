@@ -54,8 +54,8 @@ This table only resembles the then-current functionality as of Nov 2024.
 <col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
 <col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
 <col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
-<col style="border-left: 1px solid lightgrey; width: var(--launcherwidth);">
-<col style="border-left: 1px solid lightgrey; border-right: solid; width: var(--launcherwidth);">
+<col style="border-left: 1px solid lightgrey; width: var(--pclwidth);">
+<col style="border-left: 1px solid lightgrey; border-right: solid; width: var(--bakaxlwidth);">
 </colgroup>
 
 <thead>
@@ -84,7 +84,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <table class="split">
 <tr>
 <td style="font-size: smaller;">Regular</td>
-<td class="tooltip" style="font-size: smaller; border-right: 1px solid !important; z-index: 1000;">CE<span class="tooltiptext"><a href="https://github.com/PCL-Community/PCL2-CE">Community Edition</a></span></td>
+<td class="tooltip" style="font-size: smaller; border-right: 1px solid var(--line-divider); z-index: 1000;">CE<span class="tooltiptext"><a href="https://github.com/PCL-Community/PCL2-CE">Community Edition</a></span></td>
 </tr>
 </table>
 </td>
@@ -92,7 +92,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <table class="split">
 <tr>
 <td style="font-size: smaller;">v3</td>
-<td class="tooltip" style="font-size: smaller; border-right: 1px solid !important;">v4<span class="tooltiptext">Just <a href="https://www.bakaxl.com/v4">announced</a>, no snapshot binary available yet</span></td>
+<td class="tooltip" style="font-size: smaller; border-right: 1px solid var(--line-divider);">v4<span class="tooltiptext">Just <a href="https://www.bakaxl.com/v4">announced</a>, no snapshot binary available yet</span></td>
 </tr>
 </table>
 </td>
@@ -164,7 +164,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes"><a href="https://github.com/gorilla-devs/GDLauncher-Carbon">Yes</a></td>
 <td class="yes"><a href="https://github.com/HMCL-dev/HMCL">Yes</a></td>
 <td class="line"><table class="split"><tr>
-<td class="almost tooltip"><a href="https://github.com/Hex-Dragon/PCL2">Stable versions only</a><span class="tooltiptext">Source code repo is only updated after each stable release</span></td>
+<td class="almost tooltip"><a href="https://github.com/Hex-Dragon/PCL2">Kind-of</a><span class="tooltiptext">Source code repo is only updated after each stable release</span></td>
 <td class="yes"><a href="https://github.com/PCL-Community/PCL2-CE">Yes</a></td>
 </tr></table></td>
 <td class="no">No</td>
@@ -197,11 +197,11 @@ This table only resembles the then-current functionality as of Nov 2024.
 <td class="yes"><a href="https://atl.pw/launcher-nightly">Yes</a></td>
 <td class="yes"><a href="https://github.com/gorilla-devs/GDLauncher/releases">Yes</a></td>
 <td class="yes"><a href="https://hmcl.huangyuhui.net/download/">Yes</a></td>
-<td class="line"><table class="split" style="height: 44px;"><tr>
+<td class="line"><table class="split"><tr>
 <td class="mixed"><a href="https://afdian.com/p/0164034c016c11ebafcb52540025c377">Paywalled</a></td>
 <td class="yes"><a href="https://github.com/PCL-Community/PCL2-CE/releases">Yes</a></td>
 </tr></table></td>
-<td class="line"><table class="split" style="height: 44px;"><tr>
+<td class="line"><table class="split"><tr>
 <td class="yes tooltip"><a href="http://jk-insider.bakaxl.com:8888/job/BakaXL%20Insider%20Parrot/lastSuccessfulBuild/">Yes</a><span class="tooltiptext">Already in LTS, no new feature planned</span></td>
 <td class="no tooltip">No<span class="tooltiptext">Insider preview available for <a href="https://afdian.com/a/TT702">paid members</a></span></td>
 </tr></table></td>

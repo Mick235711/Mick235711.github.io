@@ -1,5 +1,6 @@
 ---
 import BackToTop from "@components/control/BackToTop.astro";
+import WideModeToggle from "@components/control/WideModeToggle.astro";
 import Footer from "@components/Footer.astro";
 import Navbar from "@components/Navbar.astro";
 import SideBar from "@components/widget/SideBar.astro";
@@ -98,6 +99,7 @@ const mainPanelTop = siteConfig.banner.enable
             </div>
         </div>
 
+        <WideModeToggle></WideModeToggle>
         <BackToTop></BackToTop>
     </div>
 </div>

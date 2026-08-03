@@ -130,6 +130,11 @@ const bannerOffset =
 			const hue = localStorage.getItem('hue') || configHue;
 			document.documentElement.style.setProperty('--hue', hue);
 
+			// Preserve the reader's preferred article width between page loads.
+			if (localStorage.getItem('wide-mode') === 'true') {
+				document.documentElement.classList.add('wide-mode');
+			}
+
 			// calculate the --banner-height-extend, which needs to be a multiple of 4 to avoid blurry text
 			let offset = Math.floor(window.innerHeight * (BANNER_HEIGHT_EXTEND / 100));
 			offset = offset - offset % 4;
@@ -146,7 +151,7 @@ const bannerOffset =
 		<link rel="alternate" type="application/rss+xml" title={profileConfig.name} href={`${Astro.site}rss.xml`}/>
 
 	</head>
-	<body class=" min-h-screen transition " class:list={[{"lg:is-home": isHomePage, "enable-banner": enableBanner}]}
+	<body class=" min-h-screen transition " class:list={[{"lg:is-home": isHomePage, "enable-banner": enableBanner, "is-article": setOGTypeArticle}]}
 		  data-overlayscrollbars-initialize
 	>
 		<ConfigCarrier></ConfigCarrier>
@@ -186,12 +191,21 @@ body {
 	scrollbar-color: var(--scrollbar-bg) transparent;
 }
 
+/* Comparison tables have a fixed intrinsic width. Let their scroll frame hug
+ * that width on roomy screens while retaining horizontal scrolling on narrow
+ * screens. */
+.custom-md .table-scroll:has(> table.comparison) {
+	width: fit-content;
+}
+
 /* Legacy comparison tables. Their source remains HTML because it uses merged
  * cells, but their presentation is fully theme-aware. */
 .custom-md table.comparison {
 	--legendwidth: 120px;
 	--launcherwidth: 90px;
-	width: calc(2 * var(--legendwidth) + 10 * var(--launcherwidth));
+	--pclwidth: 140px;
+	--bakaxlwidth: 140px;
+	width: calc(2 * var(--legendwidth) + 8 * var(--launcherwidth) + var(--pclwidth) + var(--bakaxlwidth));
 	margin: 0;
 	border: 0;
 	border-collapse: separate;
@@ -343,6 +357,32 @@ html.dark .custom-md table.comparison { color: rgb(255 255 255 / 0.88); }
 	}
 }
 
+@media (min-width: 1024px) {
+	/* Wide reading mode is article-only. The class can remain persisted while
+	 * visiting other pages without changing their layouts. */
+	html.wide-mode body.is-article .toc-aware-shell {
+		max-width: min(var(--page-width), calc(100vw - 2rem)) !important;
+		margin-inline: auto !important;
+	}
+
+	html.wide-mode body.is-article #main-grid {
+		grid-template-columns: minmax(0, 1fr) !important;
+	}
+
+	html.wide-mode body.is-article #sidebar {
+		display: none !important;
+	}
+
+	html.wide-mode body.is-article #swup-container {
+		grid-column: 1 / -1 !important;
+	}
+
+	html.wide-mode body.is-article #toc-wrapper {
+		opacity: 0 !important;
+		pointer-events: none !important;
+	}
+}
+
 .comparison-tooltip-portal {
 	position: fixed;
 	top: 0;
@@ -392,7 +432,7 @@ html.dark .comparison-tooltip-portal {
 
 .custom-md table.comparison .split {
 	display: table;
-	width: var(--launcherwidth);
+	width: 100%;
 	height: 100%;
 	margin: 0;
 	border: 0;
@@ -400,9 +440,30 @@ html.dark .comparison-tooltip-portal {
 	table-layout: fixed;
 }
 
+/* A split table needs to reach the outer cell's edges. The usual vertical
+ * cell padding otherwise exposes the transparent parent as strips above and
+ * below its coloured halves. */
+.custom-md table.comparison tbody td:has(> table.split) {
+	padding-block: 0;
+	border-block: 0 !important;
+}
+
+.custom-md table.comparison tbody td:has(> table.split) > table.split {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+}
+
 .custom-md table.comparison .split td {
 	width: 50%;
 	border: 0;
+}
+
+/* Split body halves need a slightly smaller intrinsic height than a regular
+ * row so an edge-pinned split table can fill the row without overflowing it. */
+.custom-md table.comparison tbody .split td {
+	padding-block: 0.25rem;
 }
 
 html.dark .custom-md table.comparison col[style] {
@@ -754,21 +815,20 @@ if (window?.swup?.hooks) {
 }
 
 let backToTopBtn = document.getElementById('back-to-top-btn');
+let wideModeBtn = document.getElementById('wide-mode-btn');
 let toc = document.getElementById('toc-wrapper');
 let navbar = document.getElementById('navbar-wrapper')
 function scrollFunction() {
 	let bannerHeight = window.innerHeight * (BANNER_HEIGHT / 100)
 
-	if (backToTopBtn) {
-		if (document.body.scrollTop > bannerHeight || document.documentElement.scrollTop > bannerHeight) {
-			backToTopBtn.classList.remove('hide')
-		} else {
-			backToTopBtn.classList.add('hide')
-		}
+	const isBelowBanner = document.body.scrollTop > bannerHeight || document.documentElement.scrollTop > bannerHeight
+	for (const button of [backToTopBtn, wideModeBtn]) {
+		if (!button) continue
+		button.classList.toggle('hide', !isBelowBanner)
 	}
 
 	if (bannerEnabled && toc) {
-		if (document.body.scrollTop > bannerHeight || document.documentElement.scrollTop > bannerHeight) {
+		if (isBelowBanner) {
 			toc.classList.remove('toc-hide')
 		} else {
 			toc.classList.add('toc-hide')
