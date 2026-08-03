@@ -55,14 +55,25 @@ export const navBarConfig: NavBarConfig = {
 export const profileConfig: ProfileConfig = {
 	avatar: "/images/avatar-transit.png",
 	name: "Yihe Li",
-	bio: "C++ programmer, writer, and WG21 contributor.",
+	bio: "Beginner in programming",
 	links: [
+        // Visit https://icones.js.org/ for icon codes
+		// You will need to install the corresponding icon set if it's not already included
+		// `pnpm add @iconify-json/<icon-set-name>`
+        {
+			name: "Email",
+			icon: "fa6-regular:envelope",
+			url: "mailto:winmikedows@hotmail.com",
+		},
 		{
 			name: "Twitter",
-			icon: "fa6-brands:twitter", // Visit https://icones.js.org/ for icon codes
-			// You will need to install the corresponding icon set if it's not already included
-			// `pnpm add @iconify-json/<icon-set-name>`
+			icon: "fa6-brands:twitter",
 			url: "https://twitter.com/Mick235711",
+		},
+        {
+			name: "LinkedIn",
+			icon: "fa6-brands:linkedin",
+			url: "https://www.linkedin.com/in/yihe-li-78ba15222",
 		},
 		{
 			name: "GitHub",
