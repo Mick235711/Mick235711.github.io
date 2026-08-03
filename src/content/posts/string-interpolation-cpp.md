@@ -86,25 +86,15 @@ Both EWGI and EWG had expressed support in a future C++ string interpolation fac
 to have a look at how other language did it, and find a good way for C++ to process forward.
 > EWGI (2019-07 Cologne): Spend committee time on this vs other proposals given that time is limited?
 
-<table style="width: 250px; margin-bottom: 1rem;" class="withborder">
-    <thead><tr>
-        <td>SF</td><td>F</td><td>N</td><td>A</td><td>SA</td>
-    </tr></thead>
-    <tbody><tr>
-        <td>3</td><td>5</td><td>2</td><td>2</td><td>0</td>
-    </tr></tbody>
-</table>
+| SF | F | N | A | SA |
+| --: | --: | --: | --: | --: |
+| 3 | 5 | 2 | 2 | 0 |
 
 > EWG (2022-08-04): Given our time is limited, and our resources are scarce, EWG Encourages further work in the direction of P1819.
 
-<table style="width: 250px; margin-bottom: 1rem;" class="withborder">
-    <thead><tr>
-        <td>SF</td><td>F</td><td>N</td><td>A</td><td>SA</td>
-    </tr></thead>
-    <tbody><tr>
-        <td>3</td><td>5</td><td>3</td><td>0</td><td>0</td>
-    </tr></tbody>
-</table>
+| SF | F | N | A | SA |
+| --: | --: | --: | --: | --: |
+| 3 | 5 | 3 | 0 | 0 |
 
 > Result: Consensus
 
@@ -231,14 +221,9 @@ of P1819R0 on 2022-08-04, WG21 also agrees with the decision that a future strin
 should support arbitrary expression:
 > EWG encourages more work in the direction of supporting arbitrary expressions, instead of just ID expressions.
 
-<table style="width: 250px; margin-bottom: 1rem;" class="withborder">
-    <thead><tr>
-        <td>SF</td><td>F</td><td>N</td><td>A</td><td>SA</td>
-    </tr></thead>
-    <tbody><tr>
-        <td>4</td><td>3</td><td>2</td><td>0</td><td>1</td>
-    </tr></tbody>
-</table>
+| SF | F | N | A | SA |
+| --: | --: | --: | --: | --: |
+| 4 | 3 | 2 | 0 | 1 |
 
 > Result: Consensus
 

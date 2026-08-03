@@ -13,5 +13,6 @@ export const BANNER_HEIGHT_HOME = BANNER_HEIGHT + BANNER_HEIGHT_EXTEND;
 // The height the main panel overlaps the banner, unit: rem
 export const MAIN_PANEL_OVERLAPS_BANNER_HEIGHT = 3.5;
 
-// Page width: rem
-export const PAGE_WIDTH = 75;
+// Page width: rem. A wider desktop canvas keeps data-heavy posts legible while
+// retaining the responsive single-column layout on smaller screens.
+export const PAGE_WIDTH = 90;

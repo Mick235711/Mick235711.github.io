@@ -174,9 +174,255 @@ body {
 }
 
 .custom-md table {
-	display: block;
+	display: table;
+}
+
+.custom-md .table-scroll {
 	max-width: 100%;
+	margin: 1rem 0;
 	overflow-x: auto;
+	border: 1px solid var(--line-divider);
+	border-radius: 0.75rem;
+	scrollbar-color: var(--scrollbar-bg) transparent;
+}
+
+/* Legacy comparison tables. Their source remains HTML because it uses merged
+ * cells, but their presentation is fully theme-aware. */
+.custom-md table.comparison {
+	--legendwidth: 120px;
+	--launcherwidth: 90px;
+	width: calc(2 * var(--legendwidth) + 10 * var(--launcherwidth));
+	margin: 0;
+	border: 0;
+	border-collapse: separate;
+	border-spacing: 0;
+	table-layout: fixed;
+	color: rgb(0 0 0 / 0.82);
+	font-size: 0.8125rem;
+	line-height: 1.25;
+	text-align: center;
+}
+
+.custom-md table.smf-comparison {
+	--legendwidth: 250px;
+	--launcherwidth: 70px;
+	width: calc(2 * var(--legendwidth) + 6 * var(--launcherwidth));
+}
+
+.custom-md table.comparison td {
+	box-sizing: border-box;
+	padding: 0.3125rem 0;
+	border: 0;
+	text-align: center;
+	vertical-align: middle;
+	overflow-wrap: break-word;
+	hyphens: auto;
+}
+
+/* The final SMF-table column contains prose comments rather than a result. */
+.custom-md table.smf-comparison tr > td:last-child:not([colspan]) {
+	padding-inline: 0.5rem;
+	text-align: left;
+}
+
+.custom-md table.comparison thead {
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+	font-weight: 700;
+}
+
+.custom-md table.comparison thead td,
+.custom-md table.comparison .legend {
+	background: var(--card-bg);
+}
+
+/* Ordinary cells deliberately do not establish stacking contexts. Only the
+ * frozen cells below receive a z-index, so scrolling content always paints
+ * underneath them in the browser's table-painting order. */
+.custom-md table.comparison tbody td {
+	position: relative;
+}
+
+.custom-md table.comparison tbody td[style*="z-index"] {
+	z-index: auto !important;
+}
+
+.custom-md table.comparison tbody td.legend {
+	z-index: 20 !important;
+	background: var(--card-bg);
+	background-clip: padding-box;
+	transform: translateZ(0);
+}
+
+.custom-md table.comparison:not(.smf-comparison) tbody tr > td:first-child[colspan="2"]:empty {
+	position: sticky;
+	left: 0;
+	z-index: 20 !important;
+	background: var(--card-bg);
+	background-clip: padding-box;
+	transform: translateZ(0);
+}
+
+.custom-md table.comparison tbody td.legend.tooltip {
+	z-index: 20 !important;
+}
+
+.custom-md table.comparison thead td.legend {
+	z-index: 40 !important;
+}
+
+.custom-md table.comparison .semititle {
+	font-weight: 700;
+	text-decoration: underline;
+	vertical-align: bottom;
+}
+
+.custom-md table.comparison td.yes,
+.custom-md table.comparison td.almost,
+.custom-md table.comparison td.no,
+.custom-md table.comparison td.mixed,
+.custom-md table.comparison td.notreally,
+.custom-md table.comparison td.line,
+.custom-md table.comparison td.grey,
+.custom-md table.comparison td.blue,
+.custom-md table.comparison td.greyblue,
+.custom-md table.comparison td.extracolour1,
+.custom-md table.comparison td.extracolour2,
+.custom-md table.comparison td.purple,
+.custom-md table.comparison td.purple2,
+.custom-md table.comparison td.purple3 {
+	border-block: 1px solid var(--line-divider);
+}
+
+.custom-md table.comparison .yes { background: oklch(0.91 0.07 145); }
+.custom-md table.comparison .almost { background: oklch(0.94 0.045 145); }
+.custom-md table.comparison .mixed { background: oklch(0.91 0.065 85); }
+.custom-md table.comparison .notreally { background: oklch(0.92 0.055 45); }
+.custom-md table.comparison .no { background: oklch(0.87 0.075 35); }
+.custom-md table.comparison .grey { background: oklch(0.85 0.01 var(--hue)); }
+.custom-md table.comparison .blue { background: oklch(0.88 0.055 235); }
+.custom-md table.comparison .greyblue { background: oklch(0.8 0.035 235); }
+.custom-md table.comparison .extracolour1 { background: oklch(0.84 0.075 70); }
+.custom-md table.comparison .extracolour2 { background: oklch(0.8 0.085 105); }
+.custom-md table.comparison .purple { background: oklch(0.84 0.08 320); }
+.custom-md table.comparison .purple2 { background: oklch(0.89 0.045 320); }
+.custom-md table.comparison .purple3 { background: oklch(0.8 0.11 300); }
+
+html.dark .custom-md table.comparison .yes { background: oklch(0.34 0.07 145); }
+html.dark .custom-md table.comparison .almost { background: oklch(0.3 0.05 145); }
+html.dark .custom-md table.comparison .mixed { background: oklch(0.35 0.065 85); }
+html.dark .custom-md table.comparison .notreally { background: oklch(0.34 0.06 45); }
+html.dark .custom-md table.comparison .no { background: oklch(0.34 0.075 35); }
+html.dark .custom-md table.comparison .grey { background: oklch(0.32 0.01 var(--hue)); }
+html.dark .custom-md table.comparison .blue { background: oklch(0.33 0.055 235); }
+html.dark .custom-md table.comparison .greyblue { background: oklch(0.34 0.035 235); }
+html.dark .custom-md table.comparison .extracolour1 { background: oklch(0.35 0.075 70); }
+html.dark .custom-md table.comparison .extracolour2 { background: oklch(0.35 0.085 105); }
+html.dark .custom-md table.comparison .purple { background: oklch(0.34 0.08 320); }
+html.dark .custom-md table.comparison .purple2 { background: oklch(0.33 0.045 320); }
+html.dark .custom-md table.comparison .purple3 { background: oklch(0.34 0.11 300); }
+html.dark .custom-md table.comparison { color: rgb(255 255 255 / 0.88); }
+
+.custom-md table.comparison .tooltip {
+	position: relative;
+	text-decoration: underline dotted var(--primary);
+}
+
+.custom-md table.comparison .tooltiptext {
+	display: none;
+}
+
+@media (min-width: 1536px) {
+	/* Keep the content's left edge in place while reserving a right rail for
+	 * the desktop TOC. */
+	.toc-aware-shell {
+		max-width: calc(var(--page-width) - var(--toc-reserve)) !important;
+		margin-right: auto !important;
+		margin-left: max(1rem, calc((100vw - var(--page-width)) / 2)) !important;
+	}
+}
+
+.comparison-tooltip-portal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 10000;
+	box-sizing: border-box;
+	width: max-content;
+	max-width: min(12.5rem, calc(100vw - 1rem));
+	padding: 0.375rem 0.5rem;
+	visibility: hidden;
+	border: 1px solid var(--line-divider);
+	border-radius: 0.375rem;
+	background: var(--float-panel-bg);
+	box-shadow: 0 0.25rem 1rem rgb(0 0 0 / 0.28);
+	color: rgb(0 0 0 / 0.88);
+	font-size: 0.8125rem;
+	font-weight: 400;
+	line-height: 1.25;
+	opacity: 0;
+	pointer-events: none;
+	text-align: center;
+	transition: opacity 100ms ease, visibility 100ms ease;
+}
+
+.comparison-tooltip-portal.visible {
+	visibility: visible;
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.comparison-tooltip-portal a {
+	color: var(--primary);
+	text-decoration: underline;
+}
+
+html.dark .comparison-tooltip-portal {
+	color: rgb(255 255 255 / 0.88);
+}
+
+.custom-md table.comparison .logo {
+	display: block;
+	width: 80%;
+	max-height: 100%;
+	margin: 0.5rem auto;
+	object-fit: cover;
+}
+
+.custom-md table.comparison .split {
+	display: table;
+	width: var(--launcherwidth);
+	height: 100%;
+	margin: 0;
+	border: 0;
+	border-spacing: 0;
+	table-layout: fixed;
+}
+
+.custom-md table.comparison .split td {
+	width: 50%;
+	border: 0;
+}
+
+html.dark .custom-md table.comparison col[style] {
+	border-color: var(--line-divider) !important;
+}
+
+@media (min-width: 578px) {
+	.custom-md table.comparison tr > td:first-child[colspan="2"],
+	.custom-md table.comparison .legend {
+		position: sticky;
+		left: 0;
+	}
+
+	/* The launcher table has two frozen legend columns.  A secondary label may
+	 * be the first DOM cell when its primary label is row-spanned, so target the
+	 * logical column rather than relying on :first-child. */
+	.custom-md table.comparison:not(.smf-comparison) td.legend:not([rowspan]):not([colspan]):not(.primary-legend) {
+		left: var(--legendwidth);
+		z-index: 21 !important;
+	}
 }
 
 .custom-md .withborder,
@@ -555,6 +801,125 @@ window.onresize = () => {
 	document.documentElement.style.setProperty('--banner-height-extend', `${offset}px`);
 }
 
+</script>
+
+<script>
+/* Render comparison-table tooltips outside the table. Browsers paint table
+ * cells in a special order that can otherwise trap a tooltip underneath an
+ * adjacent cell, regardless of its z-index. */
+if (!document.documentElement.dataset.comparisonTooltipReady) {
+	document.documentElement.dataset.comparisonTooltipReady = "true"
+
+	const portal = document.createElement("div")
+	portal.className = "comparison-tooltip-portal"
+	portal.setAttribute("role", "tooltip")
+	portal.setAttribute("aria-hidden", "true")
+	document.body.append(portal)
+
+	let activeAnchor: HTMLElement | null = null
+	let hideTimer: number | undefined
+
+	const prepareTooltips = () => {
+		document.querySelectorAll<HTMLElement>(".custom-md table.comparison .tooltip").forEach((tooltip) => {
+			if (!tooltip.hasAttribute("tabindex")) tooltip.tabIndex = 0
+		})
+	}
+
+	const positionPortal = () => {
+		if (!activeAnchor) return
+
+		const gap = 8
+		const anchorRect = activeAnchor.getBoundingClientRect()
+		const portalRect = portal.getBoundingClientRect()
+		const maxLeft = Math.max(gap, window.innerWidth - portalRect.width - gap)
+		const left = Math.min(
+			Math.max(gap, anchorRect.left + (anchorRect.width - portalRect.width) / 2),
+			maxLeft,
+		)
+
+		let top = anchorRect.bottom + gap
+		if (top + portalRect.height > window.innerHeight - gap) {
+			top = anchorRect.top - portalRect.height - gap
+		}
+		top = Math.max(gap, top)
+
+		portal.style.left = `${Math.round(left)}px`
+		portal.style.top = `${Math.round(top)}px`
+		portal.style.removeProperty("visibility")
+	}
+
+	const showTooltip = (anchor: HTMLElement) => {
+		const source = anchor.querySelector<HTMLElement>(".tooltiptext")
+		if (!source) return
+
+		window.clearTimeout(hideTimer)
+		activeAnchor = anchor
+		portal.innerHTML = source.innerHTML
+		portal.style.visibility = "hidden"
+		portal.classList.add("visible")
+		portal.setAttribute("aria-hidden", "false")
+		window.requestAnimationFrame(positionPortal)
+	}
+
+	const hideTooltip = () => {
+		window.clearTimeout(hideTimer)
+		activeAnchor = null
+		portal.classList.remove("visible")
+		portal.setAttribute("aria-hidden", "true")
+		portal.style.removeProperty("visibility")
+	}
+
+	const scheduleHide = () => {
+		window.clearTimeout(hideTimer)
+		hideTimer = window.setTimeout(hideTooltip, 100)
+	}
+
+	document.addEventListener("pointerover", (event) => {
+		if (!(event.target instanceof Element)) return
+		const anchor = event.target.closest<HTMLElement>(".custom-md table.comparison .tooltip")
+		if (!anchor) return
+		if (event.relatedTarget instanceof Node && anchor.contains(event.relatedTarget)) return
+		showTooltip(anchor)
+	})
+
+	document.addEventListener("pointerout", (event) => {
+		if (!(event.target instanceof Element)) return
+		const anchor = event.target.closest<HTMLElement>(".custom-md table.comparison .tooltip")
+		if (!anchor) return
+		if (event.relatedTarget instanceof Node &&
+			(anchor.contains(event.relatedTarget) || portal.contains(event.relatedTarget))) return
+		scheduleHide()
+	})
+
+	document.addEventListener("focusin", (event) => {
+		if (!(event.target instanceof Element)) return
+		const anchor = event.target.closest<HTMLElement>(".custom-md table.comparison .tooltip")
+		if (anchor) showTooltip(anchor)
+	})
+
+	document.addEventListener("focusout", (event) => {
+		if (!(event.target instanceof Element)) return
+		const anchor = event.target.closest<HTMLElement>(".custom-md table.comparison .tooltip")
+		if (!anchor) return
+		if (event.relatedTarget instanceof Node &&
+			(anchor.contains(event.relatedTarget) || portal.contains(event.relatedTarget))) return
+		scheduleHide()
+	})
+
+	portal.addEventListener("pointerenter", () => window.clearTimeout(hideTimer))
+	portal.addEventListener("pointerleave", scheduleHide)
+	window.addEventListener("scroll", hideTooltip, true)
+	window.addEventListener("resize", hideTooltip)
+
+	prepareTooltips()
+	if (window.swup) {
+		window.swup.hooks.on("page:view", prepareTooltips)
+	} else {
+		document.addEventListener("swup:enable", () => {
+			window.swup.hooks.on("page:view", prepareTooltips)
+		})
+	}
+}
 </script>
 
 <script>

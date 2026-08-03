@@ -6,200 +6,6 @@ tags: ["Mass Survey", Comparison]
 category: Minecraft
 image: "/upload/title-pages/minecraft-launcher.jpg"
 ---
-<style>
-:root {
-    --legendwidth: 120px;
-    --launcherwidth: 90px;
-}
-
-figure.screenshot, figure.star-count {
-    display: block;
-    text-align: center;
-}
-figure.screenshot img {
-    vertical-align: top;
-}
-figure.screenshot figcaption {
-    font-size: medium;
-}
-
-table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-
-table.comparison {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 1em;
-    text-align: center;
-    border: none;
-    table-layout: fixed;
-    font-size: small;
-    width: calc(2 * var(--legendwidth) + 10 * var(--launcherwidth));
-}
-
-table.comparison tr td table {
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    border: none;
-    table-layout: fixed;
-    font-size: small;
-    height: inherit;
-}
-
-thead {
-    border: none;
-    position: sticky;
-    position: -webkit-sticky;
-    top: 0px;
-    z-index: 10;
-}
-
-thead tr td {
-    background-color: white;
-    font-weight: bold;
-}
-
-.legend {
-    background-color: white;
-    z-index: 999;
-}
-
-@media (min-width: 578px) {
-    table.comparison tr>td:first-child[colspan="2"], table.comparison tr>td:first-child:not([colspan]) + td, .legend {
-        position: -webkit-sticky;
-        position: sticky;
-        left: 0;
-    }
-}
-
-td {
-    border: none;
-    padding: 0px;
-    vertical-align: top;
-    overflow-wrap: break-word;
-    hyphens: auto;
-}
-
-td img {
-    padding: 15px 0px;
-}
-
-table.split {
-    border: none;
-    table-layout: fixed;
-    width: calc(var(--launcherwidth));
-    height: 100%;
-}
-
-table.split tr td {
-    border: none !important;
-    width: 50%;
-    overflow-wrap: break-word;
-    hyphens: auto;
-}
-
-.semititle {
-    text-decoration: underline;
-    font-weight: bold;
-    vertical-align: bottom;
-}
-
-table.comparison tr td, table.comparison tr td table tr td {
-    line-height: normal;
-    vertical-align: middle;
-    font-size: small;
-}
-
-table.comparison tr td:not(:has(table)), table.comparison tr td table tr td {
-    padding: 5px 0 5px 0;
-}
-
-.center, table.comparison tr td {
-    text-align: center;
-}
-
-.tooltip {
-    text-decoration: underline;
-    text-decoration-style: dotted;
-    text-decoration-color: darkred;
-}
-
-.tooltip .tooltiptext {
-    width: max-content;
-    max-width: 200px;
-    visibility: hidden;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 5px;
-    position: absolute;
-    z-index: 1000;
-}
-
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-    font-weight: normal;
-}
-
-.yes {
-    background-color: #CEE6BB;
-}
-
-.almost {
-    background-color: #E7F2DD;
-}
-
-.mixed {
-    background-color: #E7DEB1;
-}
-
-.notreally {
-    background-color: #F5E0D6;
-}
-
-.no {
-    background-color: #EBC1AD;
-    color: #384743;
-}
-
-img.logo {
-    object-fit: cover;
-    width: 80%;
-    max-height: 100%;
-}
-
-img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-td.yes,
-td.almost,
-td.no,
-td.mixed,
-td.notreally,
-td.line,
-td.grey, td.blue, td.greyblue, td.extracolour1, td.extracolour2, td.purple, td.purple2, td.purple3 {
-    border-top: 1px solid lightgrey;
-    border-bottom: 1px solid lightgrey;
-    /* FIXME: sticky cannot use border-collapse: collapse */
-}
-
-.grey { background-color: lightgrey; }
-.blue { background-color: lightblue; }
-.greyblue { background-color: #B0C6CD; }
-.extracolour2 {background-color: darkkhaki; }
-.extracolour1 {background-color: tan; }
-.purple { background-color: plum; }
-.purple2 { background-color: thistle; }
-.purple3 { background-color: violet; }
-</style>
-
 Being a popular name, Minecraft have billions of players around the world. However, the official launcher really sucks, so there exists a plethora of unofficial, third-party launchers that blews the official one miles away in terms of design and functionality. In this post, I try to compare the functionality of the most popular Minecraft launchers/clients. Due to my inability to use all of the launchers in depth and the inherent subjectivity of the topic, I will not compare the design (aesthetics) and performance of different launchers, only their offered functionality.
 
 # Launcher Selection
@@ -234,6 +40,7 @@ The last one is subjective, but I really think these ten is a good representatio
 # Comparison Table
 This table only resembles the then-current functionality as of Nov 2024.
 
+<div class="table-scroll comparison-scroll" tabindex="0" aria-label="Scrollable launcher comparison table">
 <table class="comparison">
 
 <colgroup>
@@ -645,7 +452,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 <tr>
-<td class="legend">macOS</td>
+<td class="legend primary-legend">macOS</td>
 <td class="legend">Homebrew</td>
 <td class="yes"><a href="https://formulae.brew.sh/cask/minecraft">Yes</a></td>
 <td class="yes"><a href="https://formulae.brew.sh/cask/modrinth">Yes</a></td>
@@ -1904,6 +1711,7 @@ This table only resembles the then-current functionality as of Nov 2024.
 </tr>
 
 </table>
+</div>
 
 Notes:
 - This table does not consider multiplayer/server-related functionalities (server opening/management, hosting, ...) due to me being unfamiliar with servers. An equally comprehensive comparison table [here](https://github.com/TayouVR/MinecraftLauncherComparison) can be used for that.
