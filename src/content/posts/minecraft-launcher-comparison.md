@@ -28,19 +28,6 @@ table, th, td {
     border-collapse: collapse;
 }
 
-/*@media (prefers-color-scheme: dark) {
-    th {
-        background-color: #222;
-        color: white;
-    }
-    .dropped, .ext, .yes, .no, .notreally, .mixed, .almost, .kdeapp, .gnomeapp, .mktshare1, .mktshare5, .mktshare20, .mktshare30, .mktshare40, .mktshare100, .otherclients, .mau0, .mau1, .mau2, .mau3, .mau4, .mau5, .mau6 {
-        color: black;
-    }
-    table tr.product td {
-        border-color: #333;
-    }
-}*/
-
 table.comparison {
     margin-left: auto;
     margin-right: auto;
@@ -80,13 +67,6 @@ thead tr td {
     z-index: 999;
 }
 
-/*@media (prefers-color-scheme: dark) {
-    thead tr td, .legend {
-        background-color: #222;
-        color: white;
-    }
-}*/
-
 @media (min-width: 578px) {
     table.comparison tr>td:first-child[colspan="2"], table.comparison tr>td:first-child:not([colspan]) + td, .legend {
         position: -webkit-sticky;
@@ -120,14 +100,6 @@ table.split tr td {
     overflow-wrap: break-word;
     hyphens: auto;
 }
-
-/*table.comparison tr td:first-child[colspan="2"], table.comparison tr td:first-child:not([colspan]) + td {
-    border-left: 1px dotted lightgrey;
-}
-
-table.comparison tr td:last-child {
-    border-right: 1px dotted lightgrey;
-}*/
 
 .semititle {
     text-decoration: underline;
@@ -226,12 +198,6 @@ td.grey, td.blue, td.greyblue, td.extracolour1, td.extracolour2, td.purple, td.p
 .purple { background-color: plum; }
 .purple2 { background-color: thistle; }
 .purple3 { background-color: violet; }
-
-/*@media (prefers-color-scheme: dark) {
-    td.grey, td.blue, td.greyblue, td.extracolour1, td.extracolour2, td.purple, td.purple2, td.purple3 {
-        color: black;
-    }
-}*/
 </style>
 
 Being a popular name, Minecraft have billions of players around the world. However, the official launcher really sucks, so there exists a plethora of unofficial, third-party launchers that blews the official one miles away in terms of design and functionality. In this post, I try to compare the functionality of the most popular Minecraft launchers/clients. Due to my inability to use all of the launchers in depth and the inherent subjectivity of the topic, I will not compare the design (aesthetics) and performance of different launchers, only their offered functionality.
