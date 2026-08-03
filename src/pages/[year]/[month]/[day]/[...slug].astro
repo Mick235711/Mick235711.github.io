@@ -1,0 +1,25 @@
+---
+import type { GetStaticPaths } from "astro";
+import Article from "@components/Article.astro";
+import { getSortedPosts } from "@utils/content-utils";
+
+export const getStaticPaths = (async () => {
+	const entries = await getSortedPosts();
+	return entries.map((entry) => {
+		const date = entry.data.published;
+		return {
+			params: {
+				year: String(date.getUTCFullYear()),
+				month: String(date.getUTCMonth() + 1).padStart(2, "0"),
+				day: String(date.getUTCDate()).padStart(2, "0"),
+				slug: entry.slug,
+			},
+			props: { entry },
+		};
+	});
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+---
+
+<Article entry={entry} />

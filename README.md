@@ -1,9 +1,15 @@
-# Starter kit for [Alembic](https://alembic.darn.es/)
+# Mick235711's Personal Website
 
-This is a very simple starting point if you wish to use Alembic [as a Jekyll theme gem](https://alembic.darn.es/#as-a-jekyll-theme) or as a [GitHub Pages remote theme](https://github.com/daviddarnes/alembic-kit/tree/remote-theme) (see `remote-theme` branch).
+This website is built with [Astro](https://astro.build/) and the
+[Fuwari](https://github.com/saicaca/fuwari) theme. It is deployed to GitHub
+Pages by the workflow in `.github/workflows/deploy.yml`.
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/daviddarnes/alembic-kit)
+## Local development
 
-or
+```sh
+pnpm install
+pnpm dev
+```
 
-**[Download the GitHub Pages kit](https://github.com/daviddarnes/alembic-kit/archive/remote-theme.zip)**
+Run `pnpm build` before publishing to check the production site and its search
+index. Posts live in `src/content/posts/`; their original dated URLs are kept.

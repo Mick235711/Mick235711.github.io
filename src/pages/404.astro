@@ -1,0 +1,13 @@
+---
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { url } from "@utils/url-utils";
+---
+
+<MainGridLayout title="Page not found" description="The requested page does not exist.">
+  <section class="card-base px-9 py-10 text-center">
+    <p class="mb-3 text-5xl font-bold text-[var(--primary)]">404</p>
+    <h1 class="mb-3 text-2xl font-bold">Page not found</h1>
+    <p class="mb-6 text-75">The page you requested does not exist or has moved.</p>
+    <a class="btn-regular mx-auto w-fit rounded-xl px-5 py-2 font-bold" href={url("/")}>Return home</a>
+  </section>
+</MainGridLayout>
