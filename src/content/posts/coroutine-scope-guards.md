@@ -74,7 +74,10 @@ private:
     {}
 };
 ```
-Normal stuff, a move-only type that holds a coroutine handle to the promise type. One thing to note here is that the destructor need to resume the coroutine, since we want the cleanup code to run on destruction of the `context` object.
+Normal stuff, a move-only type that holds a coroutine handle to the promise type.
+
+> [!NOTE]
+> The destructor need to resume the coroutine, since we want the cleanup code to run on destruction of the `context` object.
 
 Now entering the promise type, which contains a pointer to the managed resource, and embedding a noop final awaiter:
 ```cpp

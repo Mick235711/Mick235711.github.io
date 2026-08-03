@@ -24,10 +24,9 @@ For example, in Python:
 apple = 4
 print(f"I have {apple} apples.")  # Output: I have 4 apples.
 ```
-Note that in some setting, string interpolation can have an extended meaning in which feature
-like string concatenation (possibly with `1 + " apple"`-like autoboxing) and formatting
-(`std::format` and `str.format`) being included; in this post I want to restrain the term
-to the most strict meaning.
+
+> [!NOTE]
+> In some setting, string interpolation can have an extended meaning in which feature like string concatenation (possibly with `1 + " apple"`-like autoboxing) and formatting (`std::format` and `str.format`) being included; in this post I want to restrain the term to the most strict meaning.
 
 ### Why?
 Every EWG and LEWG direction poll are worded very interestingly:
@@ -446,5 +445,5 @@ its own bunch of issues, specifically because of its interaction with other feat
 ### Implementation difficulty
 
 ## Wording
-Note: this wording is just an initial attempt and is known to be incorrect and incomplete, if this were to be a proposal,
-the wording is probably in need of an overhaul. Wording is based on [N4917](https://wg21.link/N4917).
+> [!NOTE]
+> This wording is just an initial attempt and is known to be incorrect and incomplete, if this were to be a proposal, the wording is probably in need of an overhaul. Wording is based on [N5054](https://wg21.link/N5054).

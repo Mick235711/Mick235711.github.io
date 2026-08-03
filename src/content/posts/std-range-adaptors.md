@@ -38,11 +38,12 @@ so `const vector<int>` is a constant range but `vector<int>` is not. Notice that
 - borrowed: `ranges::borrowed_range<R>`
 - constant: `ranges::constant_range<R>` (C++23)
 
-Note also that value type and reference type are two entirely different beast. Reference type is the type returned by `operator*`,
-and also the type that you interact with more commonly (ranges in this post is referred to as `[T]`, where `T` is its reference type),
-basically you can think reference type as the element type (it is not necessarily a language reference). Value type is often a cvr-unqualified type
-that serves as "value of the same type of the element", which is commonly just reference type minus cvref qualifiers, but not necessarily (value type and reference type can be completely unrelated, as long as
-they have a common reference).
+> [!IMPORTANT]
+> In the C++20 Ranges world, value type and reference type are two entirely different beast. Reference type is the type returned by `operator*`,
+> and also the type that you interact with more commonly (ranges in this post is referred to as `[T]`, where `T` is its reference type),
+> basically you can think reference type as the element type (it is not necessarily a language reference). Value type is often a cvr-unqualified type
+> that serves as "value of the same type of the element", which is commonly just reference type minus cvref qualifiers, but not necessarily (value type and reference type can be completely unrelated, as long as
+> they have a common reference).
 
 All of the original descriptions and properties are copied here, credit belongs to the original author.
 
@@ -82,7 +83,9 @@ Produce a range that start at `beg`, and incrementing forever (when there is onl
 >>> iota(beg, end)
 [beg, beg + 1, beg + 2, ..., end - 1]
 ```
-(Note that `B` and `E` can be any type, not just integral)
+
+> [!TIP]
+> Note that `B` and `E` can be any type, not just integral
 
 - constraint: `B` is copyable and `weakly_incrementable` (support pre/postfix `++` and have difference type) and `E` is `semiregular` (copyable and default initializable).
 Also, `beg == end`, `beg != end` (and reverse) are valid.
@@ -176,7 +179,10 @@ Produce a new range consists of the first `n` elements of `r`. If `r` has less t
 >>> take([1, 2, 3, 4], 8)
 [1, 2, 3, 4]
 ```
-Note that `views::take` will produce `r`'s type whenever possible (for example, `empty_view` passed in will return an `empty_view`).
+
+> [!NOTE]
+> `views::take` will produce `r`'s type whenever possible (for example, `empty_view` passed in will return an `empty_view`).
+
 - constraint: `n >= 0` and `N` is convertible to `r`'s difference type
 - reference: `T`
 - value type: same as `r`'s value type
@@ -212,7 +218,10 @@ Produce a new range consists of the all but the first `n` elements of `r`. If `r
 >>> drop([1, 2, 3, 4], 8)
 []
 ```
-Note that `views::drop` will produce `r`'s type whenever possible (for example, `empty_view` passed in will return an `empty_view`).
+
+> [!NOTE]
+> `views::drop` will produce `r`'s type whenever possible (for example, `empty_view` passed in will return an `empty_view`).
+
 - constraint: `n >= 0` and `N` is convertible to `r`'s difference type
 - reference: `T`
 - value type: same as `r`'s value type
@@ -235,7 +244,11 @@ Produce a new range that excludes the element of `r` until the first element tha
 - value type: same as `r`'s value type
 - category: same as `r` (preserve contiguous)
 - common: when `r` is common
-- sized: when `R`'s sentinel is a sized sentinel for `R`'s iterator (note that in common case this requires common & random access range, but not necessarily; the requirement is `s - i` and `i - s` are valid and return the difference type)
+- sized: when `R`'s sentinel is a sized sentinel for `R`'s iterator
+
+> [!NOTE]
+> In common case this requires common & random access range, but not necessarily; the requirement is `s - i` and `i - s` are valid and return the difference type.
+
 - const-iterable: never
 - borrowed: when `r` is borrowed
 - constant: when `r` is constant
@@ -269,7 +282,7 @@ Produce a range that splits a range of `T` into a range of several range-of-`T`s
 >>> lazy_split("abcd", "")  # when size = 0, just split at every element
 ["a", "b", "c", "d"]
 ```
-Note that `lazy_split` is maximally lazy, it will never touch any element until you increment to the element (i.e. will not compute any "next pattern position"),
+`lazy_split` is maximally lazy, and it will never touch any element until you increment to the element (i.e. will not compute any "next pattern position"),
 and thus support input ranges. However, the tradeoff is that the resulting inner range can only be at most forward, as you don't really know you are at the end until you increment here.
 - constraint: `p` is either a forward range or convertible to the value type of `R`. Also, when `r` is only an input range, `p` must be a sized range with size 0 or 1 (nothing or a single element).
 (The reference type and lvalues of values of `P` and `R` also must be inter-comparable)
@@ -325,7 +338,10 @@ Produce a range that contains the reverse of the elements in `r`.
 >>> reverse([1, 2, 3])
 [3, 2, 1]
 ```
-Note that the reverse of `reverse_view` is simply the base range itself, and `subrange` passed-in will return `subrange` too.
+
+> [!TIP]
+> Note that the reverse of `reverse_view` is simply the base range itself, and `subrange` passed-in will return `subrange` too.
+
 - constraint: `r` is at least bidirectional
 - reference: `T`
 - value type: same as `r`'s value type
@@ -749,7 +765,8 @@ Useful to avoid expensive operations that many range algorithm/adaptor perform t
 - `views::join`'s iterator comparison need to do two base iterator comparisons (one for outer and one for inner) for common range, but only one is needed for non-common range.
 - `views::chunk` have more expensive algorithm when passed with a forward range: iterating through chunk border will incur a whole pass of all the elements for forward ranges.
 
-(Note that `views::as_input` will produce `r`'s type whenever possible)
+> [!NOTE]
+> `views::as_input` will produce `r`'s type whenever possible
 
 - constraint: `r` is an input range
 - reference: `T`
@@ -832,7 +849,7 @@ enum class any_view_options
     copyable = 256
 } Opts;
 ```
-Users are expected to bit-or these options to construct the desired composition of properties. Note that `RRef` specifies the desired `range_rvalue_reference_t` (defaults to `Ref - & + &&`).
+Users are expected to bit-or these options to construct the desired composition of properties. `RRef` specifies the desired `range_rvalue_reference_t` (defaults to `Ref - & + &&`).
 
 - reference: `R` (defaults to `V&` if not specified)
 - value type: `V`
@@ -849,7 +866,8 @@ Users are expected to bit-or these options to construct the desired composition 
 
 A view that produces a null-terminated range from an starting iterator. For instance, for `const char* long_string`, `views::null_term(long_string)` effectively represents a `cstring_view` of this NTBS without the overhead of computing the length.
 
-(Note that this view is just an alias of `subrange(r, std::null_sentinel)`, where `null_sentinel` is a simple sentinel providing `operator==` that forwards to `*rng == T()`.)
+> [!TIP]
+> This view is just an alias of `subrange(r, std::null_sentinel)`, where `null_sentinel` is a simple sentinel providing `operator==` that forwards to `*rng == T()`.
 
 - constraint: `r` is an iterator with a default initializable value type.
 - reference: `T`
@@ -925,7 +943,10 @@ Produce a new range consists of the `m`-th to `n`-th (as usual, left inclusive, 
 >>> slice([1, 2, 3, 4, 5], 10, 12)
 []
 ```
-Note that `views::slice` will produce `r`'s type whenever possible (for example, `empty_view` passed in will return an `empty_view`), even if `views::slice(r, m, n)` is not just an alias for `views::take(views::drop(r, m), n - m)`. (The reason for a dedicated view boils down to performance and support for `reserve_hint()`.)
+
+> [!NOTE]
+> `views::slice` will produce `r`'s type whenever possible (for example, `empty_view` passed in will return an `empty_view`), even if `views::slice(r, m, n)` is not just an alias for `views::take(views::drop(r, m), n - m)`. (The reason for a dedicated view boils down to performance and support for `reserve_hint()`.)
+
 - constraint: `n >= m && m >= 0` and `N` is convertible to `r`'s difference type
 - reference: `T`
 - value type: same as `r`'s value type
@@ -946,7 +967,10 @@ In other words, more efficient in common cases but is UB if you try to take more
 >>> unchecked_take([1, 2, 3, 4], 2)
 [1, 2]
 ```
-Note that `views::unchecked_take` will produce `r`'s type whenever possible (for example, `span` passed in will return an `span`). Also note that `views::unchecked_take` may downgrade infinite ranges to finite ones (`views::iota(0) | views::unchecked_take(5)` is just `views::iota(0, 5)`, while `views::take` cannot preserve type when `iota_view` is not sized).
+
+> [!NOTE]
+> Note that `views::unchecked_take` will produce `r`'s type whenever possible (for example, `span` passed in will return an `span`). Also note that `views::unchecked_take` may downgrade infinite ranges to finite ones (`views::iota(0) | views::unchecked_take(5)` is just `views::iota(0, 5)`, while `views::take` cannot preserve type when `iota_view` is not sized).
+
 - constraint: `n >= 0 && n <= ranges::distance(r)` and `N` is convertible to `r`'s difference type
 - reference: `T`
 - value type: same as `r`'s value type
@@ -967,7 +991,10 @@ In other words, more efficient in common cases but is UB if you try to drop more
 >>> unchecked_drop([1, 2, 3, 4], 2)
 [3, 4]
 ```
-Note that `views::unchecked_drop` will produce `r`'s type whenever possible (for example, `span` passed in will return an `span`). Also note that `views::unchecked_drop` may process infinite ranges better (`views::iota(0) | views::unchecked_drop(5)` is just `views::iota(5)`, while `views::drop` cannot preserve type when `iota_view` is not sized).
+
+> [!NOTE]
+> `views::unchecked_drop` will produce `r`'s type whenever possible (for example, `span` passed in will return an `span`). Also note that `views::unchecked_drop` may process infinite ranges better (`views::iota(0) | views::unchecked_drop(5)` is just `views::iota(5)`, while `views::drop` cannot preserve type when `iota_view` is not sized).
+
 - constraint: `n >= 0 && n <= ranges::distance(r)` and `N` is convertible to `r`'s difference type
 - reference: `T`
 - value type: same as `r`'s value type

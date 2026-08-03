@@ -251,7 +251,10 @@ private:
     void doWork();
 };
 ```
-`doWork()` is an internal function without logging, so you may not want to expose it to the outside world. However, since the CRTP base class usually uses `private` inheritance due to the nature of the composition, that cast inside `work()` doesn’t actually work unless you make it see the inheritance through a `friend` declaration. (**Note**: This example works much better if you use Deducing This, in which you simply write `void work(this const auto&)` and don’t worry about `friend`s anymore.) `friend` declarations can apply to both classes (like above) and non-member functions (like `friend void fun();`), and in both cases, the mentioned class/function will gain access to the `private` members of `concrete_class`.
+`doWork()` is an internal function without logging, so you may not want to expose it to the outside world. However, since the CRTP base class usually uses `private` inheritance due to the nature of the composition, that cast inside `work()` doesn’t actually work unless you make it see the inheritance through a `friend` declaration.
+
+> [!TIP]
+> This example works much better if you use Deducing This, in which you simply write `void work(this const auto&)` and don’t worry about `friend`s anymore.) `friend` declarations can apply to both classes (like above) and non-member functions (like `friend void fun();`), and in both cases, the mentioned class/function will gain access to the `private` members of `concrete_class`.
 
 However, in modern C++, `friend` declarations are increasingly less necessary due to the focus on reducing coupling between classes and also strengthening encapsulation. Those relationships are usually much better expressed by utilizing a class’s `public` API, maybe through a hidden base class. However, another (unintended?) use of `friend` declarations has risen in popularity in recent years and has gradually become one of the most important use cases of the `friend` keyword: the Hidden Friend Idiom.
 
@@ -343,7 +346,10 @@ This trick, the fact that hidden friends can strip away the template-ness of ope
 However, the other two advantages remain even for non-templated classes. This is why I recommend in this guide that all operator overloading be done in member form or hidden friend form if a non-member is preferred. It leads to better compiling time, better diagnostics, better grouping, and API documentation, and enables conversion in templates. What’s there not to love?
 
 ### [You Must Type It Three Times](https://www.youtube.com/watch?v=I3T4lePH-yA): SFINAE Woes
-Now, we venture into some more advanced topics, like the concept of SFINAE-friendly, which you should consider for each of your overloaded operators. One important thing to note here is that the answer to “Should I make my operator SFINAE-friendly?” is no 99% of the time, both because making it friendly is a bit complex and the advantage is only applicable in a very specific group of types. Most users don’t really need to care about this section. If you don’t know what SFINAE is at all, then you don’t need to read this section, as it will not really affect you.
+Now, we venture into some more advanced topics, like the concept of SFINAE-friendly, which you should consider for each of your overloaded operators.
+
+> [!IMPORTANT]
+> The answer to "Should I make my operator SFINAE-friendly?" is no 99% of the time, both because making it friendly is a bit complex and the advantage is only applicable in a very specific group of types. Most users don’t really need to care about this section. If you don’t know what SFINAE is at all, then you don’t need to read this section, as it will not really affect you.
 
 So, what is SFINAE-friendly? This term refers to the fact that your type *perfectly forwards* SFINAE-ness. For a friendlier example, let’s again consider the example of `Rational<T>`. But this time, we will assume that there is a widely adopted concept `multipliable` that tests if your type is multipliable simply by testing if `t * u` is valid; and someone had written a function to choose different algorithm based on the multipliability of your type.
 ```cpp
@@ -461,7 +467,11 @@ By membership-ness:
 - Required to be non-members: `swap`, `<<`, `>>` (as I/O), `operator ""s` (UDL)
 
 However, in this guide, the operators will be classified through *how often you should overload them* (ordered from most frequently to least):
-- [The Good Four](#the-good-four): `=`, `<=>`, `==`, `swap`. Those are the **only** operators that you should consider overloading for all classes. All other operators below this category are only meant to be overloaded for specialized kinds of classes, not universally. **Note**: This does **not** mean that you **should** always overload these operators since the first rule for operator overloading is still **Don’t Do It!**. Only comparatively, those are the most commonly overloaded operators.
+- [The Good Four](#the-good-four): `=`, `<=>`, `==`, `swap`. Those are the **only** operators that you should consider overloading for all classes. All other operators below this category are only meant to be overloaded for specialized kinds of classes, not universally.
+
+> [!IMPORTANT]
+> This does **not** mean that you **should** always overload these operators since the first rule for operator overloading is still **Don’t Do It!**. Only comparatively, those are the most commonly overloaded operators.
+
 - [The Functors](#functors-overloading-operator): `()`. The call operator is so special and common that it deserves its own group.
 - [The Pointer and Iterator](#simulating-a-pointer): `u*`, `->`, `->*`, `[]`, `++`, and `--` (all forms). You should consider overloading these operators only for **pointer-like** or **iterator-like** classes. Notice that increment and decrement appear twice; that’s because they have completely different meanings here and below.
 - [UDLs](#user-defined-literal-hidden-pearl-of-c): `operator ""s`. This is very interesting and sufficiently different from all other operators that it deserves its own group. Definitely take a read, though; it may be more commonly useable than you think!
@@ -499,7 +509,8 @@ One thing to be clear here: even though `operator=` is a binary operator and has
 - If the argument type is `X` or `cv X&` (where *cv* is any combination of `const` and `volatile`), then this overload is a **copy assignment operator**.
 - If the argument type is `cv X&&`, then this overload is a **move assignment operator**.
 
-Note that there are no requirements on the return type, and a class can have more than one copy/move assignment operator since multiple forms are possible, and they can be overloaded.
+> [!NOTE]
+> There are no requirements on the return type, and a class can have more than one copy/move assignment operator since multiple forms are possible, and they can be overloaded.
 
 The importance of these two operators is shown in their names: whenever a copy assignment happens, one copy assignment operator will be invoked; whenever a move assignment happens, one move assignment operator will be invoked. You may think this is obvious nonsense, but beware: not all use of `=` triggers `operator=`!
 ```cpp
@@ -640,7 +651,10 @@ public:
     // Therefore, no need to manually restore move!
 };
 ```
-Once you factor out the handling of ownership into its own class, you’ll suddenly find that the automatically generated version Just Works. What a relief! Even better, as listed above, many common ownership handling classes have a standard version that handles everything for you, so ideally, you don’t ever need to write those five special members at all! This is why it is called the Rule of *Zero*. (Note: even though things like `unique_ptr` handles memory resources, they all supported some form of custom deleters that allows you to handle arbitrary release behaviors; of course, it’s better to use more specific classes that have a better interface, such as preferring `std::fstream` over `std::unique_ptr<FILE>`)
+Once you factor out the handling of ownership into its own class, you’ll suddenly find that the automatically generated version Just Works. What a relief! Even better, as listed above, many common ownership handling classes have a standard version that handles everything for you, so ideally, you don’t ever need to write those five special members at all! This is why it is called the Rule of *Zero*.
+
+> [!NOTE]
+> Even though things like `unique_ptr` handles memory resources, they all supported some form of custom deleters that allows you to handle arbitrary release behaviors; of course, it’s better to use more specific classes that have a better interface, such as preferring `std::fstream` over `std::unique_ptr<FILE>`)
 
 None of us lives in an ideal world, but at least you should factor out your ownership logic into its own (preferably generic) class and enjoy Rule of Zero for the rest.
 

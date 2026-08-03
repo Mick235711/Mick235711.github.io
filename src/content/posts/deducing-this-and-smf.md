@@ -37,7 +37,8 @@ Traditionally, special member functions refer to the functions that will be auto
 - Move assignment operators
 - Prospective destructors
 
-*Note*: The reason that all the constructors and operators are in plural form, and destructors is prepended by "prospective", is because of C++20 Concepts. With `requires` clauses, you can have several "prospective" destructors for a class, but only one will be available at any given time to act as the "real" destructor.
+> [!TIP]
+> The reason that all the constructors and operators are in plural form, and destructors is prepended by "prospective", is because of C++20 Concepts. With `requires` clauses, you can have several "prospective" destructors for a class, but only one will be available at any given time to act as the "real" destructor.
 
 These (except the default constructors) are also the functions affected by ["Rule of Five"](https://mick235711.github.io/2024/04/30/operator-overloading-guide/#the-basics-the-rule-of-three-the-rule-of-five-and-the-rule-of-zero), which describes the customs and idioms related to defining those functions for a class (refer to the linked page for more information).
 
@@ -66,7 +67,9 @@ struct A
     template<typename T> A(); // also not
 };
 ```
-(Note that the access specifier, `noexcept`, `explicit`, `requires`, or `constexpr`/`consteval` specifier will not affect whether a constructor is a SMF, same below.)
+
+> [!NOTE]
+> The access specifier, `noexcept`, `explicit`, `requires`, or `constexpr`/`consteval` specifier will not affect whether a constructor is a SMF, same below.
 
 Of course, the *implicitly generated* default constructor (will be generated if no constructor is declared) always have the form:
 ```cpp
@@ -86,7 +89,8 @@ Copy/Move constructors are called when an object is constructed by copying/movin
 - Its first parameter is `[cv] A&` (for copy) / `[cv] A&&` (for move).
 - All non-first parameters have default arguments.
 
-*Note*: `[cv]` refers to any combinations of `const` and `volatile`, same below.
+> [!NOTE]
+> `[cv]` refers to any combinations of `const` and `volatile`, same below.
 
 Again, this essentially means that the compiler will treat a constructor as SMF based on its callability with one argument, instead of its declared number of arguments.
 ```cpp
@@ -117,17 +121,20 @@ If no copy/move operations and destructors are defined for a class, a move const
 A(A&&) = default;
 ```
 
-*Note*: a critical difference here is the criteria of implicit generation. If a move operation is declared, the copy constructor will still be generated; it will just be declared as `= delete`. However, if a copy/move operation or a destructor is declared, the move constructor will not be generated at all, falling silently back to copying.
+> [!NOTE]
+> A critical difference here is the criteria of implicit generation. If a move operation is declared, the copy constructor will still be generated; it will just be declared as `= delete`. However, if a copy/move operation or a destructor is declared, the move constructor will not be generated at all, falling silently back to copying.
 
 ### Copy/Move Assignment
 
-Note that `operator=` can only be declared as a member function, so we don't need to deal with [operator overload form shenanigans](https://mick235711.github.io/2024/04/30/operator-overloading-guide/#basics-of-operator-overloading) here.
+> [!TIP]
+> Note that `operator=` can only be declared as a member function, so we don't need to deal with [operator overload form shenanigans](https://mick235711.github.io/2024/04/30/operator-overloading-guide/#basics-of-operator-overloading) here.
 
 Copy/Move assignment are called when an object is assigned by lvalue/rvalue of the same type. The standard [specified](https://eel.is/c++draft/class.copy.assign) that a declared `operator=` member function for class `A` will be identified as a copy/move assignment if and only if:
 - It is not a template.
 - Its first **non-object** parameter is `A` or `[cv] A&` (for copy) / `[cv] A&&` (for move).
 
-*Note*: operator overloads, except for `operator()` and `operator[]`, cannot have default arguments, so that item does not apply here.
+> [!NOTE]
+> Operator overloads, except for `operator()` and `operator[]`, cannot have default arguments, so that item does not apply here.
 
 ```cpp
 struct A
@@ -144,7 +151,8 @@ struct A
 };
 ```
 
-*Note*: return types, `const`, `volatile`, and *ref-qualifier*s also does not affect the validity of a copy/move assignment operator.
+> [!TIP]
+> Return types, `const`, `volatile`, and *ref-qualifier*s also does not affect the validity of a copy/move assignment operator.
 
 If no copy assignment operator is defined for a class, a copy assignment operator will be implicitly generated with the form
 ```cpp
@@ -213,7 +221,8 @@ struct A
 };
 ```
 
-*Note*: the fact that operators other than `<=>` cannot use `auto` in lieu of `bool` or `auto&` in lieu of `A&` is inconsistent, and there is [a proposal](https://wg21.link/P2952) to fix that.
+> [!CAUTION]
+> The fact that operators other than `<=>` cannot use `auto` in lieu of `bool` or `auto&` in lieu of `A&` is inconsistent, and there is [a proposal](https://wg21.link/P2952) to fix that, so this behavior is likely to change in a future standard.
 
 # Deducing This
 
@@ -233,7 +242,8 @@ However, *standard* is just a document, what does the *implementation*s say abou
 
 Let's see! (All results are obtained from the trunk versions of compilers as of January 2025)
 
-*Note*: since DT cannot be used on constructors or destructors, the only valid forms are on copy/move assignment operators and comparison operators.
+> [!NOTE]
+> Since DT cannot be used on constructors or destructors, the only valid forms are on copy/move assignment operators and comparison operators.
 
 <div class="table-scroll comparison-scroll" tabindex="0" aria-label="Scrollable implementation comparison table">
 <table class="comparison smf-comparison">
