@@ -186,6 +186,37 @@ body {
 	text-align: center;
 }
 
+.custom-md .doi-badge {
+	display: inline-flex;
+	align-items: stretch;
+	overflow: hidden;
+	border: 1px solid var(--primary);
+	border-radius: 0.375rem;
+	color: var(--primary);
+	font-size: 0.8125rem;
+	font-weight: 600;
+	line-height: 1.7;
+	text-decoration: none;
+}
+
+.custom-md .doi-badge span {
+	background: var(--primary);
+	color: var(--card-bg);
+	padding: 0 0.45rem;
+}
+
+.custom-md .doi-badge code {
+	background: transparent;
+	color: inherit;
+	padding: 0 0.45rem;
+	font-size: inherit;
+}
+
+.custom-md .doi-badge:hover {
+	background: var(--btn-regular-bg-hover);
+	color: var(--primary);
+}
+
 @tailwind components;
 @layer components {
 	.enable-banner.is-home #banner-wrapper {

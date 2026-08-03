@@ -53,7 +53,7 @@ export const navBarConfig: NavBarConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "https://en.gravatar.com/userimage/223839133/e01255486555d5f03edaff5fae453d76.png",
+	avatar: "/images/avatar-transit.png",
 	name: "Yihe Li",
 	bio: "C++ programmer, writer, and WG21 contributor.",
 	links: [

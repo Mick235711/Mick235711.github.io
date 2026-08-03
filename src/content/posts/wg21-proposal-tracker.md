@@ -4,7 +4,7 @@ published: 2022-07-07
 description: A tracker for Yihe Li's C++ standardization proposals.
 tags: [WG21]
 category: C++
-image: "https://isocpp.org/files/img/wg21-timeline-2019-07.png"
+image: "/upload/title-pages/wg21-timeline-2019-07.png"
 ---
 
 I have written several proposals for the ISO C++ committee (WG21). They are all written in

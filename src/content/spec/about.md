@@ -21,4 +21,7 @@ Outside academia, I have a hobby of riding and analyzing subways and other trans
 ## Publications
 - Large Language Model Powered Symbolic Execution
     - **Yihe Li**, Ruijie Meng, Gregory J. Duck
-    - [Published on OOPSLA2 2025](https://doi.org/10.1145/3763163)
+    - Published in OOPSLA2 2025: <a class="doi-badge" href="https://doi.org/10.1145/3763163"><span>DOI</span><code>10.1145/3763163</code></a>
+- Persistent Iterators with Value Semantics
+    - **Yihe Li**, Gregory J. Duck
+    - Published in PLDI 2026: <a class="doi-badge" href="https://doi.org/10.1145/3808324"><span>DOI</span><code>10.1145/3808324</code></a>
