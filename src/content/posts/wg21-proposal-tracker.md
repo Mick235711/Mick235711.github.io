@@ -72,12 +72,13 @@ History:
 #### P3351: `views::scan`
 - Audience: LEWG
 - Target: C++29
-- Revisions: [R0](https://wg21.link/P3351R0), [R1](https://wg21.link/P3351R1), [R2](https://wg21.link/P3351R2), [R3](https://wg21.link/P3351R3), [R4](https://wg21.link/P3351R4)
+- Revisions: [R0](https://wg21.link/P3351R0), [R1](https://wg21.link/P3351R1), [R2](https://wg21.link/P3351R2), [R3](https://wg21.link/P3351R3), [R4](https://wg21.link/P3351R4), [R5](https://wg21.link/P3351R5)
 - Current Status: Stage 2
 
 This paper proposes the `views::scan` range adaptor, which takes a range and a function that takes the current element and the current state as parameters. Basically, `views::scan` is a lazy view version of `std::inclusive_scan`, or `views::transform` with a stateful function.
 
 History:
+- 2026-08-12: [P3351R5](https://wg21.link/P3351R5) shipped in the [2026-08 Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2026/#mailing2026-08).
 - 2026-04-27: [P3351R4](https://wg21.link/P3351R4) shipped in the [2026-05 pre-Brno Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2026/#mailing2026-05).
 - 2025-11-04: R3 seen by SG9 in Kona (2025-11), approved for LEWG. (Stage 1 -> Stage 2)
 - 2025-09-30: [P3351R3](https://wg21.link/P3351R3) shipped in the [2025-10 pre-Kona Mailing](https://open-std.org/jtc1/sc22/wg21/docs/papers/2025/#mailing2025-10).
