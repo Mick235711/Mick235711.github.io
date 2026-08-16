@@ -932,7 +932,7 @@ Transform the input sequence to a range-of-range, and then join all the ranges. 
 
 ### `views::slice(r: [T], m: N, n: N) -> [T]`
 
-(Current design as of [P3216R3](https://wg21.link/P3216R3).)
+(Current design as of [P3216R4](https://wg21.link/P3216R4).)
 
 Produce a new range consists of the `m`-th to `n`-th (as usual, left inclusive, right exclusive) elements of `r`. If `r` has less than `n` elements, contains all the elements after the `m`-th. If `r` has less than `m` elements, produce an empty range.
 ```python
@@ -945,7 +945,7 @@ Produce a new range consists of the `m`-th to `n`-th (as usual, left inclusive, 
 ```
 
 > [!NOTE]
-> `views::slice` will produce `r`'s type whenever possible (for example, `empty_view` passed in will return an `empty_view`), even if `views::slice(r, m, n)` is not just an alias for `views::take(views::drop(r, m), n - m)`. (The reason for a dedicated view boils down to performance and support for `reserve_hint()`.)
+> `views::slice` will produce `r`'s type whenever possible (for example, `empty_view` passed in will return an `empty_view`). Actually, `views::slice(r, m, n)` is just an alias for `views::take(views::drop(r, m), n - m)`, so it inherits this behavior from the latter.
 
 - constraint: `n >= m && m >= 0` and `N` is convertible to `r`'s difference type
 - reference: `T`
@@ -1026,6 +1026,56 @@ Produce a new range that includes all the element of `r` until `p` (inclusive). 
 - borrowed: when `T` is a scalar type
 - constant: when `r` is constant
 
+### `views::take_last(r: [T], n: N) -> [T]`
+
+(Current design as of [P4294R1](https://wg21.link/P4294R1).)
+
+Produce a new range consists of the last `n` elements of `r`. If `r` has less than `n` elements, contains all of `r`'s elements.
+```python
+>>> take_last([1, 2, 3, 4], 2)
+[3, 4]
+>>> take_last([1, 2, 3, 4], 8)
+[1, 2, 3, 4]
+```
+
+> [!NOTE]
+> `views::take_last` will produce `r`'s type whenever possible (for example, `empty_view` passed in will return an `empty_view`). Also, it is just an alias for `views::take(size - n)` if `r` is sized. Otherwise (forward and not sized), `views::take_last` will use the two pointer idiom to extract the last `n` elements.
+
+- constraint: `n >= 0` and `N` is convertible to `r`'s difference type, and `r` is either forward or sized
+- reference: `T`
+- value type: same as `r`'s value type
+- category: same as `r` (preserve contiguous)
+- common: when `r` is either common or both sized and random access
+- sized: when `r` is sized
+- const-iterable: when `r` is sized and const-iterable
+- borrowed: when `r` is borrowed
+- constant: when `r` is constant
+
+### `views::drop_last(r: [T], n: N) -> [T]`
+
+(Current design as of [P4294R1](https://wg21.link/P4294R1).)
+
+Produce a new range consists of all but the last `n` elements of `r`. If `r` has less than `n` elements, produce an empty range.
+```python
+>>> drop_last([1, 2, 3, 4], 2)
+[1, 2]
+>>> drop_last([1, 2, 3, 4], 8)
+[]
+```
+
+> [!NOTE]
+> `views::drop_last` will produce `r`'s type whenever possible (for example, `empty_view` passed in will return an `empty_view`). Also, it is just an alias for `views::drop(size - n)` if `r` is sized.
+
+- constraint: `n >= 0` and `N` is convertible to `r`'s difference type, and `r` is either forward or sized
+- reference: `T`
+- value type: same as `r`'s value type
+- category: same as `r` (preserve contiguous)
+- common: when `r` is common
+- sized: when `r` is sized
+- const-iterable: when `r` is sized and const-iterable
+- borrowed: when `r` is borrowed
+- constant: when `r` is constant
+
 ### `views::cycle(r: [T][, n: N]) -> [T]`
 
 (Current design as of [P3806R1](https://wg21.link/P3806R1).)
@@ -1051,7 +1101,7 @@ Produce a new range that repeatedly cycle through all the element of `r`. The ad
 
 ### `views::scan(r: [T], f: (Acc/T | U, T) -> U[, init: Acc]) -> [U]`
 
-(Current design as of [P3351R4](https://wg21.link/P3351R4).)
+(Current design as of [P3351R5](https://wg21.link/P3351R5).)
 
 Produce a new range that takes a range and a function that takes the current element and the current state as parameters. Basically, `views::transform` with a stateful function. Optionally takes an initial seed to be used as the initial accumulator.
 ```python
