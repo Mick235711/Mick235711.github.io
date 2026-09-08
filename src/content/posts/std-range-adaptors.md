@@ -11,14 +11,21 @@ Enumerate the basic usages and properties of C++20-26 Range Adaptors.
 In this post, "range adaptors" refer to both range factories (algorithm that produce range, can only be the starting point of a pipeline, like `views::single`)
 and (real) range adaptors (algorithm that takes a range and return an adapted range, like `views::filter`).
 In C++20 standard, following the adoption of Ranges TS, the standard adopted 18 range adaptors:
+
 - 5 factories: `empty`, `single`, `iota`, `istream`, `counted`
 - 13 (real) adaptors: `all`, `filter`, `transform`, `take`, `take_while`, `drop`, `drop_while`, `join`, `lazy_split`, `split`, `common`, `reverse`, `elements` (`keys`/`values` are aliases)
 
 Of course, this is only a small subset of what is provided in range-v3 (over 100 adaptors). C++23 greatly expanded range support in multiple ways, including the addition of 14 more adaptors:
+
 - 4 new factories: `zip`, `zip_transform`, `cartesian_product`, `repeat`
 - 10 new (real) adaptors: `as_rvalue`, `join_with`, `as_const`, `enumerate`, `adjacent`, `adjacent_transform` (`pairwise` are aliases), `chunk`, `slide`, `chunk_by`, `stride`
 
-and C++26 is expected to provide even more (`concat` and `maybe` being the most expected ones).
+Then, C++26 bring with it further expansion of the ranges library, including the addition of 4 more adaptors:
+
+- 2 new factories: `concat`, `indices`
+- 2 new (real) adaptors: `cache_latest`, `as_input`
+
+and C++29 is expected to provide even more (`slice` and `scan` being the most expected ones).
 
 Each adaptor has its own use case, feature, and limitations. Especially, each adaptors has its own accepted range properties, and the output range's properties also differ.
 These properties limitations are often not documented, in standard or elsewhere, making determine those properties a pain.
