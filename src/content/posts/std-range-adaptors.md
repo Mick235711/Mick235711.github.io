@@ -916,13 +916,13 @@ These four views performs common set operations between two ranges:
 - constant: when all provided ranges are constant
 
 ## Real Adaptors
-### `views::flat_map(r: [T], f: T -> [U]) -> [U]`
+### `views::transform_join(r: [T], f: T -> [U]) -> [U]`
 
-(Current design as of [P3211R2](https://wg21.link/P3211R2).)
+(Current design as of [P3211R3](https://wg21.link/P3211R3).)
 
 Transform the input sequence to a range-of-range, and then join all the ranges. Following [P2328](https://wg21.link/P2328), this adaptor can be implemented directly as `views::transform(r, f) | views::cache_latest | views::join`, but this adaptor is not just an alias for that because a standalone view can cache the transform result and avoid repeated calls without reducing the entire range back to input (which `cache_latest` would do).
 ```python
->>> flat_map([0, 1, 2], x => [x, x, x])
+>>> transform_join([0, 1, 2], x => [x, x, x])
 [0, 0, 0, 1, 1, 1, 2, 2, 2]
 ```
 - constraint: `r` and `[U]` are both input ranges, `F` is move-constructible, an object type, and is invocable by `T`
