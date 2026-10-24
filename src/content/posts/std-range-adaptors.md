@@ -1148,7 +1148,7 @@ Produce a new range that converts the endian-ness of the input. If the native en
 
 ### `views::to_utf{8,16,32}[_or_error](r: [T]) -> [Type | expected<Type, utf_transcoding_error>]`
 
-(Current design as of [P2728R14](https://wg21.link/P2728R14).)
+(Current design as of [P2728R16](https://wg21.link/P2728R16).)
 
 Produce a new range that represents the conversion result from `r` to the specified UTF format. Also provides `_or_error` variant that returns `expected<Type, utf_transcoding_error>` to represent the specific error encountered.
 ```python
@@ -1168,6 +1168,50 @@ U"�"  # Replacement character when facing invalid code units
 - const-iterable: when `r` is const-iterable and either `const R` is input and not forward, or `r`'s value type is `char32_t`
 - borrowed: when `r` is borrowed
 - constant: always
+
+### `views::trim(r: [T], v: T) -> [T]`
+
+(Current design as of [P4398R0](https://wg21.link/P4398R0).)
+
+Produce a new range consists of all elements in `r`, but excluding the first and last consecutive values `v` where `pred(v)` holds.
+```python
+>>> trim_while("  world ", lambda x: x == ' ')
+"world"
+>>> trim_while([1, 2, 3, 4], lambda x: x < 2)
+[2, 3, 4]
+```
+
+- constraint: `r` is bidirectional and common, and `pred` is `const`-invocable by `T` and returns a `bool`
+- reference: `T`
+- value type: same as `r`'s value type
+- category: same as `r` (preserve contiguous)
+- common: always
+- sized: when `r` is sized
+- const-iterable: when `r` is const-iterable
+- borrowed: when `r` is borrowed
+- constant: when `r` is constant
+
+### `views::trim_while(r: [T], pred: T -> bool) -> [T]`
+
+(Current design as of [P4398R0](https://wg21.link/P4398R0).)
+
+Produce a new range consists of all elements in `r`, but excluding the first and last consecutive values where `v`.
+```python
+>>> trim("  world ", ' ')
+"world"
+>>> trim([1, 2, 3, 4], 1)
+[2, 3, 4]
+```
+
+- constraint: `r` is bidirectional and common
+- reference: `T`
+- value type: same as `r`'s value type
+- category: same as `r` (preserve contiguous)
+- common: always
+- sized: when `r` is sized
+- const-iterable: when `r` is const-iterable
+- borrowed: when `r` is borrowed
+- constant: when `r` is constant
 
 ## Other Standard Views
 ### `std::filesystem::path_view : [const path_view_component&]`
